@@ -14,9 +14,9 @@ description: Snowy C 端（client 插件）与移动端（mobile 插件）开发
 | 运行服务 | sys 在 web-app、biz 在 biz-app | client-func 与 C 端认证（auth-func）都在 **web-app** |
 | 登录 | `/auth/b/doLogin` | `/auth/c/doLogin`（见 AuthClientController） |
 | 经网关地址 | `/api/webapp/sys/...`、`/api/bizapp/biz/...` | `/api/webapp/auth/c/...`、`/api/webapp/client/c/...` |
-| 工具类 | StpUtil / StpLoginUserUtil | StpClientUtil / StpClientLoginUserUtil（均在 snowy-plugin-auth-api，两个服务都可用） |
+| 工具类 | StpUtil / StpLoginUserUtil | StpClientUtil / StpClientLoginUserUtil（均在 hgcloud-plugin-auth-api，两个服务都可用） |
 | 前端请求 | request.js baseRequest | clientRequest.js（现状见下文） |
-| 前端工程 | snowy-admin-web | 外部 H5/小程序/APP（uni-app） |
+| 前端工程 | hgcloud-admin-web | 外部 H5/小程序/APP（uni-app） |
 
 C 端接口路径规范：`/client/c/{业务域}/{动作}`（被 CLIENT_USER_PERMISSION_PATH_ARR 路由规则覆盖，走 C 端鉴权）。
 
@@ -24,22 +24,22 @@ C 端接口路径规范：`/client/c/{业务域}/{动作}`（被 CLIENT_USER_PER
 
 | 层 | 位置 | C 端路径组（CLIENT_USER_PERMISSION_PATH_ARR） |
 |---|---|---|
-| 网关 SaReactorFilter | `snowy-server/snowy-gateway-app/src/main/java/vip/xiaonuo/gateway/config/GatewayConfigure.java` | `/api/webapp/auth/c/**`、`/api/webapp/client/c/**`（带网关前缀） |
-| 服务 SaServletFilter | `snowy-modules/snowy-web-app/src/main/java/vip/xiaonuo/web/core/config/GlobalConfigure.java`（biz-app 同名类同样配置） | `/auth/c/**`、`/client/c/**`（不带前缀） |
+| 网关 SaReactorFilter | `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | `/api/webapp/auth/c/**`、`/api/webapp/client/c/**`（带网关前缀） |
+| 服务 SaServletFilter | `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java`（biz-app 同名类同样配置） | `/auth/c/**`、`/client/c/**`（不带前缀） |
 
 新增 C 端**免登录**接口：网关 `NO_LOGIN_PATH_ARR`（带 `/api/webapp` 前缀）+ 目标服务 `GlobalConfigure`（不带前缀）两处都要加。
 
-## C 端模块结构（snowy-plugin-client）
+## C 端模块结构（hgcloud-plugin-client）
 
 ```
-snowy-plugin/snowy-plugin-client/
-├── snowy-plugin-client-api/     ClientUserApi 接口
-└── snowy-plugin-client-func/    vip.xiaonuo.client.modular
+hgcloud-plugin/hgcloud-plugin-client/
+├── hgcloud-plugin-client-api/     ClientUserApi 接口
+└── hgcloud-plugin-client-func/    vip.xiaonuo.client.modular
     ├── user/        C 端用户（ClientUser，CLIENT_USER 表：账号/头像/昵称/状态等）
     └── relation/    C 端关系（好友/关注等社交关系）
 ```
 
-新增 C 端业务：在 client 插件 `snowy-plugin-client-func` 的 modular 下建域，Controller URL 用 `/client/c/{域}/{动作}`，注入用 StpClientUtil 取 C 端登录用户。结构规范与 biz 完全相同（六件套），只是类前缀 Client。
+新增 C 端业务：在 client 插件 `hgcloud-plugin-client-func` 的 modular 下建域，Controller URL 用 `/client/c/{域}/{动作}`，注入用 StpClientUtil 取 C 端登录用户。结构规范与 biz 完全相同（六件套），只是类前缀 Client。
 
 ⚠️ 微服务注意（推导，使用前请先确认）：
 - client 插件只有 `-api` 和 `-func`，**没有 feign / api-context**，biz-app 里注入 `ClientUserApi` 会缺 Bean
@@ -55,7 +55,7 @@ POST /auth/c/doLogin（经网关 /api/webapp/auth/c/doLogin，已在免登录名
    → 返回 C 端 token（会话存共享 Redis，网关与各服务都能校验）
 ```
 
-参考：`snowy-plugin/snowy-plugin-auth/snowy-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/`（AuthClientController + AuthServiceImpl 的 client 分支）。
+参考：`hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/`（AuthClientController + AuthServiceImpl 的 client 分支）。
 
 ## 前端 C 端请求（如需在 admin-web 调 C 端接口）
 
@@ -68,17 +68,17 @@ import { clientBaseRequest } from '@/utils/clientRequest'
 
 实际 C 端页面通常在独立 uni-app 工程里（用 axios/fly 自行封装，token 头名 `token`，baseURL 指向**网关** `http://localhost:9003`，接口路径带 `/api/webapp` 前缀）。
 
-## 移动端（snowy-plugin-mobile）
+## 移动端（hgcloud-plugin-mobile）
 
 ```
-snowy-plugin/snowy-plugin-mobile/snowy-plugin-mobile-func/src/main/java/vip/xiaonuo/mobile/modular/
+hgcloud-plugin/hgcloud-plugin-mobile/hgcloud-plugin-mobile-func/src/main/java/vip/xiaonuo/mobile/modular/
 ├── mobile/     MobileApiProvider（对外接口实现）
 └── resource/   移动端模块/菜单/按钮（MobileModule / MobileMenu / MobileButton，MOBILE_RESOURCE 表）
 ```
 
 - 作用：管理 uni-app 端的菜单与按钮权限（与 B 端 SYS_RESOURCE 平行的一套）；mobile-func 运行在 web-app，接口经网关 `/api/webapp/mobile/...`
 - biz-app 已装配 mobile-feign + mobile-api-context，可注入 mobile 的 Api 接口远程调用
-- 内置移动端图片资源：`snowy-plugin/snowy-plugin-mobile/snowy-plugin-mobile-func/src/main/resources/mobile/`（fileImg、swiper）
+- 内置移动端图片资源：`hgcloud-plugin/hgcloud-plugin-mobile/hgcloud-plugin-mobile-func/src/main/resources/mobile/`（fileImg、swiper）
 - 代码生成器可产出 mobile 代码：GenBasic 配置移动端模块（mobileModuleId）后，sqlend 模板会生成 MOBILE_RESOURCE 的 INSERT（按钮码 `mobile{ClassName}Add` 形态）
 - 完整 uni-app 前端工程在独立仓库（snowy 官方 mobile 工程），本仓库不含源码
 
@@ -106,11 +106,11 @@ snowy-plugin/snowy-plugin-mobile/snowy-plugin-mobile-func/src/main/java/vip/xiao
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-plugin/snowy-plugin-client/snowy-plugin-client-func/src/main/java/vip/xiaonuo/client/modular/user/` | C 端用户六件套 |
-| `snowy-plugin/snowy-plugin-auth/snowy-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/controller/AuthClientController.java` | C 端登录接口 |
-| `snowy-server/snowy-gateway-app/src/main/java/vip/xiaonuo/gateway/config/GatewayConfigure.java` | 网关 NO_LOGIN / SUPER / CLIENT 三组路径 |
-| `snowy-modules/snowy-web-app/src/main/java/vip/xiaonuo/web/core/config/GlobalConfigure.java` | web-app 服务端白名单与 C 端组 |
-| `snowy-plugin/snowy-plugin-mobile/snowy-plugin-mobile-func/src/main/java/vip/xiaonuo/mobile/modular/` | 移动端资源管理 |
-| `snowy-admin-web/src/utils/clientRequest.js` | C 端请求封装 |
-| `snowy-plugin/snowy-plugin-gen/snowy-plugin-gen-func/src/main/resources/mobile/` | 移动端代码模板 |
-| `snowy-plugin/snowy-plugin-gen/snowy-plugin-gen-func/src/main/resources/sqlend/Mysql.sql.btl` | MOBILE_RESOURCE SQL 模板 |
+| `hgcloud-plugin/hgcloud-plugin-client/hgcloud-plugin-client-func/src/main/java/vip/xiaonuo/client/modular/user/` | C 端用户六件套 |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/controller/AuthClientController.java` | C 端登录接口 |
+| `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | 网关 NO_LOGIN / SUPER / CLIENT 三组路径 |
+| `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java` | web-app 服务端白名单与 C 端组 |
+| `hgcloud-plugin/hgcloud-plugin-mobile/hgcloud-plugin-mobile-func/src/main/java/vip/xiaonuo/mobile/modular/` | 移动端资源管理 |
+| `hgcloud-admin-web/src/utils/clientRequest.js` | C 端请求封装 |
+| `hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-func/src/main/resources/mobile/` | 移动端代码模板 |
+| `hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-func/src/main/resources/sqlend/Mysql.sql.btl` | MOBILE_RESOURCE SQL 模板 |

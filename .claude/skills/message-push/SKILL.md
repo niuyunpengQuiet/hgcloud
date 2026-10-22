@@ -7,7 +7,7 @@ description: Snowy 消息与推送规范：站内信 DEV_MESSAGE、WebSocket 实
 
 ## 能力矩阵
 
-| 需求 | 用什么 | 模块（均在 `snowy-plugin-dev-func`，运行在 web-app） |
+| 需求 | 用什么 | 模块（均在 `hgcloud-plugin-dev-func`，运行在 web-app） |
 |---|---|---|
 | 站内信（应用内通知） | DevMessageApi 发消息 → 用户点铃铛查看 | `dev/modular/message/`（DEV_MESSAGE 表） |
 | 实时弹到页面 | WebSocket（站内信未读数实时通道） | `dev/modular/message/websocket/` |
@@ -27,7 +27,7 @@ description: Snowy 消息与推送规范：站内信 DEV_MESSAGE、WebSocket 实
 ```java
 // 跨插件/跨服务调用（biz-app 内经 Feign 调 web-app）
 @Resource
-private DevMessageApi devMessageApi;      // snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api
+private DevMessageApi devMessageApi;      // hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api
 
 // 发给指定用户（消息入库 DEV_MESSAGE + WebSocket 推送未读数给在线用户）
 devMessageApi.sendMessage(receiverIdList, "主题");
@@ -37,7 +37,7 @@ devMessageApi.sendMessageWithContent(receiverIdList, "分类", "主题", "内容
 
 ⚠️ 现状：接口里三参的 `sendMessage(receiverIdList, category, subject)`，实现类 DevMessageProvider 实际把第二个参数当主题、丢弃第三个参数；需要分类请用四参的 `sendMessageWithContent`。
 
-前端：顶栏消息中心（`snowy-admin-web/src/layout/components/message.vue`），未读数角标自动更新。
+前端：顶栏消息中心（`hgcloud-admin-web/src/layout/components/message.vue`），未读数角标自动更新。
 
 管理界面：开发工具 → 站内信（可查/批量发）。
 
@@ -81,10 +81,10 @@ private DevPushApi devPushApi;            // pushDynamicText / pushDingTalkText 
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/message/` | 站内信模块（含 websocket/） |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/push/` | 推送模块 |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevMessageApi.java` | 站内信跨插件接口 |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevPushApi.java` | 推送跨插件接口 |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/` | biz-app 可用的 Dev*Api 远程代理清单 |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-feign-provider/src/main/java/vip/xiaonuo/dev/feign/provider/` | web-app 侧 Feign 服务端实现清单 |
-| `snowy-admin-web/src/layout/components/message.vue` | 前端消息中心（WS 客户端） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/message/` | 站内信模块（含 websocket/） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/push/` | 推送模块 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevMessageApi.java` | 站内信跨插件接口 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevPushApi.java` | 推送跨插件接口 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/` | biz-app 可用的 Dev*Api 远程代理清单 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-feign-provider/src/main/java/vip/xiaonuo/dev/feign/provider/` | web-app 侧 Feign 服务端实现清单 |
+| `hgcloud-admin-web/src/layout/components/message.vue` | 前端消息中心（WS 客户端） |

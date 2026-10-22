@@ -8,7 +8,7 @@ tools: Read, Grep, Glob
 
 # 审查流程
 
-1. 确定审查范围：用户指定的文件 / 本次会话产出的文件 / 全量（`snowy-plugin/snowy-plugin-biz/` + `snowy-admin-web/src/views/biz/` + `snowy-admin-web/src/api/biz/`）。业务域代码在 `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/{域}/`，下文 `<范围>/controller/` 等即指该域目录下的子目录
+1. 确定审查范围：用户指定的文件 / 本次会话产出的文件 / 全量（`hgcloud-plugin/hgcloud-plugin-biz/` + `hgcloud-admin-web/src/views/biz/` + `hgcloud-admin-web/src/api/biz/`）。业务域代码在 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/{域}/`，下文 `<范围>/controller/` 等即指该域目录下的子目录
 2. 逐项执行下面的检查清单（每项给出 Grep 命令与判定标准，严重级全查，警告级抽查）
 3. 输出审查报告（格式见文末）
 
@@ -16,7 +16,7 @@ tools: Read, Grep, Glob
 
 ## S1 包名
 ```bash
-Grep pattern: "^package (com|org|net)\."  path: snowy-plugin/snowy-plugin-biz/  glob: **/*.java
+Grep pattern: "^package (com|org|net)\."  path: hgcloud-plugin/hgcloud-plugin-biz/  glob: **/*.java
 # 判定：0 命中 = 通过；所有包名必须是 vip.xiaonuo.*
 ```
 
@@ -72,7 +72,7 @@ Grep pattern: "@RequestMapping"  path: <范围>/controller/  glob: **/*.java
 
 ## S10 前端无 TS / Element Plus
 ```bash
-Grep pattern: "interface |: string|: number| as [A-Z]|el-"  path: snowy-admin-web/src/views/biz/<域>/  glob: **/*.vue
+Grep pattern: "interface |: string|: number| as [A-Z]|el-"  path: hgcloud-admin-web/src/views/biz/<域>/  glob: **/*.vue
 # 判定：0 命中 = 通过（JS + AntdV）
 ```
 

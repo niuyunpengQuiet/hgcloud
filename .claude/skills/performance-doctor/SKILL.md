@@ -100,9 +100,9 @@ orders.forEach(o -> o.setUserName(userMap.get(o.getUserId()).getStr("name")));
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/monitor/` | 服务器监控（内存/线程排查入口，监控的是 web-app 所在进程） |
-| `snowy-plugin/snowy-plugin-sys/snowy-plugin-sys-func/src/main/java/vip/xiaonuo/sys/modular/user/service/impl/SysUserServiceImpl.java` | 批量查询实战 |
-| `snowy-plugin/snowy-plugin-sys/snowy-plugin-sys-api-context/src/main/java/vip/xiaonuo/sys/api/context/SysUserApiContextBean.java` | biz-app 侧的远程代理（每次调用 = 一次 Feign） |
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/cache/CommonCacheOperator.java` | 缓存操作器 |
-| `snowy-server/snowy-nacos-app/src/main/resources/META-INF/config-data/dev/snowy-web-app-dev.yaml`、`snowy-biz-app-dev.yaml` | Druid 监控、easy-trans 配置 |
-| 应用监控 `http://localhost:9001`（snowy-actuator-app，Spring Boot Admin） | 各服务 JVM/线程/内存总览（需启动 actuator 应用） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/monitor/` | 服务器监控（内存/线程排查入口，监控的是 web-app 所在进程） |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/vip/xiaonuo/sys/modular/user/service/impl/SysUserServiceImpl.java` | 批量查询实战 |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/src/main/java/vip/xiaonuo/sys/api/context/SysUserApiContextBean.java` | biz-app 侧的远程代理（每次调用 = 一次 Feign） |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/cache/CommonCacheOperator.java` | 缓存操作器 |
+| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-web-app-dev.yaml`、`hgcloud-biz-app-dev.yaml` | Druid 监控、easy-trans 配置 |
+| 应用监控 `http://localhost:9001`（hgcloud-actuator-app，Spring Boot Admin） | 各服务 JVM/线程/内存总览（需启动 actuator 应用） |

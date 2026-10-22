@@ -5,7 +5,7 @@ description: AI 接口自测闭环：SM2 加密登录拿 token → curl 直调�
 
 # AI 接口自测闭环
 
-**核心价值**：后端在跑（Nacos 8848、web-app 9101、biz-app 9102、网关 9003）时，AI 可以自己完成"登录 → 拿 token → 调接口 → 断言结果"的完整验证，不必让用户手点页面。所有请求默认走网关 `http://localhost:9003`，按 URL 前缀转发：`/api/webapp/**` → snowy-web-app（auth/sys/dev/gen/client/mobile），`/api/bizapp/**` → snowy-biz-app（biz），网关会去掉前两段再转发。
+**核心价值**：后端在跑（Nacos 8848、web-app 9101、biz-app 9102、网关 9003）时，AI 可以自己完成"登录 → 拿 token → 调接口 → 断言结果"的完整验证，不必让用户手点页面。所有请求默认走网关 `http://localhost:9003`，按 URL 前缀转发：`/api/webapp/**` → hgcloud-web-app（auth/sys/dev/gen/client/mobile），`/api/bizapp/**` → hgcloud-biz-app（biz），网关会去掉前两段再转发。
 
 ## 第 1 步：确认后端活着
 
@@ -18,14 +18,14 @@ curl -s http://localhost:9003/api/webapp/dev/config/sysBaseList   # 经网关的
 
 ## 第 2 步：生成 SM2 登录密文（后端强制 SM2，明文会 PWD_DECRYPT_ERROR）
 
-登录口令必须先用**出厂公钥**做 SM2 加密（公钥硬编码在 `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/util/CommonCryptogramUtil.java` 的 `PUBLIC_KEY`，前端 `snowy-admin-web/src/utils/smCrypto.js` 是同一把）。在**仓库根目录**用一条 node 命令产出：
+登录口令必须先用**出厂公钥**做 SM2 加密（公钥硬编码在 `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/util/CommonCryptogramUtil.java` 的 `PUBLIC_KEY`，前端 `hgcloud-admin-web/src/utils/smCrypto.js` 是同一把）。在**仓库根目录**用一条 node 命令产出：
 
 ```bash
 # 密文是随机的，每次生成都不同——正常
-node -e "const s=require('./snowy-admin-web/node_modules/sm-crypto');console.log(s.sm2.doEncrypt('Snowy@2026!','04298364ec840088475eae92a591e01284d1abefcda348b47eb324bb521bb03b0b2a5bc393f6b71dabb8f15c99a0050818b56b23f31743b93df9cf8948f15ddb54',1))"
+node -e "const s=require('./hgcloud-admin-web/node_modules/sm-crypto');console.log(s.sm2.doEncrypt('Snowy@2026!','04298364ec840088475eae92a591e01284d1abefcda348b47eb324bb521bb03b0b2a5bc393f6b71dabb8f15c99a0050818b56b23f31743b93df9cf8948f15ddb54',1))"
 ```
 
-依赖：`snowy-admin-web/node_modules/sm-crypto`（前端执行过 npm install 即有；没有则先装，或临时 `npm i sm-crypto --registry=https://registry.npmmirror.com` 到任意目录）。require 路径必须带 `./`（不带会被 node 当成包名解析而失败）。cipherMode=1（C1C3C2），与前端 smCrypto.js 一致。
+依赖：`hgcloud-admin-web/node_modules/sm-crypto`（前端执行过 npm install 即有；没有则先装，或临时 `npm i sm-crypto --registry=https://registry.npmmirror.com` 到任意目录）。require 路径必须带 `./`（不带会被 node 当成包名解析而失败）。cipherMode=1（C1C3C2），与前端 smCrypto.js 一致。
 
 ## 第 3 步：登录拿 token
 
@@ -47,12 +47,12 @@ echo "$RESP"
 ## 第 4 步：调目标接口并断言
 
 ```bash
-# biz 业务（snowy-biz-app）走 /api/bizapp 前缀
+# biz 业务（hgcloud-biz-app）走 /api/bizapp 前缀
 curl -s "http://localhost:9003/api/bizapp/biz/xxx/page?current=1&size=10" -H "token: $TOKEN"
 # 或 POST：
 curl -s -X POST http://localhost:9003/api/bizapp/biz/xxx/add -H "token: $TOKEN" -H "Content-Type: application/json" -d '{...}'
 
-# 平台插件（sys/dev/gen/auth/client/mobile，在 snowy-web-app）走 /api/webapp 前缀
+# 平台插件（sys/dev/gen/auth/client/mobile，在 hgcloud-web-app）走 /api/webapp 前缀
 curl -s "http://localhost:9003/api/webapp/sys/user/page?current=1&size=10" -H "token: $TOKEN"
 
 # 定位"是网关问题还是服务问题"：绕过网关直连服务（不带前缀），同样带 token
@@ -84,7 +84,7 @@ curl -s "http://localhost:9102/biz/xxx/page?current=1&size=10" -H "token: $TOKEN
 | POST /api/bizapp/biz/xxx/add（缺name） | ✅ 按预期拦截 | "name不能为空" |
 ```
 
-有条件时用 mysql 复核落库（业务库 `snowy-cloud`；连接信息从 Nacos 配置 `snowy-biz-app-dev.yaml` 的数据源段解析）：
+有条件时用 mysql 复核落库（业务库 `snowy-cloud`；连接信息从 Nacos 配置 `hgcloud-biz-app-dev.yaml` 的数据源段解析）：
 ```bash
 mysql -uroot -p*** snowy-cloud -e "SELECT ID,NAME,DELETE_FLAG FROM BIZ_XXX ORDER BY CREATE_TIME DESC LIMIT 3;"
 ```
@@ -95,18 +95,18 @@ mysql -uroot -p*** snowy-cloud -e "SELECT ID,NAME,DELETE_FLAG FROM BIZ_XXX ORDER
 - 测试数据用"测试-"前缀，验证完清理（或逻辑删除）
 - 密文/口令不写入任何文件，只在命令行内联使用
 - 自测发现问题 → 修复 → 重测，闭环后再报告
-- 改了 biz 代码要重启 snowy-biz-app、改了平台插件要重启 snowy-web-app；改了白名单要重启对应服务**和网关**
+- 改了 biz 代码要重启 hgcloud-biz-app、改了平台插件要重启 hgcloud-web-app；改了白名单要重启对应服务**和网关**
 
 ## 参考实现
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-plugin/snowy-plugin-auth/snowy-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/controller/AuthController.java` | /auth/b/doLogin 定义（运行在 web-app） |
-| `snowy-plugin/snowy-plugin-auth/snowy-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/service/impl/AuthServiceImpl.java` | SM2 解密 + SM3 比对、device 校验 |
-| `snowy-plugin/snowy-plugin-auth/snowy-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/enums/AuthDeviceTypeEnum.java` | device 取值 PC / APP / MINI |
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/util/CommonCryptogramUtil.java` | SM2 公钥与加解密 |
-| `snowy-admin-web/src/utils/smCrypto.js` | 前端同款加密（cipherMode=1） |
-| `snowy-server/snowy-gateway-app/src/main/java/vip/xiaonuo/gateway/config/GatewayConfigure.java` | 网关鉴权与免登录名单（带 /api/webapp、/api/bizapp 前缀） |
-| `snowy-server/snowy-nacos-app/src/main/resources/META-INF/config-data/dev/snowy-gateway-app-dev.yaml` | 网关路由（StripPrefix=2）、Knife4j 聚合与 basic 认证 |
-| `snowy-server/snowy-nacos-app/src/main/resources/META-INF/config-data/dev/snowy-web-app-dev.yaml` | sa-token.token-name=token、数据源、Redis |
-| `snowy-admin-web/src/utils/apiAdaptive.js` | 前端 URL 前缀 → 网关前缀映射 |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/controller/AuthController.java` | /auth/b/doLogin 定义（运行在 web-app） |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/service/impl/AuthServiceImpl.java` | SM2 解密 + SM3 比对、device 校验 |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/enums/AuthDeviceTypeEnum.java` | device 取值 PC / APP / MINI |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/util/CommonCryptogramUtil.java` | SM2 公钥与加解密 |
+| `hgcloud-admin-web/src/utils/smCrypto.js` | 前端同款加密（cipherMode=1） |
+| `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | 网关鉴权与免登录名单（带 /api/webapp、/api/bizapp 前缀） |
+| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-gateway-app-dev.yaml` | 网关路由（StripPrefix=2）、Knife4j 聚合与 basic 认证 |
+| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-web-app-dev.yaml` | sa-token.token-name=token、数据源、Redis |
+| `hgcloud-admin-web/src/utils/apiAdaptive.js` | 前端 URL 前缀 → 网关前缀映射 |

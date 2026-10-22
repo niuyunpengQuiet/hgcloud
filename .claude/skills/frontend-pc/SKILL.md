@@ -1,16 +1,16 @@
 ---
 name: frontend-pc
-description: snowy-admin-web 前端开发规范：api js 封装约定、index.vue 列表页 + form.vue 弹窗表单三件套、s-table、Xn 组件速查、hasPerm 按钮权限、i18n、request.js 双端、微服务网关前缀适配（apiAdaptive）。触发场景：1) 写前端页面或 API 封装 2) 新业务模块的前端三件 3) 使用组件/权限/字典 4) 新 URL 前缀经网关 404、前端请求走哪个服务。触发词：前端、Vue、页面、api js、index.vue、form.vue、s-table、Xn组件、Ant Design Vue、AntdV、按钮权限、hasPerm、i18n、国际化、弹窗表单、apiAdaptive、网关前缀、CLOUD_SERVER、跨服务、9000、9003。
+description: hgcloud-admin-web 前端开发规范：api js 封装约定、index.vue 列表页 + form.vue 弹窗表单三件套、s-table、Xn 组件速查、hasPerm 按钮权限、i18n、request.js 双端、微服务网关前缀适配（apiAdaptive）。触发场景：1) 写前端页面或 API 封装 2) 新业务模块的前端三件 3) 使用组件/权限/字典 4) 新 URL 前缀经网关 404、前端请求走哪个服务。触发词：前端、Vue、页面、api js、index.vue、form.vue、s-table、Xn组件、Ant Design Vue、AntdV、按钮权限、hasPerm、i18n、国际化、弹窗表单、apiAdaptive、网关前缀、CLOUD_SERVER、跨服务、9000、9003。
 ---
 
-# snowy-admin-web 前端开发规范
+# hgcloud-admin-web 前端开发规范
 
 ## 技术栈与铁律
 
 - Vue 3.5（`<script setup>` 语法）+ Vite 6 + **Ant Design Vue 4.2.6** + Pinia + vue-i18n + TailwindCSS
 - **JavaScript，不是 TypeScript**——禁止 interface/type/as 等 TS 语法
 - 组件自动导入（unplugin）：a-xxx 组件、ref/computed 等 API **不需要 import**；自定义组件用 kebab-case 标签
-- 包管理 npm；目录 `snowy-admin-web/`；本地端口 **9000**
+- 包管理 npm；目录 `hgcloud-admin-web/`；本地端口 **9000**
 - **本仓库是微服务版**：`src/config/index.js` 的 `CLOUD_SERVER: true`，请求经 `src/utils/apiAdaptive.js` 加网关前缀后发往网关 9003（详见下文「微服务请求链路」）
 
 ## SFC 块顺序（硬性，不可颠倒）
@@ -44,7 +44,7 @@ description: snowy-admin-web 前端开发规范：api js 封装约定、index.vu
 ## 三件套结构（一个业务域）
 
 ```
-snowy-admin-web/src/
+hgcloud-admin-web/src/
 ├── api/biz/bizXxxApi.js          ① API 封装
 └── views/biz/xxx/
     ├── index.vue                 ② 列表页
@@ -330,11 +330,11 @@ v-if="hasPerm(['bizXxxEdit', 'bizXxxDelete'], 'and')"    // 数组 + and/or（�
 | 普通请求 | `baseRequest` 内 `url = API_URL + convertUrl(url)` 拼成**绝对地址**（开发环境如 `http://localhost:9003/api/bizapp/biz/notice/page`），直接跨域请求网关（网关已开 globalcors），**不经过 vite 代理** |
 | 上传 / WebSocket | `XnUpload`、`layout/components/message.vue` 用 `getApiBaseUrl()`（开发环境返回 `/api`）+ `convertUrl(...)`，走 vite 代理：`/api` 前缀被去掉后转发到 `VITE_API_BASEURL`（网关 9003），WebSocket 代理已开 `ws: true` |
 | 环境变量 | `.env.development` / `.env.production`：`VITE_API_BASEURL = http://localhost:9003`、`VITE_PORT = 9000`（生产部署需把 `VITE_API_BASEURL` 改为真实网关地址） |
-| 网关转发 | `/api/webapp/**` → snowy-web-app、`/api/bizapp/**` → snowy-biz-app，均 `StripPrefix=2`；后端 Controller 与 `@SaCheckPermission` 仍写不带前缀的 `/biz/xxx/page` |
+| 网关转发 | `/api/webapp/**` → hgcloud-web-app、`/api/bizapp/**` → hgcloud-biz-app，均 `StripPrefix=2`；后端 Controller 与 `@SaCheckPermission` 仍写不带前缀的 `/biz/xxx/page` |
 
 **新业务模块的前缀登记**：
 
-- 沿用 `/biz/` 前缀（代码在 `snowy-plugin-biz-func`、运行在 biz-app）→ 已有映射，**无需改 apiAdaptive**
+- 沿用 `/biz/` 前缀（代码在 `hgcloud-plugin-biz-func`、运行在 biz-app）→ 已有映射，**无需改 apiAdaptive**
 - 新 URL 前缀（如新插件用 `/erp/`）→ 必须在前端 `apiAdaptive.js` 登记（在 `bizCustomization` 或 `PREFIX` 加 `{ label: '/erp/', value: '/api/bizapp' }`，value 填它所在服务的网关前缀），漏了经网关 404；只有新建服务（新的 `/api/xxxapp`）才需另加网关路由；新代码包另需该服务 springdoc 分组与网关 Knife4j 聚合（只影响接口文档）
 - ⚠️ 包含匹配陷阱：biz 业务域名**不要**取 `mobile`/`sys`/`auth`/`client`/`dev`/`gen`——如 `/biz/dev/page` 会先命中 `/dev/` 被发到 web-app 而 404
 - ⚠️ 现状：`XnUpload` 只对**默认**上传/下载地址做了 `convertUrl`；外部传入的 `uploadDynamicReturnUrlApi` / `uploadReturnIdApi` / `uploadIdDownloadUrl` 不会再加网关前缀。出厂 `views/biz/notice/form.vue`、`views/dev/slideshow/form.vue` 传的是裸路径 `/dev/file/uploadImageDynamicReturnUrl`（推导：经网关会 404，使用前请先确认）。新写时传入 `convertUrl('/dev/file/xxx')` 的结果
@@ -384,14 +384,14 @@ v-if="hasPerm(['bizXxxEdit', 'bizXxxDelete'], 'and')"    // 数组 + and/or（�
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-admin-web/src/api/biz/bizNoticeApi.js` | API 封装范本 |
-| `snowy-admin-web/src/views/biz/notice/index.vue` | 列表页范本（含批量删/状态切换/字典） |
-| `snowy-admin-web/src/views/biz/notice/form.vue` | 表单范本（含上传/富文本/多选序列化） |
-| `snowy-admin-web/src/views/biz/notice/detail.vue` | 详情范本 |
-| `snowy-admin-web/src/utils/request.js` | 请求封装 |
-| `snowy-admin-web/src/utils/apiAdaptive.js` | 网关前缀映射（新前缀在此登记） |
-| `snowy-admin-web/src/config/index.js` | `CLOUD_SERVER`、`API_URL` 等全局配置 |
-| `snowy-admin-web/.env.development` | `VITE_API_BASEURL`（网关地址）、`VITE_PORT` |
-| `snowy-admin-web/vite.config.mjs` | `/api` 代理（上传/WebSocket 用） |
-| `snowy-admin-web/src/utils/tool.js` | 前端工具 |
-| `snowy-admin-web/src/components/` | 全部组件 |
+| `hgcloud-admin-web/src/api/biz/bizNoticeApi.js` | API 封装范本 |
+| `hgcloud-admin-web/src/views/biz/notice/index.vue` | 列表页范本（含批量删/状态切换/字典） |
+| `hgcloud-admin-web/src/views/biz/notice/form.vue` | 表单范本（含上传/富文本/多选序列化） |
+| `hgcloud-admin-web/src/views/biz/notice/detail.vue` | 详情范本 |
+| `hgcloud-admin-web/src/utils/request.js` | 请求封装 |
+| `hgcloud-admin-web/src/utils/apiAdaptive.js` | 网关前缀映射（新前缀在此登记） |
+| `hgcloud-admin-web/src/config/index.js` | `CLOUD_SERVER`、`API_URL` 等全局配置 |
+| `hgcloud-admin-web/.env.development` | `VITE_API_BASEURL`（网关地址）、`VITE_PORT` |
+| `hgcloud-admin-web/vite.config.mjs` | `/api` 代理（上传/WebSocket 用） |
+| `hgcloud-admin-web/src/utils/tool.js` | 前端工具 |
+| `hgcloud-admin-web/src/components/` | 全部组件 |

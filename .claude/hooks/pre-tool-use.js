@@ -96,7 +96,7 @@ if (toolName === 'Write') {
   const content = toolInput.content || '';
 
   // 敏感配置文件写入提醒（不阻止）
-  // 微服务版：服务配置在 Nacos（仓库源文件 snowy-nacos-app 的 META-INF/config-data/），本地 application.yml 含 Nacos 账号
+  // 微服务版：服务配置在 Nacos（仓库源文件 hgcloud-nacos-app 的 META-INF/config-data/），本地 application.yml 含 Nacos 账号
   const sensitiveFiles = [
     'application.properties',
     'application.yml',
@@ -116,22 +116,22 @@ if (toolName === 'Write') {
     }
   }
 
-  // 框架模块保护：修改平台底座时提醒（微服务版路径：snowy-base/snowy-common、snowy-modules/*、snowy-server/*）
+  // 框架模块保护：修改平台底座时提醒（微服务版路径：hgcloud-base/hgcloud-common、hgcloud-modules/*、hgcloud-server/*）
   const frameworkPaths = [
-    '/snowy-common/',
-    '/snowy-plugin/snowy-plugin-sys/',
-    '/snowy-plugin/snowy-plugin-auth/',
-    '/snowy-plugin/snowy-plugin-dev/',
-    '/snowy-plugin/snowy-plugin-gen/',
-    '/snowy-plugin/snowy-plugin-client/',
-    '/snowy-plugin/snowy-plugin-mobile/',
-    '/snowy-plugin/snowy-plugin-mocker/',
-    '/snowy-web-app/',
-    '/snowy-biz-app/',
-    '/snowy-server/'
+    '/hgcloud-common/',
+    '/hgcloud-plugin/hgcloud-plugin-sys/',
+    '/hgcloud-plugin/hgcloud-plugin-auth/',
+    '/hgcloud-plugin/hgcloud-plugin-dev/',
+    '/hgcloud-plugin/hgcloud-plugin-gen/',
+    '/hgcloud-plugin/hgcloud-plugin-client/',
+    '/hgcloud-plugin/hgcloud-plugin-mobile/',
+    '/hgcloud-plugin/hgcloud-plugin-mocker/',
+    '/hgcloud-web-app/',
+    '/hgcloud-biz-app/',
+    '/hgcloud-server/'
   ];
   if (frameworkPaths.some(p => filePath.includes(p))) {
-    warn('⚠️ 正在修改 Snowy 平台框架模块（' + filePath.split('/').slice(-2).join('/') + '）：业务二次开发应优先放在 snowy-plugin-biz（snowy-plugin-biz-func），修改框架会影响升级兼容性');
+    warn('⚠️ 正在修改 Snowy 平台框架模块（' + filePath.split('/').slice(-2).join('/') + '）：业务二次开发应优先放在 hgcloud-plugin-biz（hgcloud-plugin-biz-func），修改框架会影响升级兼容性');
   }
 
   allow();

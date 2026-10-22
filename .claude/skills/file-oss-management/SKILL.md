@@ -8,7 +8,7 @@ description: Snowy 文件上传下载与对象存储规范：DevFile 模块多�
 ## 架构
 
 - 存储：x-file-storage 框架，多后端可切换（本地磁盘 / 阿里云 OSS / 腾讯云 COS / MinIO / FTP / rustfs）
-- 后端模块：`snowy-plugin-dev-func` 的 `modular/file/`（controller/entity/mapper/param/service/util/provider），元数据落 `DEV_FILE` 表；**dev-func 只装配在 snowy-web-app**，文件接口只在 web-app 提供
+- 后端模块：`hgcloud-plugin-dev-func` 的 `modular/file/`（controller/entity/mapper/param/service/util/provider），元数据落 `DEV_FILE` 表；**dev-func 只装配在 hgcloud-web-app**，文件接口只在 web-app 提供
 - biz-app：启动模块 pom 对 biz-func、dev-feign、dev-api-context 都**排除了 x-file-storage-spring**，本地不能直接操作存储；后端要存文件只能注入 `DevFileApi`（由 dev-api-context 的 DevFileApiContextBean 经 Feign 调 web-app）
 - 前端组件：`XnUpload`（通用上传）、`CropUpload`（头像裁剪）、`XnFilePreview`（预览）
 - 管理界面：开发工具 → 文件管理
@@ -29,7 +29,7 @@ description: Snowy 文件上传下载与对象存储规范：DevFile 模块多�
 
 **返回 id 还是 Url**：需要后续管理/鉴权（可撤销、可追踪）→ 存 id（String 落业务表）；仅需展示 → Url。**推荐业务表存 id**（形如 `avatar`、`imageId` 字段），展示时经文件接口换 URL，可防直链失效。
 
-**下载地址怎么拼**：DevFileServiceImpl 用 Nacos `snowy-web-app-dev.yaml` 的 `snowy.config.common.file-url`（出厂 `http://localhost:9003/api/webapp`，即走网关）拼 `/dev/file/download?id=…&sign=…` 或 `/dev/file/authDownload?id=…&token=`；部署时要改成真实网关地址，否则返回的 URL 不可用。
+**下载地址怎么拼**：DevFileServiceImpl 用 Nacos `hgcloud-web-app-dev.yaml` 的 `snowy.config.common.file-url`（出厂 `http://localhost:9003/api/webapp`，即走网关）拼 `/dev/file/download?id=…&sign=…` 或 `/dev/file/authDownload?id=…&token=`；部署时要改成真实网关地址，否则返回的 URL 不可用。
 
 ## 业务代码用法
 
@@ -88,11 +88,11 @@ private DevFileApi devFileApi;      // biz-app 中实际是 DevFileApiContextBea
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/file/controller/DevFileController.java` | 全部上传/下载 API |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/file/service/impl/DevFileServiceImpl.java` | 存储逻辑（含 file-url 拼下载地址） |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevFileApi.java` | 跨插件/跨服务文件接口 |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-feign/src/main/java/vip/xiaonuo/dev/feign/DevFileFeign.java` | 文件 Feign 接口（biz-app 调用链） |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/DevFileApiContextBean.java` | biz-app 侧 DevFileApi 远程代理 |
-| `snowy-modules/snowy-biz-app/pom.xml` | biz-app 排除 x-file-storage-spring 的位置 |
-| `snowy-admin-web/src/components/XnUpload/` | 上传组件（含 README） |
-| `snowy-admin-web/src/components/CropUpload/` | 裁剪上传组件 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/file/controller/DevFileController.java` | 全部上传/下载 API |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/file/service/impl/DevFileServiceImpl.java` | 存储逻辑（含 file-url 拼下载地址） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevFileApi.java` | 跨插件/跨服务文件接口 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-feign/src/main/java/vip/xiaonuo/dev/feign/DevFileFeign.java` | 文件 Feign 接口（biz-app 调用链） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/DevFileApiContextBean.java` | biz-app 侧 DevFileApi 远程代理 |
+| `hgcloud-modules/hgcloud-biz-app/pom.xml` | biz-app 排除 x-file-storage-spring 的位置 |
+| `hgcloud-admin-web/src/components/XnUpload/` | 上传组件（含 README） |
+| `hgcloud-admin-web/src/components/CropUpload/` | 裁剪上传组件 |

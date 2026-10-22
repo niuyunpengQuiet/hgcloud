@@ -13,10 +13,10 @@ Read `CLAUDE.md`（工程宪法）与 `.claude/framework-config.json`（框架/�
 
 ### 2. 扫描业务域
 ```bash
-ls snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/   # 以 framework-config.json 的 business.backend.scanRoot 为准
-ls snowy-admin-web/src/views/biz/
+ls hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/   # 以 framework-config.json 的 business.backend.scanRoot 为准
+ls hgcloud-admin-web/src/views/biz/
 ```
-对照 excludeModules（index/dict/group/notice/org/position/user 为出厂演示），得出**自建业务域列表**。业务代码在 biz 插件的 `-func` 子模块里，运行在 snowy-biz-app（9102）。
+对照 excludeModules（index/dict/group/notice/org/position/user 为出厂演示），得出**自建业务域列表**。业务代码在 biz 插件的 `-func` 子模块里，运行在 hgcloud-biz-app（9102）。
 
 ### 3. 检查 git（带降级）
 ```bash
@@ -37,9 +37,9 @@ git 可用 → 取最近 10 条提交；不可用 → 报告"无提交历史可�
 **业务进度**：0%（尚无自建业务域——出厂 7 个演示域不计入）
 
 ## 环境就绪检查
-- MySQL：Nacos 库 snowy-nacos-app-open（nacos-db.sql 等）+ 业务库 snowy-cloud（snowy-modules/snowy-web-app/src/main/resources/_sql/snowy_mysql.sql）
+- MySQL：Nacos 库 hgcloud-nacos-app-open（nacos-db.sql 等）+ 业务库 snowy-cloud（hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/snowy_mysql.sql）
 - Redis：127.0.0.1:6379，database 1（web-app/biz-app/网关共用会话）
-- 后端启动：Nacos(8848) → snowy-web-app(9101) → snowy-biz-app(9102) → 网关 snowy-gateway-app(9003)；前端：snowy-admin-web npm run dev（9000，请求走网关 9003）
+- 后端启动：Nacos(8848) → hgcloud-web-app(9101) → hgcloud-biz-app(9102) → 网关 hgcloud-gateway-app(9003)；前端：hgcloud-admin-web npm run dev（9000，请求走网关 9003）
 - 详细就绪清单与自检命令见 env-setup 技能
 
 ## 开始开发

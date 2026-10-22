@@ -11,7 +11,7 @@ description: 元技能——教 AI 如何为本项目新增一个符合规范的
 2. **核实事实**：技能里的每条规范、每个代码片段、每个参考路径，**必须先 Read 真实代码核实**，禁止凭模型先验写（本项目与同类快速开发框架大量反向，先验会写反）；本仓库是**微服务版**，也不要拿 Snowy 单体版的路径与机制套用（插件多一层 `{p}-api / {p}-func / {p}-feign` 等子模块、能力分布在 web-app / biz-app 两个服务、跨服务走 Feign、前端经网关前缀）
 3. **写文件**：`.claude/skills/{name}/SKILL.md`，格式见下
 4. **注册**：更新 `.claude/hooks/skill-forced-eval.js` 里的技能清单（加一行）
-5. **验证**：参考路径 100% 存在（注意多模块路径，如 `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/...`、`snowy-base/snowy-common/...`）；触发词演练（3 条该命中 + 2 条不该命中）
+5. **验证**：参考路径 100% 存在（注意多模块路径，如 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/...`、`hgcloud-base/hgcloud-common/...`）；触发词演练（3 条该命中 + 2 条不该命中）
 
 ## SKILL.md 格式规范
 
@@ -67,7 +67,7 @@ description: 一句话定位。触发场景：1) ... 2) ... 3) ...。触发词�
 
 1. **写完忘注册 hook** → 技能永远不被激活
 2. **触发词太宽泛**（如"开发"、"代码"）→ 到处误触发；触发词要具体
-3. **代码虚构**——凭同类框架/通用 Spring 先验写代码模板，与本项目规范相反；或照搬单体版路径（少了 `-func` 层、`snowy-base` 层）
+3. **代码虚构**——凭同类框架/通用 Spring 先验写代码模板，与本项目规范相反；或照搬单体版路径（少了 `-func` 层、`hgcloud-base` 层）
 4. **参考实现带行号**——代码一改就失效
 5. **与现有技能范围重叠**——知识分散且互相矛盾
 

@@ -4,8 +4,8 @@
  * 功能: 开发场景下，将 Skills 激活率从约 25% 提升到 90% 以上
  *
  * 适配项目: Snowy-Cloud v3.0.0 (Snowy 微服务版：前后端分离，插件化 + Spring Cloud 多服务)
- * 后端包名: vip.xiaonuo.*（业务代码在 snowy-plugin-biz-func，运行于 snowy-biz-app）
- * 前端工程: snowy-admin-web/ (Vue3 + Ant Design Vue，JS 非 TS，请求经网关 9003)
+ * 后端包名: vip.xiaonuo.*（业务代码在 hgcloud-plugin-biz-func，运行于 hgcloud-biz-app）
+ * 前端工程: hgcloud-admin-web/ (Vue3 + Ant Design Vue，JS 非 TS，请求经网关 9003)
  */
 
 const fs = require('fs');
@@ -63,7 +63,7 @@ const instructions = `## 强制技能激活流程（必须执行）
 针对用户问题，列出匹配的技能：\`技能名: 理由\`，无匹配则写"无匹配技能"
 
 可用技能（前后端同仓库项目）：
-> 注意：snowy-admin-web/ 目录存在，CRUD/dev 类任务应同时生成前端三文件（api js + index.vue + form.vue）
+> 注意：hgcloud-admin-web/ 目录存在，CRUD/dev 类任务应同时生成前端三文件（api js + index.vue + form.vue）
 - crud-development: CRUD/业务模块/Entity/Service/Controller/Param 开发/biz-func
 - api-development: API设计/接口规范/URL/CommonResult/异常处理/网关前缀/Knife4j分组
 - plugin-architecture: 插件/模块划分/跨插件调用/provider/新建插件/跨服务调用/Feign/api-context/新服务
@@ -106,7 +106,7 @@ const instructions = `## 强制技能激活流程（必须执行）
 2. 技能激活后必须遵循技能内的规范（正误对照、检查清单）
 3. 涉及写 Java 代码时，牢记本项目规范与 RuoYi 系框架方向相反（详见 code-patterns 技能）
 4. Snowy 核心规范速记（写码前扫一眼）：包名 vip.xiaonuo.*｜@Resource 注入｜ServiceImpl 必须继承｜BeanUtil 转换｜@Getter @Setter｜CommonResult/CommonException｜URL 动词式写方法上且 @SaCheckPermission 值=URL｜String 主键｜表名全大写｜每个 .java 带 12 行版权头
-5. 微服务版速记：业务代码在 snowy-plugin-biz-func（跑在 snowy-biz-app）｜业务只注入 XxxApi，跨服务走 api/provider/feign/feign-provider/api-context 五件套｜配置在 Nacos｜白名单改网关 + 服务两处｜不要套用单体版的 Application/82 端口/application.properties/snowy-plugin-api 路径`;
+5. 微服务版速记：业务代码在 hgcloud-plugin-biz-func（跑在 hgcloud-biz-app）｜业务只注入 XxxApi，跨服务走 api/provider/feign/feign-provider/api-context 五件套｜配置在 Nacos｜白名单改网关 + 服务两处｜不要套用单体版的 Application/82 端口/application.properties/hgcloud-plugin-api 路径`;
 
 process.stdout.write(instructions);
 process.exit(0);

@@ -12,14 +12,14 @@ description: Snowy 字典/配置/枚举三件套规范：DEV_DICT 系统字典�
 | 选项需要最终用户在界面维护 | **字典**（DEV_DICT / BIZ 字典） | 数据库 |
 | 选项与代码逻辑强绑定（不同值走不同分支） | **枚举类**（modular/{域}/enums/） | Java 代码 |
 | 运行时可调的参数（开关/阈值） | **系统配置** DEV_CONFIG | 数据库（界面改） |
-| 服务启动级基础设施参数（数据源/Redis/端口/Sa-Token/`snowy.config.common.*`） | **Nacos 配置** | Nacos `snowy-{应用名}-dev.yaml`（仓库源文件在 `snowy-server/snowy-nacos-app/src/main/resources/META-INF/config-data/`） |
+| 服务启动级基础设施参数（数据源/Redis/端口/Sa-Token/`snowy.config.common.*`） | **Nacos 配置** | Nacos `snowy-{应用名}-dev.yaml`（仓库源文件在 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/`） |
 
 ## 字典双轨
 
 | 轨道 | 模块 | 用途 | 管理界面 |
 |---|---|---|---|
-| 系统字典 | `snowy-plugin-dev-func` 的 `dev/modular/dict/`（DEV_DICT 表，**运行在 web-app**） | 平台级通用字典（性别 GENDER、通知类型等）；`/dev/dict/tree` 免登录（前端登录页也要用；网关 `/api/webapp/dev/dict/tree` 与服务端白名单两处都已放行） | 开发工具 → 字典管理 |
-| 业务字典 | `snowy-plugin-biz-func` 的 `biz/modular/dict/`（同一张 DEV_DICT 表，`CATEGORY=BIZ` 区分，**运行在 biz-app**，接口 `/biz/dict/*`） | 业务自定义字典（面向最终用户可维护） | 业务功能 → 业务字典 |
+| 系统字典 | `hgcloud-plugin-dev-func` 的 `dev/modular/dict/`（DEV_DICT 表，**运行在 web-app**） | 平台级通用字典（性别 GENDER、通知类型等）；`/dev/dict/tree` 免登录（前端登录页也要用；网关 `/api/webapp/dev/dict/tree` 与服务端白名单两处都已放行） | 开发工具 → 字典管理 |
+| 业务字典 | `hgcloud-plugin-biz-func` 的 `biz/modular/dict/`（同一张 DEV_DICT 表，`CATEGORY=BIZ` 区分，**运行在 biz-app**，接口 `/biz/dict/*`） | 业务自定义字典（面向最终用户可维护） | 业务功能 → 业务字典 |
 
 **新业务字典优先建业务字典**（不污染平台字典）；平台级通用（性别这类）才进 DEV_DICT。
 
@@ -45,7 +45,7 @@ description: Snowy 字典/配置/枚举三件套规范：DEV_DICT 系统字典�
 | 能力 | 现状（以代码为准） |
 |---|---|
 | `@Trans(type = TransType.DICTIONARY)` | easy-trans 字典缓存走 Redis：web-app 启动时 `DevDictServiceImpl` 调 `makeUseRedis()` + `refreshCache` 写入；biz-app 侧只有编辑业务字典时 `BizDictServiceImpl` 才调用 `makeUseRedis()`。biz-app 的 easy-trans 配置为 `is-enable-redis: true`、`is-enable-cloud: true`（web-app 为 `is-enable-cloud: false`）。⚠️ biz-app 内字典翻译能否稳定生效**未验证，使用前请先确认**（如看 BizUser 列表的 genderName 是否有值） |
-| `CommonEntity` 的创建人/更新人名称 | `@Trans(type = TransType.RPC, serviceName = "snowy-web-app")`，biz-app 经 easy-trans 远程调 web-app 的 `/easyTrans/proxy/**`（两服务都已放入免登录名单） |
+| `CommonEntity` 的创建人/更新人名称 | `@Trans(type = TransType.RPC, serviceName = "hgcloud-web-app")`，biz-app 经 easy-trans 远程调 web-app 的 `/easyTrans/proxy/**`（两服务都已放入免登录名单） |
 | 注入 `DevDictApi` | ⚠️ dev-api-context 里**没有** DevDictApiContextBean，在 biz-app 注入会缺 Bean（推导）；dev-feign 的 DevDictFeign 只有 getDictLabel 一个方法 |
 | 业务字典（BizDictService） | 就在 biz-func 本地，biz-app 内直接用 |
 
@@ -145,11 +145,11 @@ String value = devConfigApi.getValueByKey("BIZ_XXX_SWITCH");
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/dict/` | 系统字典模块（web-app） |
-| `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/dict/` | 业务字典模块（biz-app） |
-| `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/notice/enums/BizNoticeStatusEnum.java` | 枚举范本 |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevConfigApi.java` | 配置读取接口 |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/` | biz-app 可用的 Dev*Api 远程代理清单 |
-| `snowy-admin-web/src/components/DictSelect/` | 字典下拉组件（含 README） |
-| `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/entity/BizUser.java` | @Trans DICTIONARY 实战 |
-| `snowy-server/snowy-nacos-app/src/main/resources/META-INF/config-data/dev/snowy-biz-app-dev.yaml` | biz-app 的 easy-trans 配置（web-app 同目录） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/dict/` | 系统字典模块（web-app） |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/dict/` | 业务字典模块（biz-app） |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/notice/enums/BizNoticeStatusEnum.java` | 枚举范本 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevConfigApi.java` | 配置读取接口 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/` | biz-app 可用的 Dev*Api 远程代理清单 |
+| `hgcloud-admin-web/src/components/DictSelect/` | 字典下拉组件（含 README） |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/entity/BizUser.java` | @Trans DICTIONARY 实战 |
+| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-biz-app-dev.yaml` | biz-app 的 easy-trans 配置（web-app 同目录） |

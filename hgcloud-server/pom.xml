@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>vip.xiaonuo</groupId>
+        <artifactId>hgcloud</artifactId>
+        <version>3.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>hgcloud-server</artifactId>
+    <packaging>pom</packaging>
+    <description>依赖服务模块</description>
+
+    <modules>
+        <!-- Actuator监控应用启动组件 -->
+        <module>hgcloud-actuator-app</module>
+
+        <!-- Gateway网关应用启动组件 -->
+        <module>hgcloud-gateway-app</module>
+
+        <!-- Nacos注册中心应用启动组件 -->
+        <module>hgcloud-nacos-app</module>
+
+        <!-- Sentinel流量保护应用启动组件 -->
+        <module>hgcloud-sentinel-app</module>
+
+        <!-- XxlJob分布式任务调度应用启动组件 -->
+        <module>hgcloud-xxl-job-app</module>
+    </modules>
+
+</project>

@@ -3,42 +3,42 @@
     "description": "框架模块配置 - 这些模块是 Snowy 平台的一部分，不参与业务进度统计",
     "backend": {
       "modules": [
-        "snowy-base/snowy-common",
-        "snowy-modules/snowy-web-app",
-        "snowy-modules/snowy-biz-app",
-        "snowy-server/snowy-nacos-app",
-        "snowy-server/snowy-gateway-app",
-        "snowy-server/snowy-actuator-app",
-        "snowy-server/snowy-sentinel-app",
-        "snowy-server/snowy-xxl-job-app"
+        "hgcloud-base/hgcloud-common",
+        "hgcloud-modules/hgcloud-web-app",
+        "hgcloud-modules/hgcloud-biz-app",
+        "hgcloud-server/hgcloud-nacos-app",
+        "hgcloud-server/hgcloud-gateway-app",
+        "hgcloud-server/hgcloud-actuator-app",
+        "hgcloud-server/hgcloud-sentinel-app",
+        "hgcloud-server/hgcloud-xxl-job-app"
       ],
       "systemModules": [
-        "snowy-plugin/snowy-plugin-sys",
-        "snowy-plugin/snowy-plugin-auth",
-        "snowy-plugin/snowy-plugin-dev",
-        "snowy-plugin/snowy-plugin-gen",
-        "snowy-plugin/snowy-plugin-client",
-        "snowy-plugin/snowy-plugin-mobile",
-        "snowy-plugin/snowy-plugin-mocker"
+        "hgcloud-plugin/hgcloud-plugin-sys",
+        "hgcloud-plugin/hgcloud-plugin-auth",
+        "hgcloud-plugin/hgcloud-plugin-dev",
+        "hgcloud-plugin/hgcloud-plugin-gen",
+        "hgcloud-plugin/hgcloud-plugin-client",
+        "hgcloud-plugin/hgcloud-plugin-mobile",
+        "hgcloud-plugin/hgcloud-plugin-mocker"
       ],
       "apiModules": [
-        "snowy-plugin/snowy-plugin-auth/snowy-plugin-auth-api",
-        "snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-api",
-        "snowy-plugin/snowy-plugin-client/snowy-plugin-client-api",
-        "snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api",
-        "snowy-plugin/snowy-plugin-gen/snowy-plugin-gen-api",
-        "snowy-plugin/snowy-plugin-mobile/snowy-plugin-mobile-api",
-        "snowy-plugin/snowy-plugin-sys/snowy-plugin-sys-api"
+        "hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-api",
+        "hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-api",
+        "hgcloud-plugin/hgcloud-plugin-client/hgcloud-plugin-client-api",
+        "hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api",
+        "hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-api",
+        "hgcloud-plugin/hgcloud-plugin-mobile/hgcloud-plugin-mobile-api",
+        "hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api"
       ],
       "crossServiceModules": [
-        "snowy-plugin/snowy-plugin-{auth,biz,dev,mobile,sys}/snowy-plugin-*-feign",
-        "snowy-plugin/snowy-plugin-{auth,biz,dev,mobile,sys}/snowy-plugin-*-feign-provider",
-        "snowy-plugin/snowy-plugin-{auth,biz,dev,mobile,sys}/snowy-plugin-*-api-context"
+        "hgcloud-plugin/hgcloud-plugin-{auth,biz,dev,mobile,sys}/hgcloud-plugin-*-feign",
+        "hgcloud-plugin/hgcloud-plugin-{auth,biz,dev,mobile,sys}/hgcloud-plugin-*-feign-provider",
+        "hgcloud-plugin/hgcloud-plugin-{auth,biz,dev,mobile,sys}/hgcloud-plugin-*-api-context"
       ],
-      "description": "snowy-base/snowy-common 为公共基础模块；snowy-modules 下 snowy-web-app（9101，装平台插件实现）与 snowy-biz-app（9102，装 biz 实现）为启动应用；snowy-server 下为中间件（nacos 8848/gateway 9003/actuator 9001/sentinel 9002/xxl-job 9004）；7 个系统插件为平台自带能力；各插件的 -api 为跨插件接口层，-feign/-feign-provider/-api-context 为跨服务调用层（biz 插件的这三件属业务插件但出厂未装配）"
+      "description": "hgcloud-base/hgcloud-common 为公共基础模块；hgcloud-modules 下 hgcloud-web-app（9101，装平台插件实现）与 hgcloud-biz-app（9102，装 biz 实现）为启动应用；hgcloud-server 下为中间件（nacos 8848/gateway 9003/actuator 9001/sentinel 9002/xxl-job 9004）；7 个系统插件为平台自带能力；各插件的 -api 为跨插件接口层，-feign/-feign-provider/-api-context 为跨服务调用层（biz 插件的这三件属业务插件但出厂未装配）"
     },
     "frontend": {
-      "root": "snowy-admin-web",
+      "root": "hgcloud-admin-web",
       "frameworkPaths": [
         "src/views/sys",
         "src/views/auth",
@@ -91,8 +91,8 @@
   "business": {
     "description": "业务模块配置 - 需要统计进度的业务代码",
     "backend": {
-      "scanRoot": "snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular",
-      "modulePattern": "snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/*",
+      "scanRoot": "hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular",
+      "modulePattern": "hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/*",
       "excludeModules": [
         "index",
         "dict",
@@ -102,7 +102,7 @@
         "position",
         "user"
       ],
-      "defaultLocation": "新业务域默认建在 snowy-plugin-biz-func 的 biz/modular/{域名} 下（参考 notice 域结构），运行在 snowy-biz-app，URL 用 /biz/ 前缀（网关 /api/bizapp）",
+      "defaultLocation": "新业务域默认建在 hgcloud-plugin-biz-func 的 biz/modular/{域名} 下（参考 notice 域结构），运行在 hgcloud-biz-app，URL 用 /biz/ 前缀（网关 /api/bizapp）",
       "description": "出厂自带的 7 个 biz 域（index/dict/group/notice/org/position/user）视为演示代码不计业务进度；用户新建的域才计入"
     }
   },
@@ -124,9 +124,9 @@
     },
     "frontend": {
       "requiredFiles": [
-        "API (snowy-admin-web/src/api/biz/xxxApi.js)",
-        "列表页 (snowy-admin-web/src/views/biz/xxx/index.vue)",
-        "表单页 (snowy-admin-web/src/views/biz/xxx/form.vue)"
+        "API (hgcloud-admin-web/src/api/biz/xxxApi.js)",
+        "列表页 (hgcloud-admin-web/src/views/biz/xxx/index.vue)",
+        "表单页 (hgcloud-admin-web/src/views/biz/xxx/form.vue)"
       ],
       "completenessFormula": "存在文件数 / 3 * 100%"
     },
@@ -140,29 +140,29 @@
   },
   "environment": {
     "gitAvailable": "auto-detect（git rev-parse --is-inside-work-tree）",
-    "dbConfigLocation": "Nacos 配置 snowy-web-app-dev.yaml / snowy-biz-app-dev.yaml 的 spring.datasource.dynamic.datasource.master 段（仓库源文件 snowy-server/snowy-nacos-app/src/main/resources/META-INF/config-data/dev/，运行时以 Nacos 控制台为准）",
-    "dbName": "snowy-cloud（业务库）；snowy-nacos-app-open（Nacos 库）；snowy-cloud-job（xxl-job 库，可选）",
-    "dbScript": "snowy-modules/snowy-web-app/src/main/resources/_sql/snowy_mysql.sql（33 张表初始化脚本，不含 CREATE DATABASE）",
-    "nacosDbScript": "snowy-server/snowy-nacos-app/src/main/resources/META-INF/nacos-db.sql（新装只导此文件；nacos-db-snowy-config-init.sql 仅用于刷新已有库的配置）",
+    "dbConfigLocation": "Nacos 配置 hgcloud-web-app-dev.yaml / hgcloud-biz-app-dev.yaml 的 spring.datasource.dynamic.datasource.master 段（仓库源文件 hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/，运行时以 Nacos 控制台为准）",
+    "dbName": "snowy-cloud（业务库）；hgcloud-nacos-app-open（Nacos 库）；snowy-cloud-job（xxl-job 库，可选）",
+    "dbScript": "hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/snowy_mysql.sql（33 张表初始化脚本，不含 CREATE DATABASE）",
+    "nacosDbScript": "hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/nacos-db.sql（新装只导此文件；nacos-db-snowy-config-init.sql 仅用于刷新已有库的配置）",
     "nacos": "http://localhost:8848/nacos（nacos/nacos；namespace snowy-cloud-dev，group dev，dataId {应用名}-dev.yaml）",
     "gatewayPort": 9003,
     "backendPorts": {
-      "snowy-web-app": 9101,
-      "snowy-biz-app": 9102
+      "hgcloud-web-app": 9101,
+      "hgcloud-biz-app": 9102
     },
     "middlewarePorts": {
-      "snowy-nacos-app": 8848,
-      "snowy-actuator-app": 9001,
-      "snowy-sentinel-app": 9002,
-      "snowy-gateway-app": 9003,
-      "snowy-xxl-job-app": 9004
+      "hgcloud-nacos-app": 8848,
+      "hgcloud-actuator-app": 9001,
+      "hgcloud-sentinel-app": 9002,
+      "hgcloud-gateway-app": 9003,
+      "hgcloud-xxl-job-app": 9004
     },
     "frontendPort": 9000,
     "startupOrder": "最少：nacos → web-app、biz-app → gateway；README 全量：nacos → actuator → sentinel → gateway → xxl-job → web-app → biz-app",
     "apiDoc": "http://localhost:9003/doc.html（网关聚合 Knife4j，basic 认证 snowyAdmin/Snowy@2026!）",
     "gatewayPrefix": {
-      "/api/webapp": "snowy-web-app（/sys /auth /dev /gen /mobile /client）",
-      "/api/bizapp": "snowy-biz-app（/biz）"
+      "/api/webapp": "hgcloud-web-app（/sys /auth /dev /gen /mobile /client）",
+      "/api/bizapp": "hgcloud-biz-app（/biz）"
     }
   },
   "version": "1.0.0",

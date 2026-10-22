@@ -9,12 +9,12 @@ description: Snowy 缓存使用规范：CommonCacheOperator 统一操作器、Re
 
 | 组件 | 位置 | 说明 |
 |---|---|---|
-| `CommonCacheOperator` | `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/cache/CommonCacheOperator.java` | **统一缓存操作器**（封装 Redisson Bucket，key 自动加前缀 `Cache:`） |
-| `RedissonConfig` | 每个服务各一份：`snowy-modules/snowy-web-app/src/main/java/vip/xiaonuo/web/core/config/RedissonConfig.java`、`snowy-modules/snowy-biz-app/src/main/java/vip/xiaonuo/biz/core/config/RedissonConfig.java`、`snowy-server/snowy-gateway-app/src/main/java/vip/xiaonuo/gateway/config/RedissonConfig.java` | Redisson 客户端装配（redissonClient + Sa-Token 用的 aloneRedissonClient） |
-| `CacheConstant` | `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/consts/CacheConstant.java` | 框架级缓存 key 常量 |
-| 数据变更事件 | `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeEventCenter.java` | 增删改后广播事件，**本服务内**各插件监听刷新自己的缓存 |
+| `CommonCacheOperator` | `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/cache/CommonCacheOperator.java` | **统一缓存操作器**（封装 Redisson Bucket，key 自动加前缀 `Cache:`） |
+| `RedissonConfig` | 每个服务各一份：`hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/RedissonConfig.java`、`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/RedissonConfig.java`、`hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/RedissonConfig.java` | Redisson 客户端装配（redissonClient + Sa-Token 用的 aloneRedissonClient） |
+| `CacheConstant` | `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/consts/CacheConstant.java` | 框架级缓存 key 常量 |
+| 数据变更事件 | `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeEventCenter.java` | 增删改后广播事件，**本服务内**各插件监听刷新自己的缓存 |
 
-连接：不在本地配置文件，在 **Nacos** 各服务配置 `snowy-{应用名}-dev.yaml` 的 `spring.data.redis` 段（127.0.0.1:6379，database 1；源文件在 `snowy-server/snowy-nacos-app/src/main/resources/META-INF/config-data/dev/`）；Sa-Token 用 `sa-token.alone-redis` 独立配置（同实例同库）。
+连接：不在本地配置文件，在 **Nacos** 各服务配置 `snowy-{应用名}-dev.yaml` 的 `spring.data.redis` 段（127.0.0.1:6379，database 1；源文件在 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/`）；Sa-Token 用 `sa-token.alone-redis` 独立配置（同实例同库）。
 
 **微服务共享**：web-app、biz-app、网关连的是同一 Redis 库——
 - Sa-Token 会话共享：网关与 biz-app 都从 Redis 里的 Token 会话读 `loginUser` 做鉴权
@@ -118,10 +118,10 @@ CommonDataChangeEventCenter.doDeleteWithDataIdList(BizDataTypeEnum.XXX.getValue(
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/cache/CommonCacheOperator.java` | 操作器源码 |
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/consts/CacheConstant.java` | 框架 key 常量 |
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeEventCenter.java` | 事件中心 |
-| `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/core/listener/BizDataChangeListener.java` | 监听实现范本 |
-| `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/group/service/impl/BizGroupServiceImpl.java` | 发事件写法范本 |
-| `snowy-modules/snowy-web-app/src/main/java/vip/xiaonuo/web/core/config/RedissonConfig.java` | Redisson 装配（biz-app、网关各有一份同构配置） |
-| `snowy-server/snowy-nacos-app/src/main/resources/META-INF/config-data/dev/snowy-web-app-dev.yaml` | Redis / alone-redis 连接配置（其他服务同目录） |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/cache/CommonCacheOperator.java` | 操作器源码 |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/consts/CacheConstant.java` | 框架 key 常量 |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeEventCenter.java` | 事件中心 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/core/listener/BizDataChangeListener.java` | 监听实现范本 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/group/service/impl/BizGroupServiceImpl.java` | 发事件写法范本 |
+| `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/RedissonConfig.java` | Redisson 装配（biz-app、网关各有一份同构配置） |
+| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-web-app-dev.yaml` | Redis / alone-redis 连接配置（其他服务同目录） |

@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>vip.xiaonuo</groupId>
-    <artifactId>snowy-cloud</artifactId>
-    <name>snowy-cloud</name>
+    <artifactId>hgcloud</artifactId>
+    <name>hgcloud</name>
     <version>3.0.0</version>
     <description>snowy-cloud快速开发平台</description>
     <packaging>pom</packaging>
@@ -113,16 +113,16 @@
 
     <modules>
         <!-- 基础开发模块 -->
-        <module>snowy-base</module>
+        <module>hgcloud-base</module>
 
         <!-- 业务应用启动模块 -->
-        <module>snowy-modules</module>
+        <module>hgcloud-modules</module>
 
         <!-- 业务插件模块 -->
-        <module>snowy-plugin</module>
+        <module>hgcloud-plugin</module>
 
         <!-- 依赖服务启动模块 -->
-        <module>snowy-server</module>
+        <module>hgcloud-server</module>
     </modules>
 
     <repositories>
@@ -141,227 +141,227 @@
     <dependencyManagement>
         <dependencies>
             <!-- snowy-cloud-inner-start -->
-            <!-- snowy-common -->
+            <!-- hgcloud-common -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-common</artifactId>
+                <artifactId>hgcloud-common</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-auth-api -->
+            <!-- hgcloud-plugin-auth-api -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-auth-api</artifactId>
+                <artifactId>hgcloud-plugin-auth-api</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-auth-api-context -->
+            <!-- hgcloud-plugin-auth-api-context -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-auth-api-context</artifactId>
+                <artifactId>hgcloud-plugin-auth-api-context</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-auth-feign -->
+            <!-- hgcloud-plugin-auth-feign -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-auth-feign</artifactId>
+                <artifactId>hgcloud-plugin-auth-feign</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-auth-feign-provider -->
+            <!-- hgcloud-plugin-auth-feign-provider -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-auth-feign-provider</artifactId>
+                <artifactId>hgcloud-plugin-auth-feign-provider</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-auth-func -->
+            <!-- hgcloud-plugin-auth-func -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-auth-func</artifactId>
+                <artifactId>hgcloud-plugin-auth-func</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-biz-api -->
+            <!-- hgcloud-plugin-biz-api -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-biz-api</artifactId>
+                <artifactId>hgcloud-plugin-biz-api</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-biz-api-context -->
+            <!-- hgcloud-plugin-biz-api-context -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-biz-api-context</artifactId>
+                <artifactId>hgcloud-plugin-biz-api-context</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-biz-feign -->
+            <!-- hgcloud-plugin-biz-feign -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-biz-feign</artifactId>
+                <artifactId>hgcloud-plugin-biz-feign</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-biz-feign-provider -->
+            <!-- hgcloud-plugin-biz-feign-provider -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-biz-feign-provider</artifactId>
+                <artifactId>hgcloud-plugin-biz-feign-provider</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-biz-func -->
+            <!-- hgcloud-plugin-biz-func -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-biz-func</artifactId>
+                <artifactId>hgcloud-plugin-biz-func</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-client-api -->
+            <!-- hgcloud-plugin-client-api -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-client-api</artifactId>
+                <artifactId>hgcloud-plugin-client-api</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-client-func -->
+            <!-- hgcloud-plugin-client-func -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-client-func</artifactId>
+                <artifactId>hgcloud-plugin-client-func</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-dev-api -->
+            <!-- hgcloud-plugin-dev-api -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-dev-api</artifactId>
+                <artifactId>hgcloud-plugin-dev-api</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-dev-api-context -->
+            <!-- hgcloud-plugin-dev-api-context -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-dev-api-context</artifactId>
+                <artifactId>hgcloud-plugin-dev-api-context</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-dev-feign -->
+            <!-- hgcloud-plugin-dev-feign -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-dev-feign</artifactId>
+                <artifactId>hgcloud-plugin-dev-feign</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-dev-feign-provider -->
+            <!-- hgcloud-plugin-dev-feign-provider -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-dev-feign-provider</artifactId>
+                <artifactId>hgcloud-plugin-dev-feign-provider</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-dev-func -->
+            <!-- hgcloud-plugin-dev-func -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-dev-func</artifactId>
+                <artifactId>hgcloud-plugin-dev-func</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-gen-api -->
+            <!-- hgcloud-plugin-gen-api -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-gen-api</artifactId>
+                <artifactId>hgcloud-plugin-gen-api</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-gen-func -->
+            <!-- hgcloud-plugin-gen-func -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-gen-func</artifactId>
+                <artifactId>hgcloud-plugin-gen-func</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-mobile-api -->
+            <!-- hgcloud-plugin-mobile-api -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-mobile-api</artifactId>
+                <artifactId>hgcloud-plugin-mobile-api</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-mobile-api-context -->
+            <!-- hgcloud-plugin-mobile-api-context -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-mobile-api-context</artifactId>
+                <artifactId>hgcloud-plugin-mobile-api-context</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-mobile-feign -->
+            <!-- hgcloud-plugin-mobile-feign -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-mobile-feign</artifactId>
+                <artifactId>hgcloud-plugin-mobile-feign</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-mobile-feign-provider -->
+            <!-- hgcloud-plugin-mobile-feign-provider -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-mobile-feign-provider</artifactId>
+                <artifactId>hgcloud-plugin-mobile-feign-provider</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-mobile-func -->
+            <!-- hgcloud-plugin-mobile-func -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-mobile-func</artifactId>
+                <artifactId>hgcloud-plugin-mobile-func</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-sys-api -->
+            <!-- hgcloud-plugin-sys-api -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-sys-api</artifactId>
+                <artifactId>hgcloud-plugin-sys-api</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-sys-api-context -->
+            <!-- hgcloud-plugin-sys-api-context -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-sys-api-context</artifactId>
+                <artifactId>hgcloud-plugin-sys-api-context</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-sys-feign -->
+            <!-- hgcloud-plugin-sys-feign -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-sys-feign</artifactId>
+                <artifactId>hgcloud-plugin-sys-feign</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-sys-feign-provider -->
+            <!-- hgcloud-plugin-sys-feign-provider -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-sys-feign-provider</artifactId>
+                <artifactId>hgcloud-plugin-sys-feign-provider</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-sys-func -->
+            <!-- hgcloud-plugin-sys-func -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-sys-func</artifactId>
+                <artifactId>hgcloud-plugin-sys-func</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-mocker-token-api -->
+            <!-- hgcloud-plugin-mocker-token-api -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-mocker-token-api</artifactId>
+                <artifactId>hgcloud-plugin-mocker-token-api</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 
-            <!-- snowy-plugin-mocker-token-func -->
+            <!-- hgcloud-plugin-mocker-token-func -->
             <dependency>
                 <groupId>vip.xiaonuo</groupId>
-                <artifactId>snowy-plugin-mocker-token-func</artifactId>
+                <artifactId>hgcloud-plugin-mocker-token-func</artifactId>
                 <version>${snowy.version}</version>
             </dependency>
 

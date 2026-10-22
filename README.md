@@ -1,6 +1,6 @@
 <div align="center">
     <p align="center">
-        <img src="./snowy-admin-web/public/img/logo.png" height="150" alt="logo"/>
+        <img src="./hgcloud-admin-web/public/img/logo.png" height="150" alt="logo"/>
     </p>
 </div>
 
@@ -136,13 +136,13 @@ npm run dev
 
 |         应用         |       启动类        | 端口号  |
 |:------------------:|:----------------:|:----:|
-|  snowy-nacos-app   |  SnowyNacosApp   | 8848 |
-| snowy-actuator-app | SnowyActuatorApp | 9001 |
-| snowy-sentinel-app | SnowySentinelApp | 9002 |
-| snowy-gateway-app  | SnowyGatewayApp  | 9003 |
-| snowy-xxl-job-app  |  SnowyXxlJobApp  | 9004 |
-|   snowy-web-app    |   SnowyWebApp    | 9101 |
-|   snowy-biz-app    |   SnowyBizApp    | 9102 |
+|  hgcloud-nacos-app   |  SnowyNacosApp   | 8848 |
+| hgcloud-actuator-app | HgActuatorApp | 9001 |
+| hgcloud-sentinel-app | HgSentinelApp | 9002 |
+| hgcloud-gateway-app  | HgGatewayApp  | 9003 |
+| hgcloud-xxl-job-app  |  HgXxlJobApp  | 9004 |
+|   hgcloud-web-app    |   HgWebApp    | 9101 |
+|   hgcloud-biz-app    |   HgBizApp    | 9102 |
 
 ## 代码结构
 
@@ -150,7 +150,7 @@ Snowy-Cloud3.0框架对代码以插件化的模式进行分包，使得包层级
 
 ```
 snowy-cloud
-  |-snowy-admin-web == 前端
+  |-hgcloud-admin-web == 前端
     |-public == 基础静态文件
     |-src == 前端源代码
       |-api == API接口转发
@@ -164,42 +164,42 @@ snowy-cloud
       |-style == 样式风格配置
       |-utils == 工具类
       |-views == 所有视图界面
-  |-snowy-base == 基础组件
-    |-snowy-common == 基础通用模块
-  |-snowy-modules == 应用组件
-    |-snowy-biz-app == 业务应用模块
-    |-snowy-web-app == 主应用模块
-  |-snowy-plugin == 插件组件
-    |-snowy-plugin-auth == 登录鉴权插件
-        |-snowy-plugin-auth-api == 登录鉴权插件api接口
-        |-snowy-plugin-auth-feign == 登录鉴权插件feign接口
-        |-snowy-plugin-auth-func == 登录鉴权插件func实现
-    |-snowy-plugin-biz == 业务功能插件
-        |-snowy-plugin-biz-api == 业务功能插件api接口
-        |-snowy-plugin-biz-func == 业务功能插件func实现
-    |-snowy-plugin-client == C端功能插件
-        |-snowy-plugin-client-api == C端功能插件api接口
-        |-snowy-plugin-client-func == C端功能插件func实现
-    |-snowy-plugin-dev == 开发工具插件
-        |-snowy-plugin-dev-api == 开发工具插件api接口
-        |-snowy-plugin-dev-feign == 开发工具插件feign接口
-        |-snowy-plugin-dev-func == 开发工具插件func实现
-    |-snowy-plugin-gen == 代码生成插件
-        |-snowy-plugin-gen-api == 代码生成插件api接口
-        |-snowy-plugin-gen-func == 代码生成插件func实现
-    |-snowy-plugin-sys == 系统功能插件
-        |-snowy-plugin-sys-api == 系统功能插件api接口
-        |-snowy-plugin-sys-feign == 系统功能插件feign接口
-        |-snowy-plugin-sys-func == 系统功能插件func实现
-    |-snowy-plugin-mobile == 移动端管理插件
-        |-snowy-plugin-mobile-api == 移动端管理插件api接口
-        |-snowy-plugin-mobile-func == 移动端管理插件func实现
-  |-snowy-server == 服务组件
-    |-snowy-actuator-app == 监控服务模块
-    |-snowy-gateway-app == 网关服务模块
-    |-snowy-nacos-app == 注册中心/配置中心模块
-    |-snowy-sentinel-app == 限流服务模块
-    |-snowy-xxl-job-app == 分布式任务调度服务模块
+  |-hgcloud-base == 基础组件
+    |-hgcloud-common == 基础通用模块
+  |-hgcloud-modules == 应用组件
+    |-hgcloud-biz-app == 业务应用模块
+    |-hgcloud-web-app == 主应用模块
+  |-hgcloud-plugin == 插件组件
+    |-hgcloud-plugin-auth == 登录鉴权插件
+        |-hgcloud-plugin-auth-api == 登录鉴权插件api接口
+        |-hgcloud-plugin-auth-feign == 登录鉴权插件feign接口
+        |-hgcloud-plugin-auth-func == 登录鉴权插件func实现
+    |-hgcloud-plugin-biz == 业务功能插件
+        |-hgcloud-plugin-biz-api == 业务功能插件api接口
+        |-hgcloud-plugin-biz-func == 业务功能插件func实现
+    |-hgcloud-plugin-client == C端功能插件
+        |-hgcloud-plugin-client-api == C端功能插件api接口
+        |-hgcloud-plugin-client-func == C端功能插件func实现
+    |-hgcloud-plugin-dev == 开发工具插件
+        |-hgcloud-plugin-dev-api == 开发工具插件api接口
+        |-hgcloud-plugin-dev-feign == 开发工具插件feign接口
+        |-hgcloud-plugin-dev-func == 开发工具插件func实现
+    |-hgcloud-plugin-gen == 代码生成插件
+        |-hgcloud-plugin-gen-api == 代码生成插件api接口
+        |-hgcloud-plugin-gen-func == 代码生成插件func实现
+    |-hgcloud-plugin-sys == 系统功能插件
+        |-hgcloud-plugin-sys-api == 系统功能插件api接口
+        |-hgcloud-plugin-sys-feign == 系统功能插件feign接口
+        |-hgcloud-plugin-sys-func == 系统功能插件func实现
+    |-hgcloud-plugin-mobile == 移动端管理插件
+        |-hgcloud-plugin-mobile-api == 移动端管理插件api接口
+        |-hgcloud-plugin-mobile-func == 移动端管理插件func实现
+  |-hgcloud-server == 服务组件
+    |-hgcloud-actuator-app == 监控服务模块
+    |-hgcloud-gateway-app == 网关服务模块
+    |-hgcloud-nacos-app == 注册中心/配置中心模块
+    |-hgcloud-sentinel-app == 限流服务模块
+    |-hgcloud-xxl-job-app == 分布式任务调度服务模块
 
 ```
 

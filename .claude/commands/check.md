@@ -9,7 +9,7 @@ description: 代码规范检查（后端 + 前端，三级清单）
 ## 范围确定
 
 - 参数 `$ARGUMENTS` 指定了文件/目录 → 只查该范围
-- 未指定 → 默认查业务范围：`snowy-plugin/snowy-plugin-biz/`（业务域代码在其 `snowy-plugin-biz-func` 子模块的 `biz/modular/` 下，另含 -api/-api-context/-feign/-feign-provider 子模块）+ `snowy-admin-web/src/api/biz/` + `snowy-admin-web/src/views/biz/`
+- 未指定 → 默认查业务范围：`hgcloud-plugin/hgcloud-plugin-biz/`（业务域代码在其 `hgcloud-plugin-biz-func` 子模块的 `biz/modular/` 下，另含 -api/-api-context/-feign/-feign-provider 子模块）+ `hgcloud-admin-web/src/api/biz/` + `hgcloud-admin-web/src/views/biz/`
 - 全量（含框架模块）仅在用户明说"全量"时（框架代码预期全绿，作为基准）
 
 ## 检查清单

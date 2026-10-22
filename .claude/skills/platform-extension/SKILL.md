@@ -9,7 +9,7 @@ description: Snowy 微服务版平台扩展点地图：不改框架代码实现�
 
 > **平台插件（sys/auth/dev/gen/client/mobile，以及 mocker）原则上不改**——改了升级即冲突。几乎所有"改平台行为"的需求都有正规扩展点。先查本表，再决定动不动框架。
 >
-> 微服务版额外要先问一句：**这段代码跑在哪个服务？** 平台插件实现都装在 snowy-web-app（9101），业务代码（snowy-plugin-biz-func）跑在 snowy-biz-app（9102），不少扩展点只在本服务 JVM 内生效。
+> 微服务版额外要先问一句：**这段代码跑在哪个服务？** 平台插件实现都装在 hgcloud-web-app（9101），业务代码（hgcloud-plugin-biz-func）跑在 hgcloud-biz-app（9102），不少扩展点只在本服务 JVM 内生效。
 
 ## "我想做 X" → 扩展点速查表
 
@@ -20,15 +20,15 @@ description: Snowy 微服务版平台扩展点地图：不改框架代码实现�
 | 把我方能力暴露给其他插件 | 定义接口进我方 `{p}-api` + 我方 `provider/` 实现；需要被**其他服务**调用时再补 -feign / -feign-provider / -api-context 并在两端应用装配 | provider/ + 五件套（见 plugin-architecture） |
 | 周期性任务（对账/清理/汇总） | 实现 `CommonTimerTaskRunner` + @Component + 界面配置 | ⚠️ DEV_JOB 只在 web-app 调度，Runner 必须在 web-app 类路径上；写在 biz-func 里的 Runner 会报"找不到对应的类"；跑在 biz-app 的定时需求无现成方案（xxl-job 只有调度中心、未接执行器），需另行评估接入方式，使用前请先确认 |
 | 可调的业务参数（开关/阈值/默认密码） | DEV_CONFIG（系统配置界面维护），代码里 DevConfigApi 读取 | 界面：开发工具→系统配置；biz-app 有 DevConfigApi 的远程代理 |
-| 下拉选项数据 | 业务字典（BIZ）/枚举（见 dict-config） | snowy-plugin-biz-func 的 biz/modular/dict 或 enums/；⚠️ biz-app 无 DevDictApi 远程代理 |
-| 返回给前端的对象统一加工/包装 | `@CommonWrapper(包装类.class)`（返回值包装 AOP） | 注解在 snowy-base/snowy-common/annotation，AOP 在两服务 GlobalConfigure 各有一份 |
+| 下拉选项数据 | 业务字典（BIZ）/枚举（见 dict-config） | hgcloud-plugin-biz-func 的 biz/modular/dict 或 enums/；⚠️ biz-app 无 DevDictApi 远程代理 |
+| 返回给前端的对象统一加工/包装 | `@CommonWrapper(包装类.class)`（返回值包装 AOP） | 注解在 hgcloud-base/hgcloud-common/annotation，AOP 在两服务 GlobalConfigure 各有一份 |
 | 接口防重复提交 | `@CommonNoRepeat` | Controller 方法上（两服务均生效） |
 | 操作留痕 | `@CommonLog("中文")` | Controller 写方法上；⚠️ 落 DEV_LOG 的 DevLogAop 只在 web-app，biz-app 里不落库（推导） |
 | 字段展示为字典文本/关联名 | Entity 加 `@Trans`（DICTIONARY/SIMPLE） | entity/ |
 | 新页面/新菜单 | views/biz/{域} + SYS_RESOURCE 资源 SQL | 前端 + database-ops 挂载点速查；`/biz/` 前缀已映射到 biz-app |
 | 接口免登录 / C 端 / 超管路径 | 白名单两处都改：网关 `GatewayConfigure`（带 /api/webapp、/api/bizapp 前缀）+ 目标服务 `GlobalConfigure`（不带前缀） | 见 security-auth；只改一处会被另一层拦截 |
 | 新的一级 URL 前缀 / 新服务 | 新前缀：前端 apiAdaptive.js 登记；新服务：另加网关路由；新代码包：另加 springdoc 分组与 Knife4j 聚合（只影响文档） | 见 plugin-architecture 挂载 checklist |
-| 记录业务操作日志/异常排查 | web-app 内的 @CommonLog 已落 DEV_LOG，直接查；biz-app 的看服务日志 | 开发工具→日志；`logs/snowy-biz-app-log/` |
+| 记录业务操作日志/异常排查 | web-app 内的 @CommonLog 已落 DEV_LOG，直接查；biz-app 的看服务日志 | 开发工具→日志；`logs/hgcloud-biz-app-log/` |
 
 ## 扩展点 1：数据变更监听（最高频）
 
@@ -114,7 +114,7 @@ private DevMessageApi devMessageApi;    // 站内信（自动实时推送）
 | 在 biz-func 里写 CommonTimerTaskRunner 指望界面配置就能跑 | 定时 Runner 只在 web-app 类路径上生效，biz-app 定时需求先确认方案 |
 | 在 biz-app 注入 DevDictApi 等没有 ContextBean 的接口 | 先查 api-context 模块里有没有对应 ContextBean |
 | 只改服务 GlobalConfigure 放开免登录 | 网关 GatewayConfigure + 服务 GlobalConfigure 两处 |
-| 每个新需求都想新建插件或新服务 | 默认进 snowy-plugin-biz-func 的 modular（见 plugin-architecture） |
+| 每个新需求都想新建插件或新服务 | 默认进 hgcloud-plugin-biz-func 的 modular（见 plugin-architecture） |
 
 ## 检查清单
 
@@ -128,13 +128,13 @@ private DevMessageApi devMessageApi;    // 站内信（自动实时推送）
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/core/listener/BizDataChangeListener.java` | 监听器官方范本（监听 biz 机构变更清 biz 机构缓存，运行在 biz-app） |
-| `snowy-modules/snowy-biz-app/src/main/java/vip/xiaonuo/biz/core/listener/SysDataChangeListener.java` | biz-app 内的机构变更联动登录用户数据范围缓存 |
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeEventCenter.java` | 事件中心（注册/广播，进程内） |
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeListener.java` | 监听接口（全部回调） |
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/annotation/CommonWrapper.java` | 返回包装注解 |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/job/task/DevJobTimerTaskRunner.java` | 定时任务扩展点范本（web-app） |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/` | 可注入的平台能力全集（web-app 全可用） |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/` | biz-app 可注入的 dev 能力（远程代理清单） |
-| `snowy-plugin/snowy-plugin-sys/snowy-plugin-sys-api-context/src/main/java/vip/xiaonuo/sys/api/context/` | biz-app 可注入的 sys 能力（远程代理清单） |
-| `snowy-server/snowy-gateway-app/src/main/java/vip/xiaonuo/gateway/config/GatewayConfigure.java` | 网关白名单 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/core/listener/BizDataChangeListener.java` | 监听器官方范本（监听 biz 机构变更清 biz 机构缓存，运行在 biz-app） |
+| `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/listener/SysDataChangeListener.java` | biz-app 内的机构变更联动登录用户数据范围缓存 |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeEventCenter.java` | 事件中心（注册/广播，进程内） |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeListener.java` | 监听接口（全部回调） |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/annotation/CommonWrapper.java` | 返回包装注解 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/job/task/DevJobTimerTaskRunner.java` | 定时任务扩展点范本（web-app） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/` | 可注入的平台能力全集（web-app 全可用） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/` | biz-app 可注入的 dev 能力（远程代理清单） |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/src/main/java/vip/xiaonuo/sys/api/context/` | biz-app 可注入的 sys 能力（远程代理清单） |
+| `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | 网关白名单 |

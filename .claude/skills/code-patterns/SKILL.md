@@ -152,7 +152,7 @@ fix: 修复供应商分页排序字段未下划线转换的问题
 docs: 补充后端开发指南的跨插件调用章节
 ```
 
-- 只提交本次任务相关文件；**不提交** Nacos 配置源文件（`snowy-server/snowy-nacos-app/src/main/resources/META-INF/config-data/` 下的 yaml）与各应用 `application.yml` 里的本地口令改动、node_modules、target
+- 只提交本次任务相关文件；**不提交** Nacos 配置源文件（`hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/` 下的 yaml）与各应用 `application.yml` 里的本地口令改动、node_modules、target
 - 默认只做本地 commit，明确要求才 push
 - 分支与远程以仓库实际状态为准（`git branch -a` / `git remote -v`，详见 git-workflow 技能）；大重构前打 tag
 
@@ -160,7 +160,7 @@ docs: 补充后端开发指南的跨插件调用章节
 
 - 标准六件套够用就别加层（不要 DAO/Manager 层、不要 DTO 转换链）
 - 没有复用诉求不抽公共方法；两处以内重复可接受
-- 不引入新依赖前先查 hutool / snowy-common 是否已有（见 common-toolkit 技能）
+- 不引入新依赖前先查 hutool / hgcloud-common 是否已有（见 common-toolkit 技能）
 
 ## 检查清单（提交前）
 
@@ -175,10 +175,10 @@ docs: 补充后端开发指南的跨插件调用章节
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/notice/` | 全部规范的活样本 |
-| `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/entity/BizUser.java` | 复杂 Entity（@Trans/SM4） |
-| `snowy-plugin/snowy-plugin-sys/snowy-plugin-sys-func/src/main/java/vip/xiaonuo/sys/modular/user/service/impl/SysUserServiceImpl.java` | 复杂业务写法 |
-| `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/service/impl/BizUserServiceImpl.java` | biz 里跨服务只注入 SysUserApi 的真实写法 |
-| `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/pom.xml` | biz-func 只依赖各插件 `-api` 的依据 |
-| `snowy-modules/snowy-biz-app/pom.xml`、`snowy-modules/snowy-web-app/pom.xml` | 两个应用的插件装配（func 与 feign+api-context 二选一） |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/notice/` | 全部规范的活样本 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/entity/BizUser.java` | 复杂 Entity（@Trans/SM4） |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/vip/xiaonuo/sys/modular/user/service/impl/SysUserServiceImpl.java` | 复杂业务写法 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/service/impl/BizUserServiceImpl.java` | biz 里跨服务只注入 SysUserApi 的真实写法 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/pom.xml` | biz-func 只依赖各插件 `-api` 的依据 |
+| `hgcloud-modules/hgcloud-biz-app/pom.xml`、`hgcloud-modules/hgcloud-web-app/pom.xml` | 两个应用的插件装配（func 与 feign+api-context 二选一） |
 | `CLAUDE.md` | 项目宪法（易错点警告节） |

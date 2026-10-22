@@ -21,8 +21,8 @@ description: Snowy 问题排查方法论与高发故障库：启动失败、401/
 ## 树 A：后端启动失败
 
 1. 端口被占？（8848 Nacos / 9003 网关 / 9101 web-app / 9102 biz-app；命令见 env-setup 自检）
-2. Nacos 没起 / 配置没拉到 → 各服务本地 `application.yml` 只接 Nacos（`optional:nacos:` 导入），拉不到配置时启动**不会因此中止**，常见表现是端口变成默认 8080、报找不到数据源/Redis 连接参数（推导的典型症状，以实际日志为准）。核对：Nacos 已启动；命名空间 `snowy-cloud-dev`、分组 `dev`、data-id `snowy-web-app-dev.yaml` / `snowy-biz-app-dev.yaml` / `snowy-gateway-app-dev.yaml` 在 Nacos 控制台存在且启动 profile 是 dev
-3. MySQL 连不上/库没导 → Nacos 库 `snowy-nacos-app-open`（nacos-db.sql 等）与业务库 `snowy-cloud`（`snowy-modules/snowy-web-app/src/main/resources/_sql/snowy_mysql.sql`）都要导；数据源口令改 Nacos 配置，不在本地文件
+2. Nacos 没起 / 配置没拉到 → 各服务本地 `application.yml` 只接 Nacos（`optional:nacos:` 导入），拉不到配置时启动**不会因此中止**，常见表现是端口变成默认 8080、报找不到数据源/Redis 连接参数（推导的典型症状，以实际日志为准）。核对：Nacos 已启动；命名空间 `snowy-cloud-dev`、分组 `dev`、data-id `hgcloud-web-app-dev.yaml` / `hgcloud-biz-app-dev.yaml` / `hgcloud-gateway-app-dev.yaml` 在 Nacos 控制台存在且启动 profile 是 dev
+3. MySQL 连不上/库没导 → Nacos 库 `hgcloud-nacos-app-open`（nacos-db.sql 等）与业务库 `snowy-cloud`（`hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/snowy_mysql.sql`）都要导；数据源口令改 Nacos 配置，不在本地文件
 4. Redis 连不上 → 本地 6379 是否启动（database 1）
 5. JDK 版本 → 主栈用 17
 6. 依赖没编译 → 根目录 `mvn clean install -DskipTests`
@@ -72,7 +72,7 @@ description: Snowy 问题排查方法论与高发故障库：启动失败、401/
 
 | 现象 | 根因 | 处理 |
 |---|---|---|
-| 经网关 404，直连服务正常 | 新 URL 前缀没登记：前端 `apiAdaptive.js` 没映射（请求没带 `/api/webapp`/`/api/bizapp`），或网关路由没有该前缀 | 先查前端 apiAdaptive.js 是否映射；新建服务再查网关路由（`snowy-gateway-app-dev.yaml` 的 routes，StripPrefix=2）。Knife4j 聚合只影响接口文档，不会导致 404 |
+| 经网关 404，直连服务正常 | 新 URL 前缀没登记：前端 `apiAdaptive.js` 没映射（请求没带 `/api/webapp`/`/api/bizapp`），或网关路由没有该前缀 | 先查前端 apiAdaptive.js 是否映射；新建服务再查网关路由（`hgcloud-gateway-app-dev.yaml` 的 routes，StripPrefix=2）。Knife4j 聚合只影响接口文档，不会导致 404 |
 | 经网关 503 / Unable to find instance | 目标服务没注册到 Nacos：服务没起、启动失败，或 profile 不同导致命名空间/分组不一致（网关在 `snowy-cloud-dev` / `dev` 里找） | Nacos 控制台 → 服务管理看实例；核对各服务 `spring.profiles.active` |
 | 免登录接口经网关仍 401 | 白名单只配了服务 GlobalConfigure | 网关 GatewayConfigure 补带前缀的条目，重启网关 |
 | 直连服务 401、经网关也 401 | 白名单只配了网关 | 服务 GlobalConfigure 补不带前缀的条目，重启服务 |
@@ -86,7 +86,7 @@ description: Snowy 问题排查方法论与高发故障库：启动失败、401/
 ## 排查工具箱
 
 ```bash
-# 看后端日志：IDE 控制台为主；文件日志在启动目录下 logs/{应用名}-log/（如 logs/snowy-biz-app-log/log_error.log）
+# 看后端日志：IDE 控制台为主；文件日志在启动目录下 logs/{应用名}-log/（如 logs/hgcloud-biz-app-log/log_error.log）
 # 数据库直查（业务库 snowy-cloud；连接信息从 Nacos 配置 snowy-*-app-dev.yaml 的数据源段取）
 mysql -h127.0.0.1 -uroot -p****** snowy-cloud -e "SELECT ID,DELETE_FLAG FROM BIZ_XXX LIMIT 5;"
 
@@ -96,7 +96,7 @@ curl -s "http://localhost:8848/nacos/v1/ns/service/list?pageNo=1&pageSize=20&gro
 # 验证接口（Knife4j 网关聚合：http://localhost:9003/doc.html，basic 认证 snowyAdmin/Snowy@2026!，可带 token 调试）
 
 # 全局搜代码
-Grep pattern: "方法名/类名/错误消息片段"  path: snowy-plugin
+Grep pattern: "方法名/类名/错误消息片段"  path: hgcloud-plugin
 ```
 
 **接口调试优先用 Knife4j（/doc.html）**：先登录拿 token（B 端鉴权里全局设置），再单测接口，把"前端问题还是后端问题"先切开；再用"直连服务端口 vs 经网关"把"网关问题还是服务问题"切开。
@@ -111,7 +111,7 @@ Grep pattern: "方法名/类名/错误消息片段"  path: snowy-plugin
 6. **跨插件注入失败** → 只依赖了 *-api 却想注入实现类；或忘加依赖；在 biz-app 还要有对应 `-feign` + `-api-context`
 7. **@Trans 不生效** → autoResultMap 没开 / 字典缓存旧数据（发数据变更事件）
 8. **新增菜单 404** → 菜单 component 路径与前端 views 目录不匹配（如 biz/supplier/index ↔ src/views/biz/supplier/index.vue）
-9. **生成的代码包名错** → 代码生成器 packageName/pluginName 填错，落位后要手工核（生成到 `snowy-plugin/{插件}/{插件}-func/src/main/java`）
+9. **生成的代码包名错** → 代码生成器 packageName/pluginName 填错，落位后要手工核（生成到 `hgcloud-plugin/{插件}/{插件}-func/src/main/java`）
 10. **新业务前缀经网关 404** → apiAdaptive.js 没登记；新建服务时网关路由没加
 11. **Nacos 配置改了不生效 / 改错地方** → 改的是仓库 `config-data/*.yaml` 源文件但没同步进 Nacos；或 Nacos 里改了别的命名空间
 12. **本地登录 ClassCastException** → 多个 Snowy 项目共用同一 Redis 库串会话（见树 E）
@@ -126,13 +126,13 @@ Grep pattern: "方法名/类名/错误消息片段"  path: snowy-plugin
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-modules/snowy-web-app/src/main/java/vip/xiaonuo/web/core/handler/GlobalExceptionHandler.java`、`snowy-modules/snowy-biz-app/src/main/java/vip/xiaonuo/biz/core/handler/GlobalExceptionHandler.java` | 异常→错误码映射（两个服务各一份） |
-| `snowy-server/snowy-gateway-app/src/main/java/vip/xiaonuo/gateway/core/util/GlobalExceptionUtil.java`、`AuthExceptionUtil.java` | 网关侧异常转换 |
-| `snowy-server/snowy-gateway-app/src/main/java/vip/xiaonuo/gateway/config/GatewayConfigure.java` | 网关白名单/拦截规则 |
-| `snowy-modules/snowy-web-app/src/main/java/vip/xiaonuo/web/core/config/GlobalConfigure.java`、`snowy-modules/snowy-biz-app/src/main/java/vip/xiaonuo/biz/core/config/GlobalConfigure.java` | 服务白名单/拦截规则 |
-| `snowy-server/snowy-nacos-app/src/main/resources/META-INF/config-data/dev/` | 全部环境配置（数据源/Redis/网关路由/Sa-Token） |
-| `snowy-modules/snowy-biz-app/src/main/java/vip/xiaonuo/biz/core/interceptor/FeignRequestInterceptor.java` | Feign 请求头透传 |
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/consts/FeignConstant.java` | Feign 服务名常量 |
-| `snowy-admin-web/src/utils/apiAdaptive.js` | 前端 URL 前缀映射 |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/log/` | 操作/异常日志模块 |
-| `snowy-plugin/snowy-plugin-dev/snowy-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/monitor/` | 服务器监控 |
+| `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/handler/GlobalExceptionHandler.java`、`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/handler/GlobalExceptionHandler.java` | 异常→错误码映射（两个服务各一份） |
+| `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/core/util/GlobalExceptionUtil.java`、`AuthExceptionUtil.java` | 网关侧异常转换 |
+| `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | 网关白名单/拦截规则 |
+| `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java`、`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | 服务白名单/拦截规则 |
+| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/` | 全部环境配置（数据源/Redis/网关路由/Sa-Token） |
+| `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/interceptor/FeignRequestInterceptor.java` | Feign 请求头透传 |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/consts/FeignConstant.java` | Feign 服务名常量 |
+| `hgcloud-admin-web/src/utils/apiAdaptive.js` | 前端 URL 前缀映射 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/log/` | 操作/异常日志模块 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/monitor/` | 服务器监控 |

@@ -1,25 +1,25 @@
 ---
 name: common-toolkit
-description: snowy-common 工具类地图与 Hutool 优先原则：CommonCacheOperator、CommonCryptogramUtil、CommonEmailUtil、CommonDownloadUtil 等 17 个工具类的用途索引与选择决策树（微服务版 snowy-common 位于 snowy-base 下，另含 FeignConstant、AppConstant、CommonThreadLocalUtil）。触发场景：1) 需要 utility（加密/邮件/下载/IP/验证码/头像等）时先查这里 2) 不确定用哪个工具类 3) 想自写工具前检查是否已有。触发词：工具类、util、CommonCryptogramUtil、CommonEmailUtil、CommonDownloadUtil、Hutool、工具选择、复用、FeignConstant、AppConstant、CommonThreadLocalUtil、snowy-base。注意：缓存的完整用法见 cache-redis，国密详见 crypto-sm。
+description: hgcloud-common 工具类地图与 Hutool 优先原则：CommonCacheOperator、CommonCryptogramUtil、CommonEmailUtil、CommonDownloadUtil 等 17 个工具类的用途索引与选择决策树（微服务版 hgcloud-common 位于 hgcloud-base 下，另含 FeignConstant、AppConstant、CommonThreadLocalUtil）。触发场景：1) 需要 utility（加密/邮件/下载/IP/验证码/头像等）时先查这里 2) 不确定用哪个工具类 3) 想自写工具前检查是否已有。触发词：工具类、util、CommonCryptogramUtil、CommonEmailUtil、CommonDownloadUtil、Hutool、工具选择、复用、FeignConstant、AppConstant、CommonThreadLocalUtil、hgcloud-base。注意：缓存的完整用法见 cache-redis，国密详见 crypto-sm。
 ---
 
 # Snowy 工具类地图
 
-> 微服务版公共模块路径：`snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/`（包名仍是 `vip.xiaonuo.common`），web-app、biz-app、网关共用。
+> 微服务版公共模块路径：`hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/`（包名仍是 `vip.xiaonuo.common`），web-app、biz-app、网关共用。
 
 ## 选择决策树（自上而下）
 
 ```
 需要某能力
- ├─ snowy-common 里有 Common* 工具？ ──→ 用它（项目标准，含业务约定如缓存前缀/国密算法）
+ ├─ hgcloud-common 里有 Common* 工具？ ──→ 用它（项目标准，含业务约定如缓存前缀/国密算法）
  ├─ 没有，hutool 里有？ ──→ 用 hutool（cn.hutool.*，项目已全局依赖 5.8.25）
  ├─ 也没有，Spring/Sa-Token/MP 官方 API？ ──→ 用官方
- └─ 都没有 ──→ 才自写；放对应插件 {p}-func 的 core/util/，通用才下沉 snowy-base/snowy-common
+ └─ 都没有 ──→ 才自写；放对应插件 {p}-func 的 core/util/，通用才下沉 hgcloud-base/hgcloud-common
 ```
 
 ❌ 禁止：重复造轮子、引入 commons-lang3/guava 等冗余依赖（hutool 已覆盖）。
 
-## snowy-common/util/ 全部 17 个工具类
+## hgcloud-common/util/ 全部 17 个工具类
 
 | 工具类 | 用途 | 常用方法/说明 |
 |---|---|---|
@@ -51,7 +51,7 @@ description: snowy-common 工具类地图与 Hutool 优先原则：CommonCacheOp
 | `CommonResult` / `CommonException` | `common/pojo/` / `exception/` | 统一返回/异常 |
 | `CommonDataChangeEventCenter` | `common/listener/` | 数据变更事件广播（增删改后发事件刷新本服务内各方缓存，不跨服务） |
 | `CacheConstant` | `common/consts/` | 缓存 key 常量（PERMISSION_RESOURCE_CACHE_KEY 等） |
-| `FeignConstant` | `common/consts/` | 微服务版新增：服务名常量 `WEB_APP = "snowy-web-app"`、`BIZ_APP = "snowy-biz-app"`，供 `@FeignClient(name = ...)` 使用 |
+| `FeignConstant` | `common/consts/` | 微服务版新增：服务名常量 `WEB_APP = "hgcloud-web-app"`、`BIZ_APP = "hgcloud-biz-app"`，供 `@FeignClient(name = ...)` 使用 |
 | `AppConstant` | `common/consts/` | 微服务版新增：启动信息模板、`TRACE_ID_STRING`（Feign 透传 traceId 的请求头名） |
 | `SysBuildInEnum` / `SysDataTypeEnum` | `common/enums/` | 微服务版新增：超管账号/角色编码、系统数据类型（sys 插件内另有同名副本） |
 | `AppStartupListener` | `common/runner/` | 微服务版新增：启动完成打印应用信息，web-app/biz-app 启动类里以 @Bean 注册 |
@@ -82,19 +82,19 @@ description: snowy-common 工具类地图与 Hutool 优先原则：CommonCacheOp
 | 自己 new SimpleDateFormat 到处格式化 | `DateUtil`（"x 分钟前"类展示用 `CommonTimeFormatUtil`） |
 | 用 `CommonEmailUtil` 发邮件 | 它只做邮箱格式校验；发邮件用 `DevEmailApi` |
 | 业务里手拼 Redis key | `CacheConstant` 常量 + `CommonCacheOperator` |
-| `@FeignClient(name = "snowy-web-app")` 硬编码服务名 | `FeignConstant.WEB_APP` / `FeignConstant.BIZ_APP` |
+| `@FeignClient(name = "hgcloud-web-app")` 硬编码服务名 | `FeignConstant.WEB_APP` / `FeignConstant.BIZ_APP` |
 | 重复实现"对象转 JSON 字符串" | `JSONUtil.toJsonStr` |
 
 ## 检查清单
 
 - [ ] 用工具前扫过本表（Common* 优先 → hutool → 官方 → 自写）
 - [ ] 没有引入新工具类依赖（guava/commons-lang3 等）
-- [ ] 自写工具放对了位置（插件 `{p}-func` 的 core/util/，通用的才进 snowy-base/snowy-common）
+- [ ] 自写工具放对了位置（插件 `{p}-func` 的 core/util/，通用的才进 hgcloud-base/hgcloud-common）
 
 ## 参考实现
 
 | 文件 | 说明 |
 |---|---|
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/util/` | 17 个工具类源码 |
-| `snowy-base/snowy-common/src/main/java/vip/xiaonuo/common/consts/` | CacheConstant / FeignConstant / AppConstant |
-| `snowy-plugin/snowy-plugin-auth/snowy-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/service/impl/AuthServiceImpl.java` | 工具类组合使用现场（加密/IP/UA/缓存） |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/util/` | 17 个工具类源码 |
+| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/consts/` | CacheConstant / FeignConstant / AppConstant |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/service/impl/AuthServiceImpl.java` | 工具类组合使用现场（加密/IP/UA/缓存） |

@@ -11,8 +11,8 @@ description: 全量同步代码状态并生成综合报告
 ## 执行步骤
 
 ### 1. 代码全量扫描
-- 业务域枚举与完整度统计（同 /progress 第 1-3 步逻辑；业务域在 `snowy-plugin/snowy-plugin-biz/snowy-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/` 下，以 framework-config.json 的 business.backend.scanRoot 为准）
-- TODO/FIXME 扫描（biz 范围 `snowy-plugin/snowy-plugin-biz/` + 前端 views/biz）
+- 业务域枚举与完整度统计（同 /progress 第 1-3 步逻辑；业务域在 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/` 下，以 framework-config.json 的 business.backend.scanRoot 为准）
+- TODO/FIXME 扫描（biz 范围 `hgcloud-plugin/hgcloud-plugin-biz/` + 前端 views/biz）
 - 规范粗查（@Autowired / @Data / MapstructUtils / TS 残留）
 
 ### 2. git 分析（带降级）
