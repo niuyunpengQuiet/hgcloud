@@ -10,9 +10,9 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="是否允许CAS登录：" name="SNOWY_THIRD_CAS_ALLOW_LOGIN_FLAG">
+					<a-form-item label="是否允许CAS登录：" name="HGCLOUD_THIRD_CAS_ALLOW_LOGIN_FLAG">
 						<a-switch
-							v-model:checked="formData.SNOWY_THIRD_CAS_ALLOW_LOGIN_FLAG"
+							v-model:checked="formData.HGCLOUD_THIRD_CAS_ALLOW_LOGIN_FLAG"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否允许CAS登录"
@@ -22,11 +22,11 @@
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
 						label="CAS认证服务登录地址："
-						name="SNOWY_THIRD_CAS_SERVER_LOGIN_URL"
-						v-if="formData.SNOWY_THIRD_CAS_ALLOW_LOGIN_FLAG"
+						name="HGCLOUD_THIRD_CAS_SERVER_LOGIN_URL"
+						v-if="formData.HGCLOUD_THIRD_CAS_ALLOW_LOGIN_FLAG"
 					>
 						<a-input
-							v-model:value="formData.SNOWY_THIRD_CAS_SERVER_LOGIN_URL"
+							v-model:value="formData.HGCLOUD_THIRD_CAS_SERVER_LOGIN_URL"
 							placeholder="请输入CAS认证服务登录地址"
 						/>
 					</a-form-item>
@@ -34,17 +34,17 @@
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
 						label="CAS认证服务验证地址："
-						name="SNOWY_THIRD_CAS_SERVER_VALIDATE_URL"
-						v-if="formData.SNOWY_THIRD_CAS_ALLOW_LOGIN_FLAG"
+						name="HGCLOUD_THIRD_CAS_SERVER_VALIDATE_URL"
+						v-if="formData.HGCLOUD_THIRD_CAS_ALLOW_LOGIN_FLAG"
 					>
 						<a-input
-							v-model:value="formData.SNOWY_THIRD_CAS_SERVER_VALIDATE_URL"
+							v-model:value="formData.HGCLOUD_THIRD_CAS_SERVER_VALIDATE_URL"
 							placeholder="请输入CAS认证服务验证地址"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item name="SNOWY_THIRD_CAS_SERVER_PROTOCOL_VERSION" v-if="formData.SNOWY_THIRD_CAS_ALLOW_LOGIN_FLAG">
+					<a-form-item name="HGCLOUD_THIRD_CAS_SERVER_PROTOCOL_VERSION" v-if="formData.HGCLOUD_THIRD_CAS_ALLOW_LOGIN_FLAG">
 						<template #label>
 							<a-tooltip>
 								<template #title> 请填写V1或V2或V3 </template>
@@ -53,13 +53,13 @@
 							CAS认证服务协议版本：
 						</template>
 						<a-input
-							v-model:value="formData.SNOWY_THIRD_CAS_SERVER_PROTOCOL_VERSION"
+							v-model:value="formData.HGCLOUD_THIRD_CAS_SERVER_PROTOCOL_VERSION"
 							placeholder="请输入CAS认证服务协议版本"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item name="SNOWY_THIRD_CAS_SERVICE_URL" v-if="formData.SNOWY_THIRD_CAS_ALLOW_LOGIN_FLAG">
+					<a-form-item name="HGCLOUD_THIRD_CAS_SERVICE_URL" v-if="formData.HGCLOUD_THIRD_CAS_ALLOW_LOGIN_FLAG">
 						<template #label>
 							<a-tooltip>
 								<template #title> 请填写{前端地址}/callback/CAS，如http://localhost:81/callback/CAS </template>
@@ -67,11 +67,11 @@
 							</a-tooltip>
 							Service地址：
 						</template>
-						<a-input v-model:value="formData.SNOWY_THIRD_CAS_SERVICE_URL" placeholder="请输入Service地址" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_CAS_SERVICE_URL" placeholder="请输入Service地址" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item name="SNOWY_THIRD_CAS_SOURCE_PROPERTY" v-if="formData.SNOWY_THIRD_CAS_ALLOW_LOGIN_FLAG">
+					<a-form-item name="HGCLOUD_THIRD_CAS_SOURCE_PROPERTY" v-if="formData.HGCLOUD_THIRD_CAS_ALLOW_LOGIN_FLAG">
 						<template #label>
 							<a-tooltip>
 								<template #title> 请填写cas:authenticationFailure标签内的属性，如cas:user </template>
@@ -79,11 +79,11 @@
 							</a-tooltip>
 							关联源属性：
 						</template>
-						<a-input v-model:value="formData.SNOWY_THIRD_CAS_SOURCE_PROPERTY" placeholder="请输入关联源属性" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_CAS_SOURCE_PROPERTY" placeholder="请输入关联源属性" />
 					</a-form-item>
 				</a-col>
 <!--				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item name="SNOWY_THIRD_CAS_TARGET_PROPERTY" v-if="formData.SNOWY_THIRD_CAS_ALLOW_LOGIN_FLAG">
+					<a-form-item name="HGCLOUD_THIRD_CAS_TARGET_PROPERTY" v-if="formData.HGCLOUD_THIRD_CAS_ALLOW_LOGIN_FLAG">
 						<template #label>
 							<a-tooltip>
 								<template #title> 请填写对应本系统字段 </template>
@@ -91,7 +91,7 @@
 							</a-tooltip>
 							关联目标属性：
 						</template>
-						<a-input v-model:value="formData.SNOWY_THIRD_CAS_TARGET_PROPERTY" placeholder="请输入关联目标属性" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_CAS_TARGET_PROPERTY" placeholder="请输入关联目标属性" />
 					</a-form-item>
 				</a-col>-->
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -142,13 +142,13 @@
 	}
 	// 默认要校验的
 	const formRules = {
-		SNOWY_THIRD_CAS_ALLOW_LOGIN_FLAG: [required('请选择是否允许CAS登录')],
-		SNOWY_THIRD_CAS_SERVER_LOGIN_URL: [required('请输入CAS认证服务登录地址')],
-		SNOWY_THIRD_CAS_SERVER_VALIDATE_URL: [required('请输入CAS认证服务验证地址')],
-		SNOWY_THIRD_CAS_SERVER_PROTOCOL_VERSION: [required('请输入CAS认证服务协议版本')],
-		SNOWY_THIRD_CAS_SERVICE_URL: [required('请输入Service地址')],
-		SNOWY_THIRD_CAS_SOURCE_PROPERTY: [required('请输入CAS关联源属性')],
-		SNOWY_THIRD_CAS_TARGET_PROPERTY: [required('请输入CAS关联目标属性')]
+		HGCLOUD_THIRD_CAS_ALLOW_LOGIN_FLAG: [required('请选择是否允许CAS登录')],
+		HGCLOUD_THIRD_CAS_SERVER_LOGIN_URL: [required('请输入CAS认证服务登录地址')],
+		HGCLOUD_THIRD_CAS_SERVER_VALIDATE_URL: [required('请输入CAS认证服务验证地址')],
+		HGCLOUD_THIRD_CAS_SERVER_PROTOCOL_VERSION: [required('请输入CAS认证服务协议版本')],
+		HGCLOUD_THIRD_CAS_SERVICE_URL: [required('请输入Service地址')],
+		HGCLOUD_THIRD_CAS_SOURCE_PROPERTY: [required('请输入CAS关联源属性')],
+		HGCLOUD_THIRD_CAS_TARGET_PROPERTY: [required('请输入CAS关联目标属性')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

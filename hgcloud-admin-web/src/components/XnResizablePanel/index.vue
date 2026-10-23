@@ -188,7 +188,7 @@
 	/* ---- 左侧面板 ---- */
 	.panel-left {
 		overflow: hidden;
-		background: var(--snowy-background-color);
+		background: var(--hgcloud-background-color);
 	}
 
 	.panel-left-animating {
@@ -213,7 +213,7 @@
 	.panel-right {
 		padding: 24px;
 		overflow: auto;
-		background: var(--snowy-background-color);
+		background: var(--hgcloud-background-color);
 		scrollbar-width: none;
 		-ms-overflow-style: none;
 	}

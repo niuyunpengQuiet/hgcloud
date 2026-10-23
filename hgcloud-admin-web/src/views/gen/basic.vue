@@ -111,7 +111,7 @@
 					<a-form-item name="moduleName">
 						<template #label>
 							<a-tooltip>
-								<template #title> 代码模块名就是包名后面的代码包，例如：vip.xiaonuo.*，*代表此模块名。 </template>
+								<template #title> 代码模块名就是包名后面的代码包，例如：com.hgcloud.*，*代表此模块名。 </template>
 								<question-circle-outlined />
 							</a-tooltip>
 							&nbsp; 模块名：
@@ -353,7 +353,7 @@
 				formData.value = {
 					genType: genType || 'TABLE',
 					pluginName: 'hgcloud-plugin-biz',
-					packageName: 'vip.xiaonuo',
+					packageName: 'com.hgcloud',
 					moduleName: 'biz',
 					sortCode: 99,
 					tablePrefix: 'Y',

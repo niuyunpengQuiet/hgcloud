@@ -130,7 +130,7 @@
 	const selectedKeys = ref([module.value])
 	const moduleClick = (id) => {
 		emit('switchModule', id)
-		tool.data.set('SNOWY_MENU_MODULE_ID', id)
+		tool.data.set('HGCLOUD_MENU_MODULE_ID', id)
 		nextTick(() => {
 			setSelectedKeys()
 		})
@@ -159,7 +159,7 @@
 		// 顶部应用列表让显示出来默认的
 		moduleBackColor.value
 			? (selectedKeys.value = new Array([]))
-			: (selectedKeys.value = [tool.data.get('SNOWY_MENU_MODULE_ID')])
+			: (selectedKeys.value = [tool.data.get('HGCLOUD_MENU_MODULE_ID')])
 	}
 </script>
 

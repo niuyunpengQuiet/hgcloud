@@ -6,7 +6,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/snowy-cloud?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&useInformationSchema=true&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost:3306/hgcloud?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&useInformationSchema=true&rewriteBatchedStatements=true
     username: root
     password: 123456
 
@@ -15,14 +15,14 @@ spring:
 #  datasource:
 #    driver-class-name: oracle.jdbc.OracleDriver
 #    url: jdbc:oracle:thin:@localhost:1521:xe
-#    username: SNOWY-CLOUD-ORACLE
+#    username: HGCLOUD-ORACLE
 #    password: 123456
 
 # SQLServer配置
 #spring:
 #  datasource:
 #    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#    url: jdbc:sqlserver://localhost:1433;DatabaseName=snowy-cloud-mssql
+#    url: jdbc:sqlserver://localhost:1433;DatabaseName=hgcloud-mssql
 #    username: sa
 #    password: 123456
 
@@ -30,7 +30,7 @@ spring:
 #spring:
 #  datasource:
 #    driverClassName: org.postgresql.Driver
-#    url: jdbc:postgresql://127.0.0.1:5432/snowy-cloud-postgresql
+#    url: jdbc:postgresql://127.0.0.1:5432/hgcloud-postgresql
 #    username: postgres
 #    password: 123456
 
@@ -46,7 +46,7 @@ spring:
 #spring:
 #  datasource:
 #    driver-class-name: com.kingbase8.Driver
-#    url: jdbc:kingbase8://localhost:54321/snowy-cloud-kingbase
+#    url: jdbc:kingbase8://localhost:54321/hgcloud-kingbase
 #    username: system
 #    password: 123456
 # #人大金仓数据库兼容问题，不需要加在sql语句中加public的解决方法：
@@ -193,7 +193,7 @@ knife4j:
     enableSwaggerModels: false
     enableFooter: false
     enableFooterCustom: true
-    footerCustomContent: Apache License 2.0 | Copyright 2022-[SNOWY](https://www.xiaonuo.vip)
+    footerCustomContent: Apache License 2.0 | Copyright 2022-[HGCLOUD](https://www.xiaonuo.vip)
   # gateway聚合swagger文档
   gateway:
     enabled: true
@@ -204,31 +204,31 @@ knife4j:
      # 指定手动配置的模式(默认为该模式)
     strategy: manual
     routes:
-      - name: SNOWY-PLUGIN-AUTH
-        url: /api/webapp/v3/api-docs/SNOWY-PLUGIN-AUTH
+      - name: HGCLOUD-PLUGIN-AUTH
+        url: /api/webapp/v3/api-docs/HGCLOUD-PLUGIN-AUTH
         service-name: hgcloud-web-app
         context-path: /
-      - name: SNOWY-PLUGIN-BIZ
-        url: /api/bizapp/v3/api-docs/SNOWY-PLUGIN-BIZ
+      - name: HGCLOUD-PLUGIN-BIZ
+        url: /api/bizapp/v3/api-docs/HGCLOUD-PLUGIN-BIZ
         service-name: hgcloud-biz-app
         context-path: /
-      - name: SNOWY-PLUGIN-CLIENT
-        url: /api/bizapp/v3/api-docs/SNOWY-PLUGIN-CLIENT
+      - name: HGCLOUD-PLUGIN-CLIENT
+        url: /api/bizapp/v3/api-docs/HGCLOUD-PLUGIN-CLIENT
         service-name: hgcloud-biz-app
         context-path: /
-      - name: SNOWY-PLUGIN-DEV
-        url: /api/webapp/v3/api-docs/SNOWY-PLUGIN-DEV
+      - name: HGCLOUD-PLUGIN-DEV
+        url: /api/webapp/v3/api-docs/HGCLOUD-PLUGIN-DEV
         service-name: hgcloud-web-app
         context-path: /
-      - name: SNOWY-PLUGIN-GEN
-        url: /api/webapp/v3/api-docs/SNOWY-PLUGIN-GEN
+      - name: HGCLOUD-PLUGIN-GEN
+        url: /api/webapp/v3/api-docs/HGCLOUD-PLUGIN-GEN
         service-name: hgcloud-web-app
         context-path: /
-      - name: SNOWY-PLUGIN-MOBILE
-        url: /api/webapp/v3/api-docs/SNOWY-PLUGIN-MOBILE
+      - name: HGCLOUD-PLUGIN-MOBILE
+        url: /api/webapp/v3/api-docs/HGCLOUD-PLUGIN-MOBILE
         service-name: hgcloud-web-app
         context-path: /
-      - name: SNOWY-PLUGIN-SYS
-        url: /api/webapp/v3/api-docs/SNOWY-PLUGIN-SYS
+      - name: HGCLOUD-PLUGIN-SYS
+        url: /api/webapp/v3/api-docs/HGCLOUD-PLUGIN-SYS
         service-name: hgcloud-web-app
         context-path: /

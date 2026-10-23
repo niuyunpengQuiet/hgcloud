@@ -1,9 +1,9 @@
 ---
 name: file-oss-management
-description: Snowy 文件上传下载与对象存储规范：DevFile 模块多后端上传 API、本地/OSS/COS/MinIO 配置、前端 XnUpload/CropUpload 组件联动；微服务版文件能力在 web-app，biz-app 经 Feign 调用。触发场景：1) 业务需要上传文件/图片/附件 2) 下载或预览文件 3) 配置或切换文件存储后端 4) biz-app 后端要存文件、上传经网关 404。触发词：文件上传、上传、下载、OSS、MinIO、阿里云、腾讯云、对象存储、XnUpload、附件、文件预览、DEV_FILE、file-url、DevFileApi、Feign 上传、跨服务文件。
+description: Hgcloud 文件上传下载与对象存储规范：DevFile 模块多后端上传 API、本地/OSS/COS/MinIO 配置、前端 XnUpload/CropUpload 组件联动；微服务版文件能力在 web-app，biz-app 经 Feign 调用。触发场景：1) 业务需要上传文件/图片/附件 2) 下载或预览文件 3) 配置或切换文件存储后端 4) biz-app 后端要存文件、上传经网关 404。触发词：文件上传、上传、下载、OSS、MinIO、阿里云、腾讯云、对象存储、XnUpload、附件、文件预览、DEV_FILE、file-url、DevFileApi、Feign 上传、跨服务文件。
 ---
 
-# Snowy 文件管理规范
+# Hgcloud 文件管理规范
 
 ## 架构
 
@@ -29,7 +29,7 @@ description: Snowy 文件上传下载与对象存储规范：DevFile 模块多�
 
 **返回 id 还是 Url**：需要后续管理/鉴权（可撤销、可追踪）→ 存 id（String 落业务表）；仅需展示 → Url。**推荐业务表存 id**（形如 `avatar`、`imageId` 字段），展示时经文件接口换 URL，可防直链失效。
 
-**下载地址怎么拼**：DevFileServiceImpl 用 Nacos `hgcloud-web-app-dev.yaml` 的 `snowy.config.common.file-url`（出厂 `http://localhost:9003/api/webapp`，即走网关）拼 `/dev/file/download?id=…&sign=…` 或 `/dev/file/authDownload?id=…&token=`；部署时要改成真实网关地址，否则返回的 URL 不可用。
+**下载地址怎么拼**：DevFileServiceImpl 用 Nacos `hgcloud-web-app-dev.yaml` 的 `hgcloud.config.common.file-url`（出厂 `http://localhost:9003/api/webapp`，即走网关）拼 `/dev/file/download?id=…&sign=…` 或 `/dev/file/authDownload?id=…&token=`；部署时要改成真实网关地址，否则返回的 URL 不可用。
 
 ## 业务代码用法
 
@@ -58,10 +58,10 @@ private DevFileApi devFileApi;      // biz-app 中实际是 DevFileApiContextBea
 
 ## 存储后端配置
 
-- 本地/各云的连接参数：存 DEV_CONFIG（`SNOWY_FILE_*` 键，界面：开发工具 → 系统配置 → 文件配置），默认引擎键 `SNOWY_SYS_DEFAULT_FILE_ENGINE`；Nacos 里没有存储连接参数
+- 本地/各云的连接参数：存 DEV_CONFIG（`HGCLOUD_FILE_*` 键，界面：开发工具 → 系统配置 → 文件配置），默认引擎键 `HGCLOUD_SYS_DEFAULT_FILE_ENGINE`；Nacos 里没有存储连接参数
 - 切换默认后端：系统配置界面修改；改配置后无需重启（动态）
 - 上传大小限制：Nacos 各服务配置的 `spring.servlet.multipart.max-file-size: 100MB`（web-app、biz-app 都有）
-- 本地存储目录在 web-app 所在机器（`SNOWY_FILE_LOCAL_FOLDER_FOR_WINDOWS / _FOR_UNIX`），web-app 多实例部署时本地存储不共享（推导），宜用对象存储
+- 本地存储目录在 web-app 所在机器（`HGCLOUD_FILE_LOCAL_FOLDER_FOR_WINDOWS / _FOR_UNIX`），web-app 多实例部署时本地存储不共享（推导），宜用对象存储
 
 ## 常见错误正误对照
 
@@ -82,17 +82,17 @@ private DevFileApi devFileApi;      // biz-app 中实际是 DevFileApiContextBea
 - [ ] 前端用 XnUpload（头像用 CropUpload），自定义上传地址已做 convertUrl
 - [ ] 涉及私有文件的下载用 authDownload（鉴权）
 - [ ] 上传格式/大小有约束（图片接口自动校验图片）
-- [ ] Nacos 的 `snowy.config.common.file-url` 指向实际可访问的网关地址
+- [ ] Nacos 的 `hgcloud.config.common.file-url` 指向实际可访问的网关地址
 
 ## 参考实现
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/file/controller/DevFileController.java` | 全部上传/下载 API |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/file/service/impl/DevFileServiceImpl.java` | 存储逻辑（含 file-url 拼下载地址） |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevFileApi.java` | 跨插件/跨服务文件接口 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-feign/src/main/java/vip/xiaonuo/dev/feign/DevFileFeign.java` | 文件 Feign 接口（biz-app 调用链） |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/DevFileApiContextBean.java` | biz-app 侧 DevFileApi 远程代理 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/file/controller/DevFileController.java` | 全部上传/下载 API |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/file/service/impl/DevFileServiceImpl.java` | 存储逻辑（含 file-url 拼下载地址） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/com/hgcloud/dev/api/DevFileApi.java` | 跨插件/跨服务文件接口 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-feign/src/main/java/com/hgcloud/dev/feign/DevFileFeign.java` | 文件 Feign 接口（biz-app 调用链） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/com/hgcloud/dev/api/context/DevFileApiContextBean.java` | biz-app 侧 DevFileApi 远程代理 |
 | `hgcloud-modules/hgcloud-biz-app/pom.xml` | biz-app 排除 x-file-storage-spring 的位置 |
 | `hgcloud-admin-web/src/components/XnUpload/` | 上传组件（含 README） |
 | `hgcloud-admin-web/src/components/CropUpload/` | 裁剪上传组件 |

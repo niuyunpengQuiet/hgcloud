@@ -194,7 +194,7 @@
 				if (module) {
 					pMenu.value = module
 					// 如果模块不同，切换模块
-					const currentModuleId = tool.data.get('SNOWY_MENU_MODULE_ID')
+					const currentModuleId = tool.data.get('HGCLOUD_MENU_MODULE_ID')
 					if (module.id !== currentModuleId) {
 						tagSwitchModule(module.id)
 					}
@@ -250,7 +250,7 @@
 		// 执行-start
 		moduleMenu.value = router.getMenu()
 		// 获取缓存中的菜单模块是哪个
-		const menuModuleId = tool.data.get('SNOWY_MENU_MODULE_ID')
+		const menuModuleId = tool.data.get('HGCLOUD_MENU_MODULE_ID')
 		if (menuModuleId) {
 			// 防止切换一个无此应用的人
 			const module = router.getMenu().filter((item) => item.id === menuModuleId)
@@ -462,15 +462,15 @@
 		settingTopHeaderThemeOrColor(theme.value, layout.value)
 	})
 	watch(topHeaderThemeColorOpen, (newValue) => {
-		const header = document.getElementById('snowyHeader')
+		const header = document.getElementById('hgcloudHeader')
 		const topHeaderMenu = document.getElementById('topHeaderMenu')
 		if (layout.value === layoutEnum.TOP) {
 			if (newValue) {
-				header?.classList.add('top-snowy-header-layout')
-				topHeaderMenu?.classList.add('top-snowy-header-layout')
+				header?.classList.add('top-hgcloud-header-layout')
+				topHeaderMenu?.classList.add('top-hgcloud-header-layout')
 			} else {
-				header?.classList.remove('top-snowy-header-layout')
-				topHeaderMenu?.classList.remove('top-snowy-header-layout')
+				header?.classList.remove('top-hgcloud-header-layout')
+				topHeaderMenu?.classList.remove('top-hgcloud-header-layout')
 			}
 		}
 	})
@@ -481,7 +481,7 @@
 	const settingFixedWidth = () => {
 		nextTick(() => {
 			const breadcrumbWidth = document.querySelector('.admin-ui-breadcrumb')
-			const showWidth = document.querySelector('.snowy-tags')
+			const showWidth = document.querySelector('.hgcloud-tags')
 			const mainWidth = document.querySelector('.ant-layout-content')
 			if (fixedWidth.value && layout.value === layoutEnum.TOP) {
 				breadcrumbWidth?.classList.add('xn-mg050')
@@ -497,32 +497,32 @@
 
 	// 设置顶栏颜色或者主题
 	const settingTopHeaderThemeOrColor = (theme, layout) => {
-		const header = document.getElementById('snowyHeader')
+		const header = document.getElementById('hgcloudHeader')
 		const topHeaderMenu = document.getElementById('topHeaderMenu')
 
 		if (topHeaderThemeColorOpen.value && layout === layoutEnum.TOP) {
 			nextTick(() => {
-				topHeaderMenu?.classList.add('top-snowy-header-layout')
-				header?.classList.add('top-snowy-header-layout')
+				topHeaderMenu?.classList.add('top-hgcloud-header-layout')
+				header?.classList.add('top-hgcloud-header-layout')
 			})
 		} else if (!topHeaderThemeColorOpen.value && layout === layoutEnum.TOP) {
 			nextTick(() => {
-				topHeaderMenu?.classList.remove('top-snowy-header-layout')
-				header?.classList.remove('top-snowy-header-layout')
+				topHeaderMenu?.classList.remove('top-hgcloud-header-layout')
+				header?.classList.remove('top-hgcloud-header-layout')
 			})
 		}
 		if (theme === themeEnum.LIGHT && layout === layoutEnum.TOP) {
-			header?.classList.remove('top-snowy-header')
-			header?.classList.add('top-snowy-header-light')
+			header?.classList.remove('top-hgcloud-header')
+			header?.classList.add('top-hgcloud-header-light')
 		} else {
-			header?.classList.remove('top-snowy-header-light')
+			header?.classList.remove('top-hgcloud-header-light')
 			if (layout === layoutEnum.TOP) {
-				header?.classList.add('top-snowy-header')
+				header?.classList.add('top-hgcloud-header')
 			} else {
 				if (theme === themeEnum.REAL_DARK) {
-					header?.classList.add('top-snowy-header')
+					header?.classList.add('top-hgcloud-header')
 				} else {
-					header?.classList.remove('top-snowy-header')
+					header?.classList.remove('top-hgcloud-header')
 				}
 			}
 		}
@@ -534,15 +534,15 @@
 	const switchoverTopHeaderThemeColor = () => {
 		try {
 			// 界面顶栏设置颜色
-			const header = document.getElementById('snowyHeader')
+			const header = document.getElementById('hgcloudHeader')
 			topHeaderThemeColorOpen.value
-				? header.classList.add('snowy-header-primary-color')
-				: header.classList.remove('snowy-header-primary-color')
+				? header.classList.add('hgcloud-header-primary-color')
+				: header.classList.remove('hgcloud-header-primary-color')
 			// 判断是否开启了通栏
-			const headerLogin = document.getElementById('snowyHeaderLogo')
+			const headerLogin = document.getElementById('hgcloudHeaderLogo')
 			topHeaderThemeColorSpread.value
-				? headerLogin.classList.add('snowy-header-logo-primary-color')
-				: headerLogin.classList.remove('snowy-header-logo-primary-color')
+				? headerLogin.classList.add('hgcloud-header-logo-primary-color')
+				: headerLogin.classList.remove('hgcloud-header-logo-primary-color')
 			// eslint-disable-next-line no-empty
 		} catch (e) {}
 	}
@@ -665,7 +665,7 @@
 					window.open(path)
 				} else {
 					// 将此模块的唯一值加入缓存
-					tool.data.set('SNOWY_MENU_MODULE_ID', id)
+					tool.data.set('HGCLOUD_MENU_MODULE_ID', id)
 					// 然后将其跳转至指定界面，默认始终取排序第一的
 					router.push({ path })
 				}
@@ -678,7 +678,7 @@
 	// 通过标签切换应用
 	const tagSwitchModule = (id) => {
 		// 将此模块的唯一值加入缓存
-		tool.data.set('SNOWY_MENU_MODULE_ID', id)
+		tool.data.set('HGCLOUD_MENU_MODULE_ID', id)
 		store.setModule(id)
 		// 正儿八百的菜单
 		menu.value = moduleMenu.value.filter((item) => item.id === id)[0].children

@@ -10,27 +10,27 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="阿里云密钥ID：" name="SNOWY_FILE_ALIYUN_ACCESS_KEY_ID">
-						<a-input v-model:value="formData.SNOWY_FILE_ALIYUN_ACCESS_KEY_ID" placeholder="请输入阿里云密钥ID" />
+					<a-form-item label="阿里云密钥ID：" name="HGCLOUD_FILE_ALIYUN_ACCESS_KEY_ID">
+						<a-input v-model:value="formData.HGCLOUD_FILE_ALIYUN_ACCESS_KEY_ID" placeholder="请输入阿里云密钥ID" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="阿里云密钥SECRET：" name="SNOWY_FILE_ALIYUN_ACCESS_KEY_SECRET">
+					<a-form-item label="阿里云密钥SECRET：" name="HGCLOUD_FILE_ALIYUN_ACCESS_KEY_SECRET">
 						<a-input
-							v-model:value="formData.SNOWY_FILE_ALIYUN_ACCESS_KEY_SECRET"
+							v-model:value="formData.HGCLOUD_FILE_ALIYUN_ACCESS_KEY_SECRET"
 							placeholder="请输入阿里云密钥SECRET"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="阿里云文件端点：" name="SNOWY_FILE_ALIYUN_END_POINT">
-						<a-input v-model:value="formData.SNOWY_FILE_ALIYUN_END_POINT" placeholder="请输入阿里云文件端点" />
+					<a-form-item label="阿里云文件端点：" name="HGCLOUD_FILE_ALIYUN_END_POINT">
+						<a-input v-model:value="formData.HGCLOUD_FILE_ALIYUN_END_POINT" placeholder="请输入阿里云文件端点" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="阿里云默认储存桶：" name="SNOWY_FILE_ALIYUN_DEFAULT_BUCKET_NAME">
+					<a-form-item label="阿里云默认储存桶：" name="HGCLOUD_FILE_ALIYUN_DEFAULT_BUCKET_NAME">
 						<a-input
-							v-model:value="formData.SNOWY_FILE_ALIYUN_DEFAULT_BUCKET_NAME"
+							v-model:value="formData.HGCLOUD_FILE_ALIYUN_DEFAULT_BUCKET_NAME"
 							placeholder="请输入阿里云默认储存桶"
 						/>
 					</a-form-item>
@@ -76,10 +76,10 @@
 
 	// 默认要校验的
 	const formRules = {
-		SNOWY_FILE_ALIYUN_ACCESS_KEY_ID: [required('请输入阿里云密钥ID')],
-		SNOWY_FILE_ALIYUN_ACCESS_KEY_SECRET: [required('请输入阿里云密钥SECRET')],
-		SNOWY_FILE_ALIYUN_END_POINT: [required('请输入阿里云文件端点')],
-		SNOWY_FILE_ALIYUN_DEFAULT_BUCKET_NAME: [required('请输入阿里云默认储存桶')]
+		HGCLOUD_FILE_ALIYUN_ACCESS_KEY_ID: [required('请输入阿里云密钥ID')],
+		HGCLOUD_FILE_ALIYUN_ACCESS_KEY_SECRET: [required('请输入阿里云密钥SECRET')],
+		HGCLOUD_FILE_ALIYUN_END_POINT: [required('请输入阿里云文件端点')],
+		HGCLOUD_FILE_ALIYUN_DEFAULT_BUCKET_NAME: [required('请输入阿里云默认储存桶')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

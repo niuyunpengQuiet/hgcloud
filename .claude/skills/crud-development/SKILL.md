@@ -1,15 +1,15 @@
 ---
 name: crud-development
-description: Snowy CRUD 全套开发规范（六件套 + 可选两件 + 前端三件）。触发场景：1) 开发新的业务模块/增删改查功能 2) 编写 Entity/Mapper/Service/Controller/Param/Result 任何一件 3) 仿照现有模块新建业务域。触发词：CRUD、增删改查、业务模块、新建模块、Entity、Service、Controller、Param、分页、六件套、biz-func、网关路径、feign、跨服务。注意：只讲"怎么写代码"；建表/菜单 SQL 见 database-ops；接口设计细节见 api-development；用自带生成器见 code-generator。
+description: Hgcloud CRUD 全套开发规范（六件套 + 可选两件 + 前端三件）。触发场景：1) 开发新的业务模块/增删改查功能 2) 编写 Entity/Mapper/Service/Controller/Param/Result 任何一件 3) 仿照现有模块新建业务域。触发词：CRUD、增删改查、业务模块、新建模块、Entity、Service、Controller、Param、分页、六件套、biz-func、网关路径、feign、跨服务。注意：只讲"怎么写代码"；建表/菜单 SQL 见 database-ops；接口设计细节见 api-development；用自带生成器见 code-generator。
 ---
 
-# Snowy CRUD 开发规范
+# Hgcloud CRUD 开发规范
 
 ## 架构特征表（先背下来再写代码）
 
-| 特征 | Snowy 约定 | 与同类快速开发框架相反点 |
+| 特征 | Hgcloud 约定 | 与同类快速开发框架相反点 |
 |---|---|---|
-| 包名 | `vip.xiaonuo.biz.modular.{域名}.{层}` | 不是其他脚手架的 org.* / com.* 包名 |
+| 包名 | `com.hgcloud.biz.modular.{域名}.{层}` | 不是其他脚手架的 org.* / com.* 包名 |
 | 依赖注入 | `@Resource`（jakarta.annotation）字段注入 | ❌@Autowired ❌构造器注入 |
 | ServiceImpl | `extends ServiceImpl<XxxMapper, Xxx> implements XxxService` | ❌只 implements 不继承 |
 | 对象转换 | Hutool `BeanUtil.toBean / copyProperties` | ❌MapstructUtils |
@@ -26,21 +26,21 @@ description: Snowy CRUD 全套开发规范（六件套 + 可选两件 + 前端�
 /*
  * Copyright [2022] [https://www.xiaonuo.vip]
  *
- * Snowy采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ * Hgcloud采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *
  * 1.请不要删除和修改根目录下的LICENSE文件。
- * 2.请不要删除和修改Snowy源码头部的版权声明。
+ * 2.请不要删除和修改Hgcloud源码头部的版权声明。
  * 3.本项目代码可免费商业使用，商业使用请保留源码和相关描述文件的项目出处，作者声明等。
  * 4.分发源码时候，请注明软件出处 https://www.xiaonuo.vip
  * 5.不可二次分发开源参与同类竞品，如有想法可联系团队xiaonuobase@qq.com商议合作。
- * 6.若您的项目无法满足以上几点，需要更多功能代码，获取Snowy商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
+ * 6.若您的项目无法满足以上几点，需要更多功能代码，获取Hgcloud商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
  */
 ```
 
 ## 目录结构（一个业务域 = modular 下一个目录）
 
 ```
-hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/{域名}/
+hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/{域名}/
 ├── controller/XxxController.java
 ├── entity/Xxx.java
 ├── enums/XxxStatusEnum.java          （可选，有状态字段时）
@@ -60,7 +60,7 @@ hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiao
 
 ## 微服务要点：运行位置、访问路径、要不要 feign 化
 
-**运行位置**：`hgcloud-plugin-biz-func` 只装配在 `hgcloud-biz-app`（9102）。在 biz-func 里新增一个业务域**不需要改任何 pom、网关路由、Knife4j 配置或前端前缀映射**——网关已有 `/api/bizapp/**` 路由，Knife4j 的 BIZ 分组扫描整个 `vip.xiaonuo.biz` 包，前端 apiAdaptive.js 已把 `/biz/` 映射到 `/api/bizapp`。
+**运行位置**：`hgcloud-plugin-biz-func` 只装配在 `hgcloud-biz-app`（9102）。在 biz-func 里新增一个业务域**不需要改任何 pom、网关路由、Knife4j 配置或前端前缀映射**——网关已有 `/api/bizapp/**` 路由，Knife4j 的 BIZ 分组扫描整个 `com.hgcloud.biz` 包，前端 apiAdaptive.js 已把 `/biz/` 映射到 `/api/bizapp`。
 
 **同一个接口的三种路径**：
 
@@ -72,9 +72,9 @@ hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiao
 
 **要不要 feign 化**：只有当**其他服务**（如 web-app 里的 sys/dev/auth）需要调用本域能力时才做；只给前端用、只在 biz-app 内部用的域**不做**。需要时按现有五段式补齐并装配（范本：机构主管转移 BizOrgDirectorTransfer 一组）：
 
-1. `hgcloud-plugin-biz-api`：`vip.xiaonuo.biz.api.BizXxxApi` 接口，返回 `JSONObject` / `List<JSONObject>` / `Page<JSONObject>` / `String` / 基本类型，不返回 Entity
+1. `hgcloud-plugin-biz-api`：`com.hgcloud.biz.api.BizXxxApi` 接口，返回 `JSONObject` / `List<JSONObject>` / `Page<JSONObject>` / `String` / 基本类型，不返回 Entity
 2. `hgcloud-plugin-biz-func`：`modular/{域名}/provider/BizXxxApiProvider`（@Service implements BizXxxApi）
-3. `hgcloud-plugin-biz-feign`：`vip.xiaonuo.biz.feign.BizXxxFeign`，`@FeignClient(name = FeignConstant.BIZ_APP, contextId = "BizXxxFeign")`，路径 `/feign/biz/{域名}/{方法}`，复杂返回值用 String（JSON）
+3. `hgcloud-plugin-biz-feign`：`com.hgcloud.biz.feign.BizXxxFeign`，`@FeignClient(name = FeignConstant.BIZ_APP, contextId = "BizXxxFeign")`，路径 `/feign/biz/{域名}/{方法}`，复杂返回值用 String（JSON）
 4. `hgcloud-plugin-biz-feign-provider`：`@RestController implements BizXxxFeign`，转调 BizXxxApi，结果 `JSONUtil.toJsonStr`
 5. `hgcloud-plugin-biz-api-context`：`@Component implements BizXxxApi`，内部调 Feign 再用 JSONUtil 解析（调用方使用的远程代理）
 6. 装配：biz-app 的 pom 加 `hgcloud-plugin-biz-feign-provider`；调用方应用的 pom 加 `hgcloud-plugin-biz-feign` + `hgcloud-plugin-biz-api-context`；调用方业务代码仍只注入 `BizXxxApi`
@@ -306,11 +306,11 @@ public class BizXxxIdParam {
 接口前缀映射：`src/utils/apiAdaptive.js`（`src/config/index.js` 里 `CLOUD_SERVER: true` 时生效）在 `baseRequest` 里把 `/biz/` 开头的地址转成 `/api/bizapp/biz/...`，`/sys/` `/auth/` `/client/` `/dev/` `/gen/` `/mobile/` 转成 `/api/webapp/...`，再拼上 `VITE_API_BASEURL`（网关 `http://localhost:9003`）。新业务域沿用 `/biz/` 前缀即可，无需改映射。
 
 > ⚠️ 注意：映射用 `indexOf` 包含匹配、按数组顺序取第一个命中，`/biz/` 排在最后。业务域名**不要**取 `sys`、`auth`、`client`、`dev`、`gen`、`mobile`——例如 `/biz/dev/page` 会先命中 `/dev/` 被转到 `/api/webapp`，经网关 404。
-> 新的 URL 前缀（不是 `/biz/` 开头）：必须在 apiAdaptive.js 登记到对应服务的网关前缀，否则请求不带 `/api/xxxapp`、经网关 404；代码包不在 `vip.xiaonuo.biz` 下时，还要在该服务的 Nacos 配置加 springdoc 分组、在网关 Nacos 配置加 Knife4j 聚合路由；新建一个应用则另需网关路由（`/api/xxxapp/**`，StripPrefix=2）。
+> 新的 URL 前缀（不是 `/biz/` 开头）：必须在 apiAdaptive.js 登记到对应服务的网关前缀，否则请求不带 `/api/xxxapp`、经网关 404；代码包不在 `com.hgcloud.biz` 下时，还要在该服务的 Nacos 配置加 springdoc 分组、在网关 Nacos 配置加 Knife4j 聚合路由；新建一个应用则另需网关路由（`/api/xxxapp/**`，StripPrefix=2）。
 
 ## 常见错误正误对照
 
-| ❌ 错误（同类框架惯性） | ✅ 正确（Snowy） |
+| ❌ 错误（同类框架惯性） | ✅ 正确（Hgcloud） |
 |---|---|
 | `@Autowired private XxxService x;` | `@Resource private XxxService x;` |
 | `public class XxxServiceImpl implements IXxxService` | `extends ServiceImpl<XxxMapper, Xxx> implements XxxService` |
@@ -327,7 +327,7 @@ public class BizXxxIdParam {
 ## 检查清单（写完自查）
 
 - [ ] 每个 .java 有 12 行版权头
-- [ ] 文件落在 `hgcloud-plugin-biz-func` 下；包名 `vip.xiaonuo.biz.modular.xxx.*`，类名 Biz 前缀
+- [ ] 文件落在 `hgcloud-plugin-biz-func` 下；包名 `com.hgcloud.biz.modular.xxx.*`，类名 Biz 前缀
 - [ ] Entity 继承 CommonEntity，@TableName 大写，@TableId String
 - [ ] ServiceImpl extends ServiceImpl 且写方法有 @Transactional(rollbackFor = Exception.class)
 - [ ] 查询 QueryWrapper 带 checkSqlInjection()，条件全部判空
@@ -341,15 +341,15 @@ public class BizXxxIdParam {
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/notice/` | 最干净完整的六件套范本（entity/mapper/service/impl/controller/param 全有，另含 provider） |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/vip/xiaonuo/sys/modular/user/controller/SysUserController.java` | 复杂版 Controller（含导出/禁用启用） |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/vip/xiaonuo/sys/modular/user/service/impl/SysUserServiceImpl.java` | 复杂版 ServiceImpl（含 SM4 字段/事务/重复校验） |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/page/CommonPageRequest.java` | 分页请求构造 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/enums/CommonSortOrderEnum.java` | 排序枚举 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/pojo/CommonEntity.java` | 实体基类（审计字段） |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-feign/src/main/java/vip/xiaonuo/biz/feign/BizOrgDirectorTransferFeign.java` | biz 侧 Feign 接口范本（`FeignConstant.BIZ_APP`、`/feign/biz/...`） |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-feign-provider/src/main/java/vip/xiaonuo/biz/feign/provider/transfer/BizOrgDirectorTransferFeignProvider.java` | Feign 服务端实现范本 |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-api-context/src/main/java/vip/xiaonuo/biz/api/context/transfer/BizOrgDirectorTransferApiContextBean.java` | 调用方远程代理范本 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/src/main/java/vip/xiaonuo/sys/api/context/SysUserApiContextBean.java` | biz-app 调 web-app 的真实代理（BizUserServiceImpl → SysUserApi → 本类 → SysUserFeign） |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/consts/FeignConstant.java` | Feign 服务名常量（WEB_APP / BIZ_APP） |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/` | 最干净完整的六件套范本（entity/mapper/service/impl/controller/param 全有，另含 provider） |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/controller/SysUserController.java` | 复杂版 Controller（含导出/禁用启用） |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/service/impl/SysUserServiceImpl.java` | 复杂版 ServiceImpl（含 SM4 字段/事务/重复校验） |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/page/CommonPageRequest.java` | 分页请求构造 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/enums/CommonSortOrderEnum.java` | 排序枚举 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/pojo/CommonEntity.java` | 实体基类（审计字段） |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-feign/src/main/java/com/hgcloud/biz/feign/BizOrgDirectorTransferFeign.java` | biz 侧 Feign 接口范本（`FeignConstant.BIZ_APP`、`/feign/biz/...`） |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-feign-provider/src/main/java/com/hgcloud/biz/feign/provider/transfer/BizOrgDirectorTransferFeignProvider.java` | Feign 服务端实现范本 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-api-context/src/main/java/com/hgcloud/biz/api/context/transfer/BizOrgDirectorTransferApiContextBean.java` | 调用方远程代理范本 |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/src/main/java/com/hgcloud/sys/api/context/SysUserApiContextBean.java` | biz-app 调 web-app 的真实代理（BizUserServiceImpl → SysUserApi → 本类 → SysUserFeign） |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/consts/FeignConstant.java` | Feign 服务名常量（WEB_APP / BIZ_APP） |
 | `hgcloud-admin-web/src/utils/apiAdaptive.js` | 前端接口前缀 → 网关前缀映射 |

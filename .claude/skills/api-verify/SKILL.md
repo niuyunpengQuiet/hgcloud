@@ -18,11 +18,11 @@ curl -s http://localhost:9003/api/webapp/dev/config/sysBaseList   # 经网关的
 
 ## 第 2 步：生成 SM2 登录密文（后端强制 SM2，明文会 PWD_DECRYPT_ERROR）
 
-登录口令必须先用**出厂公钥**做 SM2 加密（公钥硬编码在 `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/util/CommonCryptogramUtil.java` 的 `PUBLIC_KEY`，前端 `hgcloud-admin-web/src/utils/smCrypto.js` 是同一把）。在**仓库根目录**用一条 node 命令产出：
+登录口令必须先用**出厂公钥**做 SM2 加密（公钥硬编码在 `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/util/CommonCryptogramUtil.java` 的 `PUBLIC_KEY`，前端 `hgcloud-admin-web/src/utils/smCrypto.js` 是同一把）。在**仓库根目录**用一条 node 命令产出：
 
 ```bash
 # 密文是随机的，每次生成都不同——正常
-node -e "const s=require('./hgcloud-admin-web/node_modules/sm-crypto');console.log(s.sm2.doEncrypt('Snowy@2026!','04298364ec840088475eae92a591e01284d1abefcda348b47eb324bb521bb03b0b2a5bc393f6b71dabb8f15c99a0050818b56b23f31743b93df9cf8948f15ddb54',1))"
+node -e "const s=require('./hgcloud-admin-web/node_modules/sm-crypto');console.log(s.sm2.doEncrypt('Hgcloud@2026!','04298364ec840088475eae92a591e01284d1abefcda348b47eb324bb521bb03b0b2a5bc393f6b71dabb8f15c99a0050818b56b23f31743b93df9cf8948f15ddb54',1))"
 ```
 
 依赖：`hgcloud-admin-web/node_modules/sm-crypto`（前端执行过 npm install 即有；没有则先装，或临时 `npm i sm-crypto --registry=https://registry.npmmirror.com` 到任意目录）。require 路径必须带 `./`（不带会被 node 当成包名解析而失败）。cipherMode=1（C1C3C2），与前端 smCrypto.js 一致。
@@ -36,12 +36,12 @@ RESP=$(curl -s -X POST http://localhost:9003/api/webapp/auth/b/doLogin \
   -d '{"account":"superAdmin","password":"<上一步的SM2密文>","device":"PC"}')   # device 只接受 PC / APP / MINI，省略时默认 PC
 echo "$RESP"
 # 成功：{"code":200,"data":"<token字符串>",...}（doLogin 返回 CommonResult<String>，data 就是 token）
-# 账密错：code!=200 且 msg 提示账号或密码错误（核对 Snowy@2026! 与密文重生成）
+# 账密错：code!=200 且 msg 提示账号或密码错误（核对 Hgcloud@2026! 与密文重生成）
 ```
 
 取 token：`TOKEN=$(echo "$RESP" | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const j=JSON.parse(d);console.log(j.data||'')})")`
 
-> 若系统开启了图形验证码（DEV_CONFIG 可配），doLogin 还需 validCode/validCodeReqNo——此时改用网关聚合文档 `http://localhost:9003/doc.html`（basic 认证 snowyAdmin/Snowy@2026!）手动调试，或让用户从浏览器复制 token（请求头名就是 `token`）。
+> 若系统开启了图形验证码（DEV_CONFIG 可配），doLogin 还需 validCode/validCodeReqNo——此时改用网关聚合文档 `http://localhost:9003/doc.html`（basic 认证 hgcloudAdmin/Hgcloud@2026!）手动调试，或让用户从浏览器复制 token（请求头名就是 `token`）。
 > 登录会话写在 Redis（database 1），网关与 biz-app 都从同一个 Redis 读会话，所以一个 token 可同时调 /api/webapp 和 /api/bizapp 下的接口。
 
 ## 第 4 步：调目标接口并断言
@@ -84,9 +84,9 @@ curl -s "http://localhost:9102/biz/xxx/page?current=1&size=10" -H "token: $TOKEN
 | POST /api/bizapp/biz/xxx/add（缺name） | ✅ 按预期拦截 | "name不能为空" |
 ```
 
-有条件时用 mysql 复核落库（业务库 `snowy-cloud`；连接信息从 Nacos 配置 `hgcloud-biz-app-dev.yaml` 的数据源段解析）：
+有条件时用 mysql 复核落库（业务库 `hgcloud`；连接信息从 Nacos 配置 `hgcloud-biz-app-dev.yaml` 的数据源段解析）：
 ```bash
-mysql -uroot -p*** snowy-cloud -e "SELECT ID,NAME,DELETE_FLAG FROM BIZ_XXX ORDER BY CREATE_TIME DESC LIMIT 3;"
+mysql -uroot -p*** hgcloud -e "SELECT ID,NAME,DELETE_FLAG FROM BIZ_XXX ORDER BY CREATE_TIME DESC LIMIT 3;"
 ```
 
 ## 使用原则
@@ -101,10 +101,10 @@ mysql -uroot -p*** snowy-cloud -e "SELECT ID,NAME,DELETE_FLAG FROM BIZ_XXX ORDER
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/controller/AuthController.java` | /auth/b/doLogin 定义（运行在 web-app） |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/service/impl/AuthServiceImpl.java` | SM2 解密 + SM3 比对、device 校验 |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/enums/AuthDeviceTypeEnum.java` | device 取值 PC / APP / MINI |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/util/CommonCryptogramUtil.java` | SM2 公钥与加解密 |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/modular/login/controller/AuthController.java` | /auth/b/doLogin 定义（运行在 web-app） |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/modular/login/service/impl/AuthServiceImpl.java` | SM2 解密 + SM3 比对、device 校验 |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/modular/login/enums/AuthDeviceTypeEnum.java` | device 取值 PC / APP / MINI |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/util/CommonCryptogramUtil.java` | SM2 公钥与加解密 |
 | `hgcloud-admin-web/src/utils/smCrypto.js` | 前端同款加密（cipherMode=1） |
 | `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | 网关鉴权与免登录名单（带 /api/webapp、/api/bizapp 前缀） |
 | `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-gateway-app-dev.yaml` | 网关路由（StripPrefix=2）、Knife4j 聚合与 basic 认证 |

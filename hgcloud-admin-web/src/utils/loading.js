@@ -13,7 +13,7 @@ export const NextLoading = {
 		const body = document.body
 		const div = document.createElement('div')
 		div.setAttribute('class', 'admin-ui')
-		const sysName = sysConfig.SYS_BASE_CONFIG.SNOWY_SYS_NAME
+		const sysName = sysConfig.SYS_BASE_CONFIG.HGCLOUD_SYS_NAME
 		const htmlBefore = `
 			  <div class="app-loading">
 				<div class="app-loading-logo">

@@ -1,6 +1,6 @@
 <template>
 	<a-card :title="title" :bordered="false">
-		<a-carousel class="snowy-right-card-one" autoplay arrows>
+		<a-carousel class="hgcloud-right-card-one" autoplay arrows>
 			<template #prevArrow>
 				<div class="custom-slick-arrow" style="left: 10px; z-index: 1">
 					<LeftOutlined />
@@ -79,7 +79,7 @@
 		width: 100%;
 		cursor: pointer;
 	}
-	.snowy-right-card-one {
+	.hgcloud-right-card-one {
 		height: 180px;
 	}
 	.ant-carousel :deep(.slick-slide) {

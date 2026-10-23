@@ -1,12 +1,12 @@
 /**
  *  Copyright [2022] [https://www.xiaonuo.vip]
- *	Snowy采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ *	Hgcloud采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *	1.请不要删除和修改根目录下的LICENSE文件。
- *	2.请不要删除和修改Snowy源码头部的版权声明。
+ *	2.请不要删除和修改Hgcloud源码头部的版权声明。
  *	3.本项目代码可免费商业使用，商业使用请保留源码和相关描述文件的项目出处，作者声明等。
  *	4.分发源码时候，请注明软件出处 https://www.xiaonuo.vip
  *	5.不可二次分发开源参与同类竞品，如有想法可联系团队xiaonuobase@qq.com商议合作。
- *	6.若您的项目无法满足以上几点，需要更多功能代码，获取Snowy商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
+ *	6.若您的项目无法满足以上几点，需要更多功能代码，获取Hgcloud商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
  */
 import { defineStore } from 'pinia'
 import { changeColor } from '@/utils/themeUtil'
@@ -33,45 +33,45 @@ export const globalStore = defineStore('global', () => {
 	// 手机布局（小于 768px），平板尺寸为 isMobile 为真但 isPhone 为假
 	const isPhone = ref(false)
 	// 布局
-	const layout = ref(getCacheConfig('SNOWY_LAYOUT'))
+	const layout = ref(getCacheConfig('HGCLOUD_LAYOUT'))
 	// 菜单是否折叠 toggle
-	const menuIsCollapse = ref(getCacheConfig('SNOWY_MENU_COLLAPSE'))
+	const menuIsCollapse = ref(getCacheConfig('HGCLOUD_MENU_COLLAPSE'))
 	// 侧边菜单是否排他展开
-	const sideUniqueOpen = ref(getCacheConfig('SNOWY_SIDE_UNIQUE_OPEN'))
+	const sideUniqueOpen = ref(getCacheConfig('HGCLOUD_SIDE_UNIQUE_OPEN'))
 	// 多标签栏
-	const layoutTagsOpen = ref(getCacheConfig('SNOWY_LAYOUT_TAGS_OPEN'))
+	const layoutTagsOpen = ref(getCacheConfig('HGCLOUD_LAYOUT_TAGS_OPEN'))
 	// 是否展示面包屑
-	const breadcrumbOpen = ref(getCacheConfig('SNOWY_BREADCRUMB_OPEN'))
+	const breadcrumbOpen = ref(getCacheConfig('HGCLOUD_BREADCRUMB_OPEN'))
 	// 是否开启固定宽度（顶栏菜单）
-	const fixedWidth = ref(getCacheConfig('SNOWY_FIXEDWIDTH_OPEN'))
+	const fixedWidth = ref(getCacheConfig('HGCLOUD_FIXEDWIDTH_OPEN'))
 	// 顶栏是否应用主题色
-	const topHeaderThemeColorOpen = ref(getCacheConfig('SNOWY_TOP_HEADER_THEME_COLOR_OPEN'))
+	const topHeaderThemeColorOpen = ref(getCacheConfig('HGCLOUD_TOP_HEADER_THEME_COLOR_OPEN'))
 	// 顶栏主题色通栏
-	const topHeaderThemeColorSpread = ref(getCacheConfig('SNOWY_TOP_HEADER_THEME_COLOR_SPREAD'))
+	const topHeaderThemeColorSpread = ref(getCacheConfig('HGCLOUD_TOP_HEADER_THEME_COLOR_SPREAD'))
 	// 登录用户水印
-	const loginUserWatermarkOpen = ref(getCacheConfig('SNOWY_LOGIN_USER_WATERMARK_OPEN'))
+	const loginUserWatermarkOpen = ref(getCacheConfig('HGCLOUD_LOGIN_USER_WATERMARK_OPEN'))
 	// 页脚版权信息
-	const footerCopyrightOpen = ref(getCacheConfig('SNOWY_FOOTER_COPYRIGHT_OPEN'))
+	const footerCopyrightOpen = ref(getCacheConfig('HGCLOUD_FOOTER_COPYRIGHT_OPEN'))
 	// 模块坞
-	const moduleUnfoldOpen = ref(getCacheConfig('SNOWY_MODULE_UNFOLD_OPEN'))
+	const moduleUnfoldOpen = ref(getCacheConfig('HGCLOUD_MODULE_UNFOLD_OPEN'))
 	// 主题
-	const theme = ref(getCacheConfig('SNOWY_THEME'))
+	const theme = ref(getCacheConfig('HGCLOUD_THEME'))
 	// 主题颜色
-	const themeColor = ref(toolDataGet('SNOWY_THEME_COLOR') || config.COLOR)
+	const themeColor = ref(toolDataGet('HGCLOUD_THEME_COLOR') || config.COLOR)
 	// 圆角分格
-	const roundedCornerStyleOpen = ref(getCacheConfig('SNOWY_ROUNDED_CORNER_STYLE_OPEN'))
+	const roundedCornerStyleOpen = ref(getCacheConfig('HGCLOUD_ROUNDED_CORNER_STYLE_OPEN'))
 	// 整体表单风格
-	const formStyle = ref(getCacheConfig('SNOWY_FORM_STYLE'))
+	const formStyle = ref(getCacheConfig('HGCLOUD_FORM_STYLE'))
 	// 灰色模式
-	const grayModeOpen = ref(getCacheConfig('SNOWY_GRAY_MODE_OPEN'))
+	const grayModeOpen = ref(getCacheConfig('HGCLOUD_GRAY_MODE_OPEN'))
 	// 用户信息
 	const userInfo = ref(toolDataGet('USER_INFO') || {})
 	// 系统配置
-	const sysBaseConfig = ref(toolDataGet('SNOWY_SYS_BASE_CONFIG') || config.SYS_BASE_CONFIG)
+	const sysBaseConfig = ref(toolDataGet('HGCLOUD_SYS_BASE_CONFIG') || config.SYS_BASE_CONFIG)
 	// 默认应用
-	const module = ref(getCacheConfig('SNOWY_MENU_MODULE_ID'))
+	const module = ref(getCacheConfig('HGCLOUD_MENU_MODULE_ID'))
 	// 锁屏状态，服务端为准，此处仅作本地缓存以便刷新页面时立即呈现锁屏
-	const isLocked = ref(toolDataGet('SNOWY_IS_LOCKED') || false)
+	const isLocked = ref(toolDataGet('HGCLOUD_IS_LOCKED') || false)
 	// 无操作自动锁屏时长（分钟），0 为不开启，随登录用户信息由服务端下发
 	const autoLockTime = computed(() => Number(userInfo.value?.autoLockTime) || 0)
 
@@ -84,7 +84,7 @@ export const globalStore = defineStore('global', () => {
 	}
 	const setIsLocked = (key) => {
 		isLocked.value = key
-		tool.data.set('SNOWY_IS_LOCKED', key)
+		tool.data.set('HGCLOUD_IS_LOCKED', key)
 	}
 	const setLayout = (key) => {
 		layout.value = key

@@ -160,7 +160,7 @@ const rgbColor = ref('rgb(33, 150, 243)')
 组件提供了以下 CSS 类名供样式定制：
 
 ```less
-.snowy-color-picker {
+.hgcloud-color-picker {
   width: 100%;
   
   .vc-color-wrap {

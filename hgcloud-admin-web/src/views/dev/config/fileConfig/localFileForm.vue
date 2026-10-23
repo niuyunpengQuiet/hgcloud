@@ -10,13 +10,13 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="WINDOWS存储位置：" name="SNOWY_FILE_LOCAL_FOLDER_FOR_WINDOWS">
-						<a-input v-model:value="formData.SNOWY_FILE_LOCAL_FOLDER_FOR_WINDOWS" placeholder="请输入WINDOWS存储位置" />
+					<a-form-item label="WINDOWS存储位置：" name="HGCLOUD_FILE_LOCAL_FOLDER_FOR_WINDOWS">
+						<a-input v-model:value="formData.HGCLOUD_FILE_LOCAL_FOLDER_FOR_WINDOWS" placeholder="请输入WINDOWS存储位置" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="LINUX存储位置：" name="SNOWY_FILE_LOCAL_FOLDER_FOR_UNIX">
-						<a-input v-model:value="formData.SNOWY_FILE_LOCAL_FOLDER_FOR_UNIX" placeholder="请输入LINUX存储位置" />
+					<a-form-item label="LINUX存储位置：" name="HGCLOUD_FILE_LOCAL_FOLDER_FOR_UNIX">
+						<a-input v-model:value="formData.HGCLOUD_FILE_LOCAL_FOLDER_FOR_UNIX" placeholder="请输入LINUX存储位置" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -60,8 +60,8 @@
 
 	// 默认要校验的
 	const formRules = {
-		SNOWY_FILE_LOCAL_FOLDER_FOR_WINDOWS: [required('请输入WINDOWS存储位置')],
-		SNOWY_FILE_LOCAL_FOLDER_FOR_UNIX: [required('请输入LINUX存储位置')]
+		HGCLOUD_FILE_LOCAL_FOLDER_FOR_WINDOWS: [required('请输入WINDOWS存储位置')],
+		HGCLOUD_FILE_LOCAL_FOLDER_FOR_UNIX: [required('请输入LINUX存储位置')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

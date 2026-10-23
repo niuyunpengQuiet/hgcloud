@@ -1,9 +1,9 @@
 ---
 name: backend-annotations
-description: Snowy 常用注解速查与正误用法：@CommonLog 操作日志、@CommonNoRepeat 防重、@CommonWrapper 返回包装、@SaCheckPermission、@Trans 字段翻译、@Validated/@Valid、MyBatis-Plus 注解。触发场景：1) 给接口加日志/防重/权限注解 2) 字段需要字典或关联表翻译 3) 不确定该用哪个注解或注解参数。触发词：注解、@CommonLog、@CommonNoRepeat、@SaCheckPermission、@Trans、Easy-Trans、翻译、字典翻译、@Validated、@TableName、@TableId、@TableLogic、操作日志不落库、网关前缀。注意：注解底层机制见对应技能（日志见 message-push 相关、权限见 security-auth、字典见 dict-config）。
+description: Hgcloud 常用注解速查与正误用法：@CommonLog 操作日志、@CommonNoRepeat 防重、@CommonWrapper 返回包装、@SaCheckPermission、@Trans 字段翻译、@Validated/@Valid、MyBatis-Plus 注解。触发场景：1) 给接口加日志/防重/权限注解 2) 字段需要字典或关联表翻译 3) 不确定该用哪个注解或注解参数。触发词：注解、@CommonLog、@CommonNoRepeat、@SaCheckPermission、@Trans、Easy-Trans、翻译、字典翻译、@Validated、@TableName、@TableId、@TableLogic、操作日志不落库、网关前缀。注意：注解底层机制见对应技能（日志见 message-push 相关、权限见 security-auth、字典见 dict-config）。
 ---
 
-# Snowy 常用注解速查
+# Hgcloud 常用注解速查
 
 ## 注解总览
 
@@ -125,11 +125,11 @@ public class BizSupplier extends CommonEntity {              // 继承即有 DEL
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/annotation/CommonLog.java` | 日志注解定义 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/annotation/CommonNoRepeat.java` | 防重注解定义 |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/notice/controller/BizNoticeController.java` | 注解组合使用范本 |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/entity/BizUser.java` | @Trans 双类型 + SM4 TypeHandler 范本 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/core/aop/DevLogAop.java` | 日志切面实现（仅随 dev-func 装在 web-app） |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/annotation/CommonLog.java` | 日志注解定义 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/annotation/CommonNoRepeat.java` | 防重注解定义 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/controller/BizNoticeController.java` | 注解组合使用范本 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/user/entity/BizUser.java` | @Trans 双类型 + SM4 TypeHandler 范本 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/core/aop/DevLogAop.java` | 日志切面实现（仅随 dev-func 装在 web-app） |
 | `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java` | web-app 防重/包装 AOP 注册 |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | biz-app 防重/包装 AOP 注册 |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/AuthConfigure.java` | biz-app 注解鉴权拦截器（SaInterceptor）与权限来源 |

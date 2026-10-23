@@ -13,7 +13,7 @@ import Ellipsis from '@/components/Ellipsis'
 
 
 
-## 代码演示  [demo](https://snowy.xiaonuo.vip)
+## 代码演示  [demo](https://hgcloud.xiaonuo.vip)
 
 ```html
 <ellipsis :length="100" tooltip>

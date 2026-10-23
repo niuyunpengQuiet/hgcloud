@@ -1,5 +1,5 @@
 <template>
-	<div class="snowy-color-picker" :id="id" @click="forceResize">
+	<div class="hgcloud-color-picker" :id="id" @click="forceResize">
 		<color-picker
 			v-bind="$attrs"
 			:format="props.format"
@@ -58,7 +58,7 @@
 			default: true
 		}
 	})
-	const id = tool.snowyUuid()
+	const id = tool.hgcloudUuid()
 	const forceResize = () => {
 		window.dispatchEvent(new Event('resize'))
 	}
@@ -121,7 +121,7 @@
 </script>
 
 <style lang="less">
-	.snowy-color-picker {
+	.hgcloud-color-picker {
 		width: 100%;
 		.vc-color-wrap {
 			width: 100%;

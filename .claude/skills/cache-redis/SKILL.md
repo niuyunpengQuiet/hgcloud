@@ -1,20 +1,20 @@
 ---
 name: cache-redis
-description: Snowy 缓存使用规范：CommonCacheOperator 统一操作器、Redisson 客户端、缓存 key 常量、数据变更事件联动刷新、alone-redis 独立配置；微服务版各服务共享同一 Redis 与 Sa-Token 会话。触发场景：1) 业务需要读写缓存 2) 改完数据要刷新缓存 3) 需要分布式锁或 Redis 原生结构 4) 跨服务缓存/会话共享问题。触发词：缓存、Redis、Redisson、CommonCacheOperator、CacheConstant、缓存刷新、缓存key、分布式锁、缓存过期、Nacos Redis 配置、共享会话、跨服务缓存。
+description: Hgcloud 缓存使用规范：CommonCacheOperator 统一操作器、Redisson 客户端、缓存 key 常量、数据变更事件联动刷新、alone-redis 独立配置；微服务版各服务共享同一 Redis 与 Sa-Token 会话。触发场景：1) 业务需要读写缓存 2) 改完数据要刷新缓存 3) 需要分布式锁或 Redis 原生结构 4) 跨服务缓存/会话共享问题。触发词：缓存、Redis、Redisson、CommonCacheOperator、CacheConstant、缓存刷新、缓存key、分布式锁、缓存过期、Nacos Redis 配置、共享会话、跨服务缓存。
 ---
 
-# Snowy 缓存使用规范
+# Hgcloud 缓存使用规范
 
 ## 基础设施
 
 | 组件 | 位置 | 说明 |
 |---|---|---|
-| `CommonCacheOperator` | `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/cache/CommonCacheOperator.java` | **统一缓存操作器**（封装 Redisson Bucket，key 自动加前缀 `Cache:`） |
+| `CommonCacheOperator` | `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/cache/CommonCacheOperator.java` | **统一缓存操作器**（封装 Redisson Bucket，key 自动加前缀 `Cache:`） |
 | `RedissonConfig` | 每个服务各一份：`hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/RedissonConfig.java`、`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/RedissonConfig.java`、`hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/RedissonConfig.java` | Redisson 客户端装配（redissonClient + Sa-Token 用的 aloneRedissonClient） |
-| `CacheConstant` | `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/consts/CacheConstant.java` | 框架级缓存 key 常量 |
-| 数据变更事件 | `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeEventCenter.java` | 增删改后广播事件，**本服务内**各插件监听刷新自己的缓存 |
+| `CacheConstant` | `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/consts/CacheConstant.java` | 框架级缓存 key 常量 |
+| 数据变更事件 | `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/listener/CommonDataChangeEventCenter.java` | 增删改后广播事件，**本服务内**各插件监听刷新自己的缓存 |
 
-连接：不在本地配置文件，在 **Nacos** 各服务配置 `snowy-{应用名}-dev.yaml` 的 `spring.data.redis` 段（127.0.0.1:6379，database 1；源文件在 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/`）；Sa-Token 用 `sa-token.alone-redis` 独立配置（同实例同库）。
+连接：不在本地配置文件，在 **Nacos** 各服务配置 `hgcloud-{应用名}-dev.yaml` 的 `spring.data.redis` 段（127.0.0.1:6379，database 1；源文件在 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/`）；Sa-Token 用 `sa-token.alone-redis` 独立配置（同实例同库）。
 
 **微服务共享**：web-app、biz-app、网关连的是同一 Redis 库——
 - Sa-Token 会话共享：网关与 biz-app 都从 Redis 里的 Token 会话读 `loginUser` 做鉴权
@@ -80,7 +80,7 @@ CommonDataChangeEventCenter.doDeleteWithDataIdList(BizDataTypeEnum.XXX.getValue(
 ⚠️ **事件不跨服务**：`CommonDataChangeEventCenter` 是进程内静态侦听器列表，只通知**本服务 JVM 内**注册的侦听器——biz-app 里发的事件 web-app 收不到，多实例之间也不互通。跨服务的缓存联动只能靠共享 Redis 直接删 key 或自行通知（推导，使用前请先确认）。
 
 ⚠️ 现状（推导，未运行验证）：
-- web-app 里 `GlobalConfigure` 与 `vip.xiaonuo.core.config.DataChangeListenerConfiguration` 都调用了 `registerListenerList`，侦听器可能被注册两次、每个事件触发两遍
+- web-app 里 `GlobalConfigure` 与 `com.hgcloud.core.config.DataChangeListenerConfiguration` 都调用了 `registerListenerList`，侦听器可能被注册两次、每个事件触发两遍
 - web-app 与 biz-app 的 `ResourceCollectListener` 启动时都**整体覆盖**同一个共享 key `permission-resource`，后启动的服务会覆盖先启动服务的接口清单（可能导致角色授权里的接口权限列表不全）
 
 ## 使用原则
@@ -112,16 +112,16 @@ CommonDataChangeEventCenter.doDeleteWithDataIdList(BizDataTypeEnum.XXX.getValue(
 - [ ] 数据变更后发了 DataChangeEvent（涉及共享数据时），并清楚它不跨服务
 - [ ] 分布式锁在 finally 释放且校验持有者
 - [ ] 本地 Redis 已启动（127.0.0.1:6379 database 1，以 Nacos 配置为准）
-- [ ] 本地多个 Snowy 项目没有共用同一 Redis 库号（token 名、superAdmin ID 相同会串会话，登录报 ClassCastException）
+- [ ] 本地多个 Hgcloud 项目没有共用同一 Redis 库号（token 名、superAdmin ID 相同会串会话，登录报 ClassCastException）
 
 ## 参考实现
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/cache/CommonCacheOperator.java` | 操作器源码 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/consts/CacheConstant.java` | 框架 key 常量 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeEventCenter.java` | 事件中心 |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/core/listener/BizDataChangeListener.java` | 监听实现范本 |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/group/service/impl/BizGroupServiceImpl.java` | 发事件写法范本 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/cache/CommonCacheOperator.java` | 操作器源码 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/consts/CacheConstant.java` | 框架 key 常量 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/listener/CommonDataChangeEventCenter.java` | 事件中心 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/core/listener/BizDataChangeListener.java` | 监听实现范本 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/group/service/impl/BizGroupServiceImpl.java` | 发事件写法范本 |
 | `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/RedissonConfig.java` | Redisson 装配（biz-app、网关各有一份同构配置） |
 | `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-web-app-dev.yaml` | Redis / alone-redis 连接配置（其他服务同目录） |

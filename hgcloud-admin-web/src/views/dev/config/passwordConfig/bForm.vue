@@ -11,27 +11,27 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="默认用户密码：" name="SNOWY_SYS_DEFAULT_PASSWORD_FOR_B">
+					<a-form-item label="默认用户密码：" name="HGCLOUD_SYS_DEFAULT_PASSWORD_FOR_B">
 						<a-input
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PASSWORD_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_FOR_B"
 							placeholder="请输入默认用户密码"
 							style="width: 100%"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="密码修改验证方式：" name="SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B">
+					<a-form-item label="密码修改验证方式：" name="HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B">
 						<a-radio-group
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B"
 							:options="updatePasswordValidTypeOptions"
 							placeholder="请选择密码修改验证方式"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="密码最小长度：" name="SNOWY_SYS_DEFAULT_PASSWORD_MIN_LENGTH_FOR_B">
+					<a-form-item label="密码最小长度：" name="HGCLOUD_SYS_DEFAULT_PASSWORD_MIN_LENGTH_FOR_B">
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PASSWORD_MIN_LENGTH_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_MIN_LENGTH_FOR_B"
 							placeholder="请输入密码最小长度"
 							style="width: 100%"
 						>
@@ -40,9 +40,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="密码最大长度：" name="SNOWY_SYS_DEFAULT_PASSWORD_MAX_LENGTH_FOR_B">
+					<a-form-item label="密码最大长度：" name="HGCLOUD_SYS_DEFAULT_PASSWORD_MAX_LENGTH_FOR_B">
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PASSWORD_MAX_LENGTH_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_MAX_LENGTH_FOR_B"
 							placeholder="请输入密码最大长度"
 							style="width: 100%"
 						>
@@ -51,9 +51,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="密码复杂度：" name="SNOWY_SYS_DEFAULT_PASSWORD_COMPLEXITY_FOR_B">
+					<a-form-item label="密码复杂度：" name="HGCLOUD_SYS_DEFAULT_PASSWORD_COMPLEXITY_FOR_B">
 						<a-radio-group
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PASSWORD_COMPLEXITY_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_COMPLEXITY_FOR_B"
 							:options="passwordComplexityTypeOptions"
 							direction="vertical"
 							class="vertical-radio-group"
@@ -64,10 +64,10 @@
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
 					<a-form-item
 						label="密码不能连续存在相同字符个数："
-						name="SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTINUOUS_SAME_CHARACTER_LENGTH_FOR_B"
+						name="HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTINUOUS_SAME_CHARACTER_LENGTH_FOR_B"
 					>
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTINUOUS_SAME_CHARACTER_LENGTH_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTINUOUS_SAME_CHARACTER_LENGTH_FOR_B"
 							placeholder="请输入密码不能连续存在相同字符个数"
 							style="width: 100%"
 						>
@@ -76,10 +76,10 @@
 					</a-form-item>
 					<a-form-item
 						label="密码不能包含用户信息："
-						name="SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTAINS_USER_INFO_FLAG_FOR_B"
+						name="HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTAINS_USER_INFO_FLAG_FOR_B"
 					>
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTAINS_USER_INFO_FLAG_FOR_B"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTAINS_USER_INFO_FLAG_FOR_B"
 							checked-children="不能"
 							un-checked-children="包含"
 							placeholder="请选择密码不能包含用户信息"
@@ -87,10 +87,10 @@
 					</a-form-item>
 					<a-form-item
 						label="密码不能使用历史密码："
-						name="SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_FLAG_FOR_B"
+						name="HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_FLAG_FOR_B"
 					>
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_FLAG_FOR_B"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_FLAG_FOR_B"
 							checked-children="不能"
 							un-checked-children="允许"
 							placeholder="请选择密码不能使用历史密码"
@@ -100,10 +100,10 @@
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
 					<a-form-item
 						label="密码不能使用历史密码范围个数："
-						name="SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_COUNT_FOR_B"
+						name="HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_COUNT_FOR_B"
 					>
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_COUNT_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_COUNT_FOR_B"
 							placeholder="请输入密码不能使用历史密码范围个数"
 							style="width: 100%"
 						>
@@ -114,10 +114,10 @@
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
 					<a-form-item
 						label="密码不能使用弱密码库中密码："
-						name="SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_WEAK_FLAG_FOR_B"
+						name="HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_WEAK_FLAG_FOR_B"
 					>
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_WEAK_FLAG_FOR_B"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_WEAK_FLAG_FOR_B"
 							checked-children="不能"
 							un-checked-children="允许"
 							placeholder="请选择密码不能使用弱密码库中密码"
@@ -125,9 +125,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="密码有效期天数：" name="SNOWY_SYS_DEFAULT_PASSWORD_EXPIRED_DAYS_FOR_B">
+					<a-form-item label="密码有效期天数：" name="HGCLOUD_SYS_DEFAULT_PASSWORD_EXPIRED_DAYS_FOR_B">
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PASSWORD_EXPIRED_DAYS_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_EXPIRED_DAYS_FOR_B"
 							placeholder="天"
 							style="width: 100%"
 						>
@@ -136,9 +136,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="密码过期提前提醒天数：" name="SNOWY_SYS_DEFAULT_PASSWORD_EXPIRED_NOTICE_DAYS_FOR_B">
+					<a-form-item label="密码过期提前提醒天数：" name="HGCLOUD_SYS_DEFAULT_PASSWORD_EXPIRED_NOTICE_DAYS_FOR_B">
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PASSWORD_EXPIRED_NOTICE_DAYS_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_EXPIRED_NOTICE_DAYS_FOR_B"
 							placeholder="天"
 							style="width: 100%"
 						>
@@ -147,9 +147,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="自定义额外弱密码库：" name="SNOWY_SYS_DEFAULT_PASSWORD_DEFINE_WEAK_DATABASE_FOR_B">
+					<a-form-item label="自定义额外弱密码库：" name="HGCLOUD_SYS_DEFAULT_PASSWORD_DEFINE_WEAK_DATABASE_FOR_B">
 						<a-input
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PASSWORD_DEFINE_WEAK_DATABASE_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PASSWORD_DEFINE_WEAK_DATABASE_FOR_B"
 							placeholder="请输入自定义额外弱密码库"
 							style="width: 100%"
 						/>
@@ -205,21 +205,21 @@
 	}
 	// 默认要校验的
 	const formRules = {
-		SNOWY_SYS_DEFAULT_PASSWORD_FOR_B: [required('请输入默认用户密码')],
-		SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B: [required('请选择密码修改验证方式')],
-		SNOWY_SYS_DEFAULT_PASSWORD_MIN_LENGTH_FOR_B: [required('请输入密码最小长度')],
-		SNOWY_SYS_DEFAULT_PASSWORD_MAX_LENGTH_FOR_B: [required('请输入密码最大长度')],
-		SNOWY_SYS_DEFAULT_PASSWORD_COMPLEXITY_FOR_B: [required('请选择密码复杂度')],
-		SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTINUOUS_SAME_CHARACTER_LENGTH_FOR_B: [
+		HGCLOUD_SYS_DEFAULT_PASSWORD_FOR_B: [required('请输入默认用户密码')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B: [required('请选择密码修改验证方式')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_MIN_LENGTH_FOR_B: [required('请输入密码最小长度')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_MAX_LENGTH_FOR_B: [required('请输入密码最大长度')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_COMPLEXITY_FOR_B: [required('请选择密码复杂度')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTINUOUS_SAME_CHARACTER_LENGTH_FOR_B: [
 			required('请输入密码不能连续存在相同字符个数')
 		],
-		SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTAINS_USER_INFO_FLAG_FOR_B: [required('请选择密码不能包含用户信息')],
-		SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_FLAG_FOR_B: [required('请选择密码不能使用历史密码')],
-		SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_COUNT_FOR_B: [required('密码不能使用历史密码范围个数')],
-		SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_WEAK_FLAG_FOR_B: [required('请选择密码不能使用弱密码库中密码')],
-		SNOWY_SYS_DEFAULT_PASSWORD_DEFINE_WEAK_DATABASE_FOR_B: [required('请输入自定义额外弱密码库')],
-		SNOWY_SYS_DEFAULT_PASSWORD_EXPIRED_DAYS_FOR_B: [required('请输入密码有效期天数')],
-		SNOWY_SYS_DEFAULT_PASSWORD_EXPIRED_NOTICE_DAYS_FOR_B: [required('请输入密码过期天数')]
+		HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTAINS_USER_INFO_FLAG_FOR_B: [required('请选择密码不能包含用户信息')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_FLAG_FOR_B: [required('请选择密码不能使用历史密码')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_HISTORY_COUNT_FOR_B: [required('密码不能使用历史密码范围个数')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_USE_WEAK_FLAG_FOR_B: [required('请选择密码不能使用弱密码库中密码')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_DEFINE_WEAK_DATABASE_FOR_B: [required('请输入自定义额外弱密码库')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_EXPIRED_DAYS_FOR_B: [required('请输入密码有效期天数')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD_EXPIRED_NOTICE_DAYS_FOR_B: [required('请输入密码过期天数')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

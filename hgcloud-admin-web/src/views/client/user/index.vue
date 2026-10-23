@@ -212,7 +212,7 @@
 </script>
 
 <style lang="less" scoped>
-	.snowy-table-avatar {
+	.hgcloud-table-avatar {
 		margin-top: -10px;
 		margin-bottom: -10px;
 	}

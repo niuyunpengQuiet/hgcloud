@@ -1,13 +1,13 @@
 <template>
 	<a-layout>
 		<a-layout class="layout">
-			<div id="snowyHeader" class="snowy-header top-snowy-header xn-pd050" v-show="displayLayout">
-				<div class="snowy-header-left xn-pl0">
-					<header id="snowyHeaderLogo" class="snowy-header-logo">
-						<div class="snowy-header-left">
+			<div id="hgcloudHeader" class="hgcloud-header top-hgcloud-header xn-pd050" v-show="displayLayout">
+				<div class="hgcloud-header-left xn-pl0">
+					<header id="hgcloudHeaderLogo" class="hgcloud-header-logo">
+						<div class="hgcloud-header-left">
 							<div class="logo-bar">
-								<img class="logo" :src="sysBaseConfig.SNOWY_SYS_LOGO" />
-								<span>{{ sysBaseConfig.SNOWY_SYS_NAME }}</span>
+								<img class="logo" :src="sysBaseConfig.HGCLOUD_SYS_LOGO" />
+								<span>{{ sysBaseConfig.HGCLOUD_SYS_NAME }}</span>
 							</div>
 						</div>
 					</header>
@@ -28,7 +28,7 @@
 						<NavMenu :nav-menus="menuList" />
 					</a-menu>
 				</div>
-				<div class="snowy-header-right">
+				<div class="hgcloud-header-right">
 					<user-bar />
 				</div>
 			</div>
@@ -48,8 +48,8 @@
 					</router-view>
 					<iframe-view />
 					<div v-if="footerCopyrightOpen" class="main-bottom-wrapper">
-						<a class="xn-color-a0a0a0" :href="sysBaseConfig.SNOWY_SYS_COPYRIGHT_URL" target="_blank">{{
-							sysBaseConfig.SNOWY_SYS_COPYRIGHT
+						<a class="xn-color-a0a0a0" :href="sysBaseConfig.HGCLOUD_SYS_COPYRIGHT_URL" target="_blank">{{
+							sysBaseConfig.HGCLOUD_SYS_COPYRIGHT
 						}}</a>
 					</div>
 				</div>

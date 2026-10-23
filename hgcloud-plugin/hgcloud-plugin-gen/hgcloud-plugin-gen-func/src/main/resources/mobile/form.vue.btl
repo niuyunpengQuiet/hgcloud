@@ -1,5 +1,5 @@
 <template>
-    <view class="snowy-form">
+    <view class="hgcloud-form">
         <uni-forms ref="formRef" :model="formData" label-position="top" :rules="rules" validate-trigger="blur" labelWidth="auto">
 			<% for(var i = 0; i < configList.~size; i++) { %>
             <% if(!configList[i].needTableId && configList[i].whetherAddUpdate && configList[i].fieldNameCamelCase != 'tenantId') { %>
@@ -13,7 +13,7 @@
             </uni-forms-item>
             <% } else if (configList[i].effectType == 'select') {%>
             <uni-forms-item label="${configList[i].fieldRemark}" name="${configList[i].fieldNameCamelCase}" :required="${configList[i].required}" :rules="[{ required: ${configList[i].required}, errorMessage: '请输入${configList[i].fieldRemark}' }]">
-                <snowy-sel-picker :map="{key: 'value', label: 'text'}" v-model="formData.${configList[i].fieldNameCamelCase}" @getOptData="get${configList[i].fieldNameCamelCaseFirstUpper}Options"  placeholder="请选择${configList[i].fieldRemark}"></snowy-sel-picker>
+                <hgcloud-sel-picker :map="{key: 'value', label: 'text'}" v-model="formData.${configList[i].fieldNameCamelCase}" @getOptData="get${configList[i].fieldNameCamelCaseFirstUpper}Options"  placeholder="请选择${configList[i].fieldRemark}"></hgcloud-sel-picker>
             </uni-forms-item>
             <% } else if (configList[i].effectType == 'radio' || configList[i].effectType == 'checkbox') {%>
             <uni-forms-item label="${configList[i].fieldRemark}" name="${configList[i].fieldNameCamelCase}" :required="${configList[i].required}" :rules="[{ required: ${configList[i].required}, errorMessage: '请选择${configList[i].fieldRemark}' }]">
@@ -68,7 +68,7 @@
     const ${configList[i].fieldNameCamelCase}Options = ref([])	
     <% } %>
 	<% if(configList[i].effectType == 'select') { %>	
-	const get${configList[i].fieldNameCamelCaseFirstUpper}Options = (param, callback) => callback({ state: CallbackState.SUCCESS, data: uni.$snowy.tool.dictList('${configList[i].dictTypeCode}') })
+	const get${configList[i].fieldNameCamelCaseFirstUpper}Options = (param, callback) => callback({ state: CallbackState.SUCCESS, data: uni.$hgcloud.tool.dictList('${configList[i].dictTypeCode}') })
 	<% } %>
     <% } %>
     <% } %>
@@ -76,7 +76,7 @@
         <% for(var i = 0; i < configList.~size; i++) { %>
         <% if(!configList[i].needTableId) { %>
         <% if(configList[i].effectType == 'radio' || configList[i].effectType == 'checkbox') { %>
-        ${configList[i].fieldNameCamelCase}Options.value = uni.$snowy.tool.dictList('${configList[i].dictTypeCode}')
+        ${configList[i].fieldNameCamelCase}Options.value = uni.$hgcloud.tool.dictList('${configList[i].dictTypeCode}')
         <% } %>
         <% } %>
         <% } %>

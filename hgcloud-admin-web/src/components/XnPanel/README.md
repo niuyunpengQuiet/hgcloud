@@ -109,11 +109,11 @@ import XnPanel from '@/components/XnPanel/'
 >
 > 2. 若希望面板内部滚动生效，请确保父容器有明确的高度约束（例如页面布局使用 `flex` 或固定高度）。
 >
-> 3. 暗黑主题依赖项目的 CSS 变量：`--snowy-background-color`、`--component-background`、`--border-color-split`、`--card-shadow-soft`、`--heading-color` 等。
+> 3. 暗黑主题依赖项目的 CSS 变量：`--hgcloud-background-color`、`--component-background`、`--border-color-split`、`--card-shadow-soft`、`--heading-color` 等。
 >
 > 4. 圆角跟随系统：当系统的“圆角风格”开启时，组件圆角为 `8px`，关闭时为 `2px`；也可通过 `radius` 指定具体值进行覆盖。
 >
-> 5. footer 默认右对齐，且背景与分割线使用与整体保持一致的主题变量（背景：`--snowy-background-color`，分割线：`--border-color-split`）。
+> 5. footer 默认右对齐，且背景与分割线使用与整体保持一致的主题变量（背景：`--hgcloud-background-color`，分割线：`--border-color-split`）。
 
 
 更新时间

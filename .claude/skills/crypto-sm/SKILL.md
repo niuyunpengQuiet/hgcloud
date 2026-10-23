@@ -1,9 +1,9 @@
 ---
 name: crypto-sm
-description: Snowy 国密体系使用规范：登录密码 SM2 加密传输、口令 SM3 摘要存储、字段级 SM4-CBC 落库加密（CommonSm4CbcTypeHandler）、CommonCryptogramUtil API、前端 smCrypto.js 联动。触发场景：1) 新增敏感字段需要加密存储 2) 处理登录/改密逻辑 3) 前后端加解密联调。触发词：国密、SM2、SM3、SM4、加密、解密、密码、敏感字段、手机号加密、密文、脱敏、CommonCryptogramUtil、TypeHandler、等保。
+description: Hgcloud 国密体系使用规范：登录密码 SM2 加密传输、口令 SM3 摘要存储、字段级 SM4-CBC 落库加密（CommonSm4CbcTypeHandler）、CommonCryptogramUtil API、前端 smCrypto.js 联动。触发场景：1) 新增敏感字段需要加密存储 2) 处理登录/改密逻辑 3) 前后端加解密联调。触发词：国密、SM2、SM3、SM4、加密、解密、密码、敏感字段、手机号加密、密文、脱敏、CommonCryptogramUtil、TypeHandler、等保。
 ---
 
-# Snowy 国密体系规范
+# Hgcloud 国密体系规范
 
 ## 三层国密架构
 
@@ -81,7 +81,7 @@ import smCrypto from '@/utils/smCrypto'
 const cipher = smCrypto.doSm2Encrypt(密码明文)   // 公钥写死在 smCrypto.js 内，必须与后端 CommonCryptogramUtil.PUBLIC_KEY 一致
 ```
 
-抓包看到登录接口密码是一长串十六进制密文是**正常的**（长度 = 192 + 2×明文字节数，如 `Snowy@2026!` 为 214 位）。
+抓包看到登录接口密码是一长串十六进制密文是**正常的**（长度 = 192 + 2×明文字节数，如 `Hgcloud@2026!` 为 214 位）。
 
 ## 禁止事项
 
@@ -103,10 +103,10 @@ const cipher = smCrypto.doSm2Encrypt(密码明文)   // 公钥写死在 smCrypto
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/util/CommonCryptogramUtil.java` | 国密工具 API + 混淆存放的密钥 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/util/CommonKeyUtil.java` | 密钥还原与新密钥生成 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/handler/CommonSm4CbcTypeHandler.java` | 字段加密 TypeHandler |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/entity/BizUser.java` | SM4 字段实战 |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/service/impl/AuthServiceImpl.java` | SM2 解密 + SM3 校验现场 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/vip/xiaonuo/sys/core/util/SysPasswordUtil.java` | 口令规则校验（web-app 内） |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/util/CommonCryptogramUtil.java` | 国密工具 API + 混淆存放的密钥 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/util/CommonKeyUtil.java` | 密钥还原与新密钥生成 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/handler/CommonSm4CbcTypeHandler.java` | 字段加密 TypeHandler |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/user/entity/BizUser.java` | SM4 字段实战 |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/modular/login/service/impl/AuthServiceImpl.java` | SM2 解密 + SM3 校验现场 |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/core/util/SysPasswordUtil.java` | 口令规则校验（web-app 内） |
 | `hgcloud-admin-web/src/utils/smCrypto.js` | 前端国密（公钥） |

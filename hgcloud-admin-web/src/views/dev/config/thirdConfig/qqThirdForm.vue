@@ -10,9 +10,9 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="是否允许QQ登录：" name="SNOWY_THIRD_QQ_ALLOW_LOGIN_FLAG">
+					<a-form-item label="是否允许QQ登录：" name="HGCLOUD_THIRD_QQ_ALLOW_LOGIN_FLAG">
 						<a-switch
-							v-model:checked="formData.SNOWY_THIRD_QQ_ALLOW_LOGIN_FLAG"
+							v-model:checked="formData.HGCLOUD_THIRD_QQ_ALLOW_LOGIN_FLAG"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否允许QQ登录"
@@ -22,23 +22,23 @@
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
 						label="clientId："
-						name="SNOWY_THIRD_QQ_CLIENT_ID"
-						v-if="formData.SNOWY_THIRD_QQ_ALLOW_LOGIN_FLAG"
+						name="HGCLOUD_THIRD_QQ_CLIENT_ID"
+						v-if="formData.HGCLOUD_THIRD_QQ_ALLOW_LOGIN_FLAG"
 					>
-						<a-input v-model:value="formData.SNOWY_THIRD_QQ_CLIENT_ID" placeholder="请输入clientId" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_QQ_CLIENT_ID" placeholder="请输入clientId" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
 						label="clientSecret："
-						name="SNOWY_THIRD_QQ_CLIENT_SECRET"
-						v-if="formData.SNOWY_THIRD_QQ_ALLOW_LOGIN_FLAG"
+						name="HGCLOUD_THIRD_QQ_CLIENT_SECRET"
+						v-if="formData.HGCLOUD_THIRD_QQ_ALLOW_LOGIN_FLAG"
 					>
-						<a-input v-model:value="formData.SNOWY_THIRD_QQ_CLIENT_SECRET" placeholder="请输入clientSecret" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_QQ_CLIENT_SECRET" placeholder="请输入clientSecret" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item name="SNOWY_THIRD_QQ_REDIRECT_URL" v-if="formData.SNOWY_THIRD_QQ_ALLOW_LOGIN_FLAG">
+					<a-form-item name="HGCLOUD_THIRD_QQ_REDIRECT_URL" v-if="formData.HGCLOUD_THIRD_QQ_ALLOW_LOGIN_FLAG">
 						<template #label>
 							<a-tooltip>
 								<template #title> 请填写{前端地址}/callback/QQ，如http://localhost:81/callback/QQ </template>
@@ -46,7 +46,7 @@
 							</a-tooltip>
 							重定向地址：
 						</template>
-						<a-input v-model:value="formData.SNOWY_THIRD_QQ_REDIRECT_URL" placeholder="请输入重定向地址" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_QQ_REDIRECT_URL" placeholder="请输入重定向地址" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -97,10 +97,10 @@
 	}
 	// 默认要校验的
 	const formRules = {
-		SNOWY_THIRD_QQ_ALLOW_LOGIN_FLAG: [required('请选择是否允许QQ登录')],
-		SNOWY_THIRD_QQ_CLIENT_ID: [required('请输入clientId')],
-		SNOWY_THIRD_QQ_CLIENT_SECRET: [required('请输入clientSecret')],
-		SNOWY_THIRD_QQ_REDIRECT_URL: [required('请输入重定向地址')]
+		HGCLOUD_THIRD_QQ_ALLOW_LOGIN_FLAG: [required('请选择是否允许QQ登录')],
+		HGCLOUD_THIRD_QQ_CLIENT_ID: [required('请输入clientId')],
+		HGCLOUD_THIRD_QQ_CLIENT_SECRET: [required('请输入clientSecret')],
+		HGCLOUD_THIRD_QQ_REDIRECT_URL: [required('请输入重定向地址')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

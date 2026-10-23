@@ -10,28 +10,28 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="RUSTFS通道KEY：" name="SNOWY_FILE_RUSTFS_ACCESS_KEY">
-						<a-input v-model:value="formData.SNOWY_FILE_RUSTFS_ACCESS_KEY" placeholder="请输入RUSTFS通道KEY" />
+					<a-form-item label="RUSTFS通道KEY：" name="HGCLOUD_FILE_RUSTFS_ACCESS_KEY">
+						<a-input v-model:value="formData.HGCLOUD_FILE_RUSTFS_ACCESS_KEY" placeholder="请输入RUSTFS通道KEY" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="RUSTFS密钥KEY：" name="SNOWY_FILE_RUSTFS_SECRET_KEY">
-						<a-input v-model:value="formData.SNOWY_FILE_RUSTFS_SECRET_KEY" placeholder="请输入RUSTFS密钥KEY" />
+					<a-form-item label="RUSTFS密钥KEY：" name="HGCLOUD_FILE_RUSTFS_SECRET_KEY">
+						<a-input v-model:value="formData.HGCLOUD_FILE_RUSTFS_SECRET_KEY" placeholder="请输入RUSTFS密钥KEY" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="RUSTFS端点：" name="SNOWY_FILE_RUSTFS_END_POINT">
-						<a-input v-model:value="formData.SNOWY_FILE_RUSTFS_END_POINT" placeholder="请输入RUSTFS端点" />
+					<a-form-item label="RUSTFS端点：" name="HGCLOUD_FILE_RUSTFS_END_POINT">
+						<a-input v-model:value="formData.HGCLOUD_FILE_RUSTFS_END_POINT" placeholder="请输入RUSTFS端点" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="RUSTFS储存桶：" name="SNOWY_FILE_RUSTFS_DEFAULT_BUCKET_NAME">
-						<a-input v-model:value="formData.SNOWY_FILE_RUSTFS_DEFAULT_BUCKET_NAME" placeholder="请输入RUSTFS储存桶" />
+					<a-form-item label="RUSTFS储存桶：" name="HGCLOUD_FILE_RUSTFS_DEFAULT_BUCKET_NAME">
+						<a-input v-model:value="formData.HGCLOUD_FILE_RUSTFS_DEFAULT_BUCKET_NAME" placeholder="请输入RUSTFS储存桶" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="RUSTFS区域：" name="SNOWY_FILE_RUSTFS_REGION">
-						<a-input v-model:value="formData.SNOWY_FILE_RUSTFS_REGION" placeholder="请输入RUSTFS区域" />
+					<a-form-item label="RUSTFS区域：" name="HGCLOUD_FILE_RUSTFS_REGION">
+						<a-input v-model:value="formData.HGCLOUD_FILE_RUSTFS_REGION" placeholder="请输入RUSTFS区域" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -73,11 +73,11 @@
 	})
 
 	const formRules = {
-		SNOWY_FILE_RUSTFS_ACCESS_KEY: [required('请输入RUSTFS通道KEY')],
-		SNOWY_FILE_RUSTFS_SECRET_KEY: [required('请输入RUSTFS密钥KEY')],
-		SNOWY_FILE_RUSTFS_END_POINT: [required('请输入RUSTFS端点')],
-		SNOWY_FILE_RUSTFS_DEFAULT_BUCKET_NAME: [required('请输入RUSTFS储存桶')],
-		SNOWY_FILE_RUSTFS_REGION: [required('请输入RUSTFS区域')]
+		HGCLOUD_FILE_RUSTFS_ACCESS_KEY: [required('请输入RUSTFS通道KEY')],
+		HGCLOUD_FILE_RUSTFS_SECRET_KEY: [required('请输入RUSTFS密钥KEY')],
+		HGCLOUD_FILE_RUSTFS_END_POINT: [required('请输入RUSTFS端点')],
+		HGCLOUD_FILE_RUSTFS_DEFAULT_BUCKET_NAME: [required('请输入RUSTFS储存桶')],
+		HGCLOUD_FILE_RUSTFS_REGION: [required('请输入RUSTFS区域')]
 	}
 	const onSubmit = () => {
 		formRef.value

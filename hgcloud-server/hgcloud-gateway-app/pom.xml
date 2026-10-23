@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>vip.xiaonuo</groupId>
+        <groupId>com.hgcloud</groupId>
         <artifactId>hgcloud-server</artifactId>
         <version>3.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -17,9 +17,9 @@
 
     <dependencies>
 
-        <!-- Snowy common -->
+        <!-- Hgcloud common -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-common</artifactId>
             <exclusions>
                 <exclusion>
@@ -36,7 +36,7 @@
         <!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：https://sa-token.cc -->
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>
+            <artifactId>sa-token-reactor-spring-boot4-starter</artifactId>
         </dependency>
 
         <!-- sa-token 整合 redisson -->
@@ -45,13 +45,17 @@
             <artifactId>sa-token-redisson</artifactId>
         </dependency>
 
-        <!-- snowy-auth -->
+        <!-- hgcloud-auth -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-auth-api</artifactId>
             <exclusions>
                 <exclusion>
                     <artifactId>spring-boot-starter-web</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-boot-starter-webmvc</artifactId>
                     <groupId>org.springframework.boot</groupId>
                 </exclusion>
             </exclusions>
@@ -83,6 +87,10 @@
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-webmvc</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -197,9 +205,15 @@
 <!--        </dependency>-->
 
         <!-- 数据库驱动,可根据自己需要自行删减 -->
+        <!-- Doris 复用 mysql-connector-j -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+        <!-- openGauss。Doris 复用 mysql-connector-j -->
+        <dependency>
+            <groupId>org.opengauss</groupId>
+            <artifactId>opengauss-jdbc</artifactId>
         </dependency>
         <!--
         <dependency>
@@ -217,7 +231,7 @@
         <!-- mybatis-plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
         </dependency>
 
         <!-- knife4j swagger接口文档 -->

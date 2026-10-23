@@ -2,10 +2,10 @@
 	"name": "hgcloud-admin-web",
 	"version": "3.0.0",
 	"private": true,
-	"description": "小诺团队旗下Snowy前端，基于Antdv3.2+Vue3.2+Vite2.8",
+	"description": "小诺团队旗下Hgcloud前端，基于Antdv3.2+Vue3.2+Vite2.8",
 	"repository": {
 		"type": "git",
-		"url": "https://www.gitee.com/xiaonuobase/snowy"
+		"url": "https://www.gitee.com/xiaonuobase/hgcloud"
 	},
 	"license": "Apache-2.0",
 	"author": "yubaoshan",

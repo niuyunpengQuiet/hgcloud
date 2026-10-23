@@ -48,14 +48,14 @@
 
 <style lang="less" scoped>
 	:deep(tree-org-node__content) {
-		background: var(--snowy-background-color);
+		background: var(--hgcloud-background-color);
 	}
 	:deep(.tree-org) {
 		padding-top: 10px;
 		padding-left: 10px;
 	}
 	.xn-tree-line {
-		background: var(--snowy-background-color);
+		background: var(--hgcloud-background-color);
 	}
 	.xn-ht500 {
 		height: 500px;
@@ -67,6 +67,6 @@
 		justify-content: center;
 	}
 	:deep(.zm-tree-handle .zm-tree-handle-item) {
-		background: var(--snowy-background-color);
+		background: var(--hgcloud-background-color);
 	}
 </style>

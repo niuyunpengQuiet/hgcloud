@@ -44,7 +44,7 @@
 												:class="{ active: icon.font_class === selectedIcon }"
 												@click="handleIconSelect(icon)"
 											>
-												<span class="snowy xn-icons" :class="icon.font_class"></span>
+												<span class="hgcloud xn-icons" :class="icon.font_class"></span>
 											</div>
 										</template>
 									</template>
@@ -66,7 +66,7 @@
 					<!-- PC端图标预览 -->
 					<component v-if="selectedIcon && !isMobileIcon" :is="selectedIcon" />
 					<!-- 移动端图标预览 -->
-					<span v-else-if="selectedIcon && isMobileIcon" class="snowy xn-icons" :class="selectedIcon"></span>
+					<span v-else-if="selectedIcon && isMobileIcon" class="hgcloud xn-icons" :class="selectedIcon"></span>
 					<!-- 默认搜索图标 -->
 					<SearchOutlined v-else />
 				</template>

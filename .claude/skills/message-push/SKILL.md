@@ -1,9 +1,9 @@
 ---
 name: message-push
-description: Snowy 消息与推送规范：站内信 DEV_MESSAGE、WebSocket 实时通知、钉钉/企微/飞书推送 DEV_PUSH、前端消息中心联动；微服务版这些能力在 web-app，biz-app 经 Feign 调用。触发场景：1) 业务需要给用户发通知 2) 需要实时推送（WebSocket）3) 对接钉钉/企业微信/飞书机器人 4) biz-app 里发站内信/推送（跨服务）。触发词：消息、通知、站内信、推送、WebSocket、实时、钉钉、企业微信、飞书、DEV_MESSAGE、DEV_PUSH、消息中心、DevMessageApi、DevPushApi、跨服务、Feign。
+description: Hgcloud 消息与推送规范：站内信 DEV_MESSAGE、WebSocket 实时通知、钉钉/企微/飞书推送 DEV_PUSH、前端消息中心联动；微服务版这些能力在 web-app，biz-app 经 Feign 调用。触发场景：1) 业务需要给用户发通知 2) 需要实时推送（WebSocket）3) 对接钉钉/企业微信/飞书机器人 4) biz-app 里发站内信/推送（跨服务）。触发词：消息、通知、站内信、推送、WebSocket、实时、钉钉、企业微信、飞书、DEV_MESSAGE、DEV_PUSH、消息中心、DevMessageApi、DevPushApi、跨服务、Feign。
 ---
 
-# Snowy 消息与推送规范
+# Hgcloud 消息与推送规范
 
 ## 能力矩阵
 
@@ -52,7 +52,7 @@ devMessageApi.sendMessageWithContent(receiverIdList, "分类", "主题", "内容
 
 ## 钉钉/企微/飞书推送
 
-- 配置：存 DEV_CONFIG（`SNOWY_PUSH_*` 键，界面：开发工具 → 系统配置 → 推送配置），默认引擎键 `SNOWY_SYS_DEFAULT_PUSH_ENGINE`；DEV_PUSH 表只存推送记录
+- 配置：存 DEV_CONFIG（`HGCLOUD_PUSH_*` 键，界面：开发工具 → 系统配置 → 推送配置），默认引擎键 `HGCLOUD_SYS_DEFAULT_PUSH_ENGINE`；DEV_PUSH 表只存推送记录
 - 使用（仅 web-app 内可直接注入，biz-app 见上方⚠️）：
 
 ```java
@@ -81,10 +81,10 @@ private DevPushApi devPushApi;            // pushDynamicText / pushDingTalkText 
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/message/` | 站内信模块（含 websocket/） |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/push/` | 推送模块 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevMessageApi.java` | 站内信跨插件接口 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevPushApi.java` | 推送跨插件接口 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/` | biz-app 可用的 Dev*Api 远程代理清单 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-feign-provider/src/main/java/vip/xiaonuo/dev/feign/provider/` | web-app 侧 Feign 服务端实现清单 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/message/` | 站内信模块（含 websocket/） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/push/` | 推送模块 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/com/hgcloud/dev/api/DevMessageApi.java` | 站内信跨插件接口 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/com/hgcloud/dev/api/DevPushApi.java` | 推送跨插件接口 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/com/hgcloud/dev/api/context/` | biz-app 可用的 Dev*Api 远程代理清单 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-feign-provider/src/main/java/com/hgcloud/dev/feign/provider/` | web-app 侧 Feign 服务端实现清单 |
 | `hgcloud-admin-web/src/layout/components/message.vue` | 前端消息中心（WS 客户端） |

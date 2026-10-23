@@ -5,7 +5,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <!-- 注册自定义转换器 -->
-    <conversionRule conversionWord="tid" class="vip.xiaonuo.common.aspect.CustomTraceIdConverter" />
+    <conversionRule conversionWord="tid" class="com.hgcloud.common.aspect.CustomTraceIdConverter" />
 
     <!-- 定义自定义日志格式 -->
     <property  name="CUSTOM_LOG_PATTERN"
@@ -31,7 +31,7 @@
         </root>
 
         <!--各个服务的包在本地执行的时候，打开debug模式-->
-        <logger name="vip.xiaonuo" level="info" additivity="false">
+        <logger name="com.hgcloud" level="info" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
     </springProfile>

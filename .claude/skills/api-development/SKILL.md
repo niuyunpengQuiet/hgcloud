@@ -1,9 +1,9 @@
 ---
 name: api-development
-description: Snowy 接口设计规范：URL 命名、参数与返回、CommonResult、CommonException 异常体系、Knife4j 文档、白名单与权限。触发场景：1) 设计新接口或修改接口 2) 处理统一返回/异常/错误码 3) 接口需要免登录或加权限。触发词：API、接口、RESTful、URL、Controller、CommonResult、CommonException、异常、错误码、doc.html、Knife4j、Swagger、白名单、网关、网关前缀、跨服务、feign、Nacos。注意：CRUD 全套代码模板见 crud-development；Sa-Token 体系详解见 security-auth。
+description: Hgcloud 接口设计规范：URL 命名、参数与返回、CommonResult、CommonException 异常体系、Knife4j 文档、白名单与权限。触发场景：1) 设计新接口或修改接口 2) 处理统一返回/异常/错误码 3) 接口需要免登录或加权限。触发词：API、接口、RESTful、URL、Controller、CommonResult、CommonException、异常、错误码、doc.html、Knife4j、Swagger、白名单、网关、网关前缀、跨服务、feign、Nacos。注意：CRUD 全套代码模板见 crud-development；Sa-Token 体系详解见 security-auth。
 ---
 
-# Snowy API 开发规范
+# Hgcloud API 开发规范
 
 ## URL 命名规范
 
@@ -41,7 +41,7 @@ Controller 上**只写** `/{插件}/{业务域}/{动作}`，网关前缀由网�
 ## 统一返回 CommonResult
 
 ```java
-// hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/pojo/CommonResult.java
+// hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/pojo/CommonResult.java
 CommonResult.data(obj)          // 成功带数据：{code:200, msg:"操作成功", data:obj, traceId:...}
 CommonResult.ok()               // 成功无数据（写操作）
 CommonResult.error("消息")       // 失败（一般不直接用，业务失败应抛 CommonException）
@@ -76,16 +76,16 @@ throw new CommonException(CommonExceptionEnum.XXX);   // 需要新错误码时�
 @Schema(description = "标题", requiredMode = Schema.RequiredMode.REQUIRED)  // 必填字段
 ```
 
-接口文档地址：`http://localhost:9003/doc.html`（**网关聚合**，basic 认证 snowyAdmin/Snowy@2026!，配置在 Nacos `hgcloud-gateway-app-dev.yaml` 的 `knife4j`；各服务自身 `knife4j.basic.enable=false`）。所有 description 用中文。
+接口文档地址：`http://localhost:9003/doc.html`（**网关聚合**，basic 认证 hgcloudAdmin/Hgcloud@2026!，配置在 Nacos `hgcloud-gateway-app-dev.yaml` 的 `knife4j`；各服务自身 `knife4j.basic.enable=false`）。所有 description 用中文。
 
 分组共 7 个，由两层配置拼起来：
 
 | 分组 | springdoc 分组配置所在 | 网关聚合路由 url |
 |---|---|---|
-| SNOWY-PLUGIN-AUTH / DEV / GEN / MOBILE / SYS | `hgcloud-web-app-dev.yaml` 的 `springdoc.group-configs`（按包 `vip.xiaonuo.{插件}` 扫描） | `/api/webapp/v3/api-docs/{分组}` |
-| SNOWY-PLUGIN-BIZ / CLIENT | `hgcloud-biz-app-dev.yaml` 的 `springdoc.group-configs` | `/api/bizapp/v3/api-docs/{分组}` |
+| HGCLOUD-PLUGIN-AUTH / DEV / GEN / MOBILE / SYS | `hgcloud-web-app-dev.yaml` 的 `springdoc.group-configs`（按包 `com.hgcloud.{插件}` 扫描） | `/api/webapp/v3/api-docs/{分组}` |
+| HGCLOUD-PLUGIN-BIZ / CLIENT | `hgcloud-biz-app-dev.yaml` 的 `springdoc.group-configs` | `/api/bizapp/v3/api-docs/{分组}` |
 
-- biz 插件新业务域只要包在 `vip.xiaonuo.biz` 下，自动进 SNOWY-PLUGIN-BIZ 分组，无需改配置
+- biz 插件新业务域只要包在 `com.hgcloud.biz` 下，自动进 HGCLOUD-PLUGIN-BIZ 分组，无需改配置
 - 新插件/新包：在所在服务的 Nacos 配置加 springdoc 分组 + 在网关 Nacos 配置 `knife4j.gateway.routes` 加一条聚合路由
 - Nacos 配置的仓库源文件在 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/{dev,test,prod}/`，运行时以 Nacos 控制台（`http://localhost:8848/nacos`）里的同名配置为准
 - ⚠️ 注意：CLIENT 分组配在 biz-app，但 client-func 实际装在 web-app，该分组可能为空（推导，使用前请先确认）
@@ -140,7 +140,7 @@ public CommonResult<String> add(...) { ... }
 
 | 层 | 位置 | 返回值约定 |
 |---|---|---|
-| `XxxApi` 接口 | `hgcloud-plugin/{插件}/{插件}-api`，包 `vip.xiaonuo.{插件}.api` | `JSONObject` / `List<JSONObject>` / `Page<JSONObject>` / `String` / 基本类型，**不返回 Entity**（平台里 AuthInnerApi 返回 CommonResult 属特例，业务接口不要仿） |
+| `XxxApi` 接口 | `hgcloud-plugin/{插件}/{插件}-api`，包 `com.hgcloud.{插件}.api` | `JSONObject` / `List<JSONObject>` / `Page<JSONObject>` / `String` / 基本类型，**不返回 Entity**（平台里 AuthInnerApi 返回 CommonResult 属特例，业务接口不要仿） |
 | `XxxFeign` | `{插件}-feign`，`@FeignClient(name = FeignConstant.WEB_APP 或 BIZ_APP, contextId = "XxxFeign")` | 路径 `/feign/{插件}/{域}/{方法}`；对象/集合一律返回 `String`（JSON），基本类型可直接返回 |
 | `XxxFeignProvider` | `{插件}-feign-provider`，`@RestController implements XxxFeign` | 转调本地 XxxApi，用 `JSONUtil.toJsonStr` 序列化 |
 | `XxxApiContextBean` | `{插件}-api-context`，`@Component implements XxxApi` | 调 Feign 后用 `JSONUtil.parseObj` / `toList` 还原成 XxxApi 声明的类型 |
@@ -179,11 +179,11 @@ public CommonResult<String> add(...) { ... }
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/notice/controller/BizNoticeController.java` | 标准 Controller 范本 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/vip/xiaonuo/sys/modular/user/controller/SysUserController.java` | 含导出/下载 void 场景 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/pojo/CommonResult.java` | 统一返回体 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/exception/CommonException.java` | 业务异常 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/enums/CommonExceptionEnum.java` | 错误码枚举 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/controller/BizNoticeController.java` | 标准 Controller 范本 |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/controller/SysUserController.java` | 含导出/下载 void 场景 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/pojo/CommonResult.java` | 统一返回体 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/exception/CommonException.java` | 业务异常 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/enums/CommonExceptionEnum.java` | 错误码枚举 |
 | `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/handler/GlobalExceptionHandler.java` | web-app 全局异常处理 |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/handler/GlobalExceptionHandler.java` | biz-app 全局异常处理（GlobalExceptionUtil 含 FeignException 分支） |
 | `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | 网关路由白名单（带前缀） |
@@ -191,5 +191,5 @@ public CommonResult<String> add(...) { ... }
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | biz-app 路由白名单（不带前缀） |
 | `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-gateway-app-dev.yaml` | 网关路由 + Knife4j 聚合路由与 basic 认证 |
 | `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-web-app-dev.yaml`、`hgcloud-biz-app-dev.yaml` | 各服务 springdoc 接口文档分组 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-feign/src/main/java/vip/xiaonuo/sys/feign/SysUserFeign.java` | Feign 接口路径与返回值范本 |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-feign/src/main/java/com/hgcloud/sys/feign/SysUserFeign.java` | Feign 接口路径与返回值范本 |
 | `hgcloud-admin-web/src/utils/apiAdaptive.js` | 前端 URL 前缀 → 网关前缀映射 |

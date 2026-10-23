@@ -4,12 +4,12 @@
 			<!-- 左侧品牌展示区 -->
 			<div class="login-left">
 				<div class="brand-info">
-					<img :src="sysBaseConfig.SNOWY_SYS_LOGO" class="brand-logo" alt="Logo" />
-					<h1 class="brand-title">{{ sysBaseConfig.SNOWY_SYS_NAME }}</h1>
-					<p class="brand-desc">{{ sysBaseConfig.SNOWY_SYS_DEFAULT_DESCRRIPTION }}</p>
+					<img :src="sysBaseConfig.HGCLOUD_SYS_LOGO" class="brand-logo" alt="Logo" />
+					<h1 class="brand-title">{{ sysBaseConfig.HGCLOUD_SYS_NAME }}</h1>
+					<p class="brand-desc">{{ sysBaseConfig.HGCLOUD_SYS_DEFAULT_DESCRRIPTION }}</p>
 				</div>
 				<div class="brand-footer">
-					<p>{{ sysBaseConfig.SNOWY_SYS_COPYRIGHT }}</p>
+					<p>{{ sysBaseConfig.HGCLOUD_SYS_COPYRIGHT }}</p>
 				</div>
 			</div>
 

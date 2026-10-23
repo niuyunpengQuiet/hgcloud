@@ -198,7 +198,7 @@
 		color: #595959;
 		font-size: 13px;
 	}
-	:deep(.snowy-theme-dark) & {
+	:deep(.hgcloud-theme-dark) & {
 		.calendar-wrapper {
 			border-bottom-color: #303030;
 		}

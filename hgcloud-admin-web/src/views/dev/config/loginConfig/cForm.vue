@@ -11,9 +11,9 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="连续登录失败持续时间：" name="SNOWY_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_DURATION_FOR_C">
+					<a-form-item label="连续登录失败持续时间：" name="HGCLOUD_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_DURATION_FOR_C">
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_DURATION_FOR_C"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_DURATION_FOR_C"
 							placeholder="分钟"
 							style="width: 100%"
 						>
@@ -22,9 +22,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="连续登录失败次数：" name="SNOWY_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_TIMES_FOR_C">
+					<a-form-item label="连续登录失败次数：" name="HGCLOUD_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_TIMES_FOR_C">
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_TIMES_FOR_C"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_TIMES_FOR_C"
 							placeholder="分钟"
 							style="width: 100%"
 						>
@@ -35,10 +35,10 @@
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
 					<a-form-item
 						label="连续登录失败锁定时间："
-						name="SNOWY_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_LOCK_DURATION_FOR_C"
+						name="HGCLOUD_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_LOCK_DURATION_FOR_C"
 					>
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_LOCK_DURATION_FOR_C"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_LOCK_DURATION_FOR_C"
 							placeholder="分钟"
 							style="width: 100%"
 						>
@@ -47,9 +47,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="是否允许手机号登录：" name="SNOWY_SYS_DEFAULT_ALLOW_PHONE_LOGIN_FLAG_FOR_C">
+					<a-form-item label="是否允许手机号登录：" name="HGCLOUD_SYS_DEFAULT_ALLOW_PHONE_LOGIN_FLAG_FOR_C">
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_ALLOW_PHONE_LOGIN_FLAG_FOR_C"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_ALLOW_PHONE_LOGIN_FLAG_FOR_C"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否允许手机号登录"
@@ -58,8 +58,8 @@
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
 					<a-form-item
-						v-if="formData.SNOWY_SYS_DEFAULT_ALLOW_PHONE_LOGIN_FLAG_FOR_C"
-						name="SNOWY_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_PHONE_FOR_C"
+						v-if="formData.HGCLOUD_SYS_DEFAULT_ALLOW_PHONE_LOGIN_FLAG_FOR_C"
+						name="HGCLOUD_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_PHONE_FOR_C"
 					>
 						<template #label>
 							<a-tooltip>
@@ -68,7 +68,7 @@
 							</a-tooltip>
 						</template>
 						<a-radio-group
-							v-model:value="formData.SNOWY_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_PHONE_FOR_C"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_PHONE_FOR_C"
 							:options="strategyWhenNoUserOptions"
 							:disabled="loginNoUserPhoneDisabled"
 							placeholder="请选择手机号无对应用户时策略"
@@ -76,9 +76,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="是否允许邮箱登录：" name="SNOWY_SYS_DEFAULT_ALLOW_EMAIL_LOGIN_FLAG_FOR_C">
+					<a-form-item label="是否允许邮箱登录：" name="HGCLOUD_SYS_DEFAULT_ALLOW_EMAIL_LOGIN_FLAG_FOR_C">
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_ALLOW_EMAIL_LOGIN_FLAG_FOR_C"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_ALLOW_EMAIL_LOGIN_FLAG_FOR_C"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否允许邮箱登录"
@@ -87,8 +87,8 @@
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
 					<a-form-item
-						v-if="formData.SNOWY_SYS_DEFAULT_ALLOW_EMAIL_LOGIN_FLAG_FOR_C"
-						name="SNOWY_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_EMAIL_FOR_C"
+						v-if="formData.HGCLOUD_SYS_DEFAULT_ALLOW_EMAIL_LOGIN_FLAG_FOR_C"
+						name="HGCLOUD_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_EMAIL_FOR_C"
 					>
 						<template #label>
 							<a-tooltip>
@@ -97,7 +97,7 @@
 							</a-tooltip>
 						</template>
 						<a-radio-group
-							v-model:value="formData.SNOWY_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_EMAIL_FOR_C"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_EMAIL_FOR_C"
 							:options="strategyWhenNoUserOptions"
 							:disabled="loginNoUserEmailDisabled"
 							placeholder="请选择邮箱无对应用户时策略"
@@ -105,9 +105,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-					<a-form-item label="是否允许动态口令登录：" name="SNOWY_SYS_DEFAULT_ALLOW_OTP_LOGIN_FLAG_FOR_C">
+					<a-form-item label="是否允许动态口令登录：" name="HGCLOUD_SYS_DEFAULT_ALLOW_OTP_LOGIN_FLAG_FOR_C">
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_ALLOW_OTP_LOGIN_FLAG_FOR_C"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_ALLOW_OTP_LOGIN_FLAG_FOR_C"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否允许动态口令登录"
@@ -173,7 +173,7 @@
 		}
 		configApi.configList(regParam).then((regData) => {
 			const regFlagResult = regData.find((f) => {
-				if (f.configKey === 'SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C') {
+				if (f.configKey === 'HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C') {
 					return f
 				}
 			})
@@ -186,21 +186,21 @@
 				loginNoUserPhoneDisabled.value = true
 				loginNoUserEmailDisabled.value = true
 				// 并且将其设为-不允许登录
-				formData.value.SNOWY_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_PHONE_FOR_C = 'NOT_ALLOW_LOGIN'
-				formData.value.SNOWY_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_EMAIL_FOR_C = 'NOT_ALLOW_LOGIN'
+				formData.value.HGCLOUD_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_PHONE_FOR_C = 'NOT_ALLOW_LOGIN'
+				formData.value.HGCLOUD_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_EMAIL_FOR_C = 'NOT_ALLOW_LOGIN'
 			}
 		})
 	}
 	// 默认要校验的
 	const formRules = {
-		SNOWY_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_DURATION_FOR_C: [required('请输入连续登录失败持续时间')],
-		SNOWY_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_TIMES_FOR_C: [required('请输入连续登录失败次数')],
-		SNOWY_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_LOCK_DURATION_FOR_C: [required('请输入连续登录失败锁定时间')],
-		SNOWY_SYS_DEFAULT_ALLOW_PHONE_LOGIN_FLAG_FOR_C: [required('请选择是否允许手机号登录')],
-		SNOWY_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_PHONE_FOR_C: [required('请选择手机号无对应用户时策略')],
-		SNOWY_SYS_DEFAULT_ALLOW_EMAIL_LOGIN_FLAG_FOR_C: [required('请选择是否允许邮箱登录')],
-		SNOWY_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_EMAIL_FOR_C: [required('请选择邮箱无对应用户时策略')],
-		SNOWY_SYS_DEFAULT_ALLOW_OTP_LOGIN_FLAG_FOR_C: [required('请选择是否允许动态口令登录')]
+		HGCLOUD_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_DURATION_FOR_C: [required('请输入连续登录失败持续时间')],
+		HGCLOUD_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_TIMES_FOR_C: [required('请输入连续登录失败次数')],
+		HGCLOUD_SYS_DEFAULT_CONTINUOUS_LOGIN_FAIL_LOCK_DURATION_FOR_C: [required('请输入连续登录失败锁定时间')],
+		HGCLOUD_SYS_DEFAULT_ALLOW_PHONE_LOGIN_FLAG_FOR_C: [required('请选择是否允许手机号登录')],
+		HGCLOUD_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_PHONE_FOR_C: [required('请选择手机号无对应用户时策略')],
+		HGCLOUD_SYS_DEFAULT_ALLOW_EMAIL_LOGIN_FLAG_FOR_C: [required('请选择是否允许邮箱登录')],
+		HGCLOUD_SYS_DEFAULT_STRATEGY_WHEN_NO_USER_WITH_EMAIL_FOR_C: [required('请选择邮箱无对应用户时策略')],
+		HGCLOUD_SYS_DEFAULT_ALLOW_OTP_LOGIN_FLAG_FOR_C: [required('请选择是否允许动态口令登录')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

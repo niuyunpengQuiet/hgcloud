@@ -116,17 +116,17 @@
 			{
 				position: [116.39, 39.9],
 				content: [
-					"<div style='padding:0'><b>Snowy-小诺开源技术</b>",
+					"<div style='padding:0'><b>Hgcloud-小诺开源技术</b>",
 					'网站 : https://www.xiaonuo.vip',
-					'Snowy是一款国内首例国产密码算法加密框架，采用Vue3.x+AntDesignVue4.x+SpringBoot3.x前后分离技术打造，技术框架与密码的结合，让前后分离‘密’不可分！</div>'
+					'Hgcloud是一款国内首例国产密码算法加密框架，采用Vue3.x+AntDesignVue4.x+SpringBoot3.x前后分离技术打造，技术框架与密码的结合，让前后分离‘密’不可分！</div>'
 				]
 			},
 			{
 				position: [116.33, 39.5],
 				content: [
-					"<div style='padding:0'><b>Snowy-小诺开源技术</b>",
+					"<div style='padding:0'><b>Hgcloud-小诺开源技术</b>",
 					'网站 : https://www.xiaonuo.vip',
-					'Snowy是一款国内首例国产密码算法加密框架，采用Vue3.x+AntDesignVue4.x+SpringBoot3.x前后分离技术打造，技术框架与密码的结合，让前后分离‘密’不可分！</div>'
+					'Hgcloud是一款国内首例国产密码算法加密框架，采用Vue3.x+AntDesignVue4.x+SpringBoot3.x前后分离技术打造，技术框架与密码的结合，让前后分离‘密’不可分！</div>'
 				]
 			}
 		])

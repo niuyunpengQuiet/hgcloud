@@ -1,15 +1,15 @@
 ---
 name: code-patterns
-description: Snowy 全量编码禁令速查表（含"来自同类快速开发框架的惯性错误"专栏）、命名规范、JSON/日期约定、Git 提交规范。触发场景：1) 写任何 Java/前端代码前的规范自查 2) 审查代码风格问题 3) 提交代码。触发词：编码规范、禁令、命名、代码风格、惯性错误、JSON、日期、Git 提交、commit、微服务禁令、feign、跨服务、网关前缀。注意：本技能是速查表；分层结构见 crud-development，模块组织见 plugin-architecture。
+description: Hgcloud 全量编码禁令速查表（含"来自同类快速开发框架的惯性错误"专栏）、命名规范、JSON/日期约定、Git 提交规范。触发场景：1) 写任何 Java/前端代码前的规范自查 2) 审查代码风格问题 3) 提交代码。触发词：编码规范、禁令、命名、代码风格、惯性错误、JSON、日期、Git 提交、commit、微服务禁令、feign、跨服务、网关前缀。注意：本技能是速查表；分层结构见 crud-development，模块组织见 plugin-architecture。
 ---
 
-# Snowy 编码禁令速查表
+# Hgcloud 编码禁令速查表
 
 ## ⚠️ 来自同类快速开发框架的惯性错误（最高优先级）
 
 AI 对主流 Java 脚手架先验极强，**以下每条都是反向的**，写代码前先扫一遍：
 
-| # | ❌ 常见脚手架惯性写法 | ✅ Snowy 正确写法 |
+| # | ❌ 常见脚手架惯性写法 | ✅ Hgcloud 正确写法 |
 |---|---|---|
 | 1 | `implements IXxxService`（不继承） | `extends ServiceImpl<XxxMapper, Xxx> implements XxxService` |
 | 2 | `@RequiredArgsConstructor` + `private final` 构造器注入 | `@Resource` 字段注入（jakarta.annotation.Resource） |
@@ -33,7 +33,7 @@ AI 对主流 Java 脚手架先验极强，**以下每条都是反向的**，写�
 
 | 禁止 | 替代 | 原因 |
 |---|---|---|
-| 包名 `com.*` / `org.*` | `vip.xiaonuo.*` | 包结构即模块边界 |
+| 包名 `com.*` / `org.*` | `com.hgcloud.*` | 包结构即模块边界 |
 | 删除/省略 12 行版权头 | 每个 .java 必带 | Apache 2.0 协议要求 |
 | `@Autowired` | `@Resource` | 项目统一风格（自有代码 250+ 处 vs 8 处）；平台 feign-provider / api-context 层用的 `@RequiredArgsConstructor` 构造器注入属历史写法，新代码不要模仿 |
 | `@Data` | `@Getter @Setter` | 避免相等性/构造器副作用 |
@@ -175,10 +175,10 @@ docs: 补充后端开发指南的跨插件调用章节
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/notice/` | 全部规范的活样本 |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/entity/BizUser.java` | 复杂 Entity（@Trans/SM4） |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/vip/xiaonuo/sys/modular/user/service/impl/SysUserServiceImpl.java` | 复杂业务写法 |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/service/impl/BizUserServiceImpl.java` | biz 里跨服务只注入 SysUserApi 的真实写法 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/` | 全部规范的活样本 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/user/entity/BizUser.java` | 复杂 Entity（@Trans/SM4） |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/service/impl/SysUserServiceImpl.java` | 复杂业务写法 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/user/service/impl/BizUserServiceImpl.java` | biz 里跨服务只注入 SysUserApi 的真实写法 |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/pom.xml` | biz-func 只依赖各插件 `-api` 的依据 |
 | `hgcloud-modules/hgcloud-biz-app/pom.xml`、`hgcloud-modules/hgcloud-web-app/pom.xml` | 两个应用的插件装配（func 与 feign+api-context 二选一） |
 | `CLAUDE.md` | 项目宪法（易错点警告节） |

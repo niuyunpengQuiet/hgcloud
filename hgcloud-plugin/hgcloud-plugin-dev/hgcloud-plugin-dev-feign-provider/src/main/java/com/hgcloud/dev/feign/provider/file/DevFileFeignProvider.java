@@ -1,0 +1,180 @@
+/*
+ * Copyright [2022] [https://www.xiaonuo.vip]
+ *
+ * Hgcloud采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ *
+ * 1.请不要删除和修改根目录下的LICENSE文件。
+ * 2.请不要删除和修改Hgcloud源码头部的版权声明。
+ * 3.本项目代码可免费商业使用，商业使用请保留源码和相关描述文件的项目出处，作者声明等。
+ * 4.分发源码时候，请注明软件出处 https://www.xiaonuo.vip
+ * 5.不可二次分发开源参与同类竞品，如有想法可联系团队xiaonuobase@qq.com商议合作。
+ * 6.若您的项目无法满足以上几点，需要更多功能代码，获取Hgcloud商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
+ */
+package com.hgcloud.dev.feign.provider.file;
+
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import feign.Response;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import com.hgcloud.common.exception.CommonException;
+import com.hgcloud.common.util.CommonServletUtil;
+import com.hgcloud.dev.api.DevFileApi;
+import com.hgcloud.dev.feign.DevFileFeign;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * DevFileFeign提供者
+ *
+ * @author yubaoshan
+ * @date 2025/8/6 21:18
+ */
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+public class DevFileFeignProvider implements DevFileFeign {
+
+    private final DevFileApi devFileApi;
+
+    @Override
+    public String uploadDynamicReturnId(MultipartFile file) {
+        return devFileApi.uploadDynamicReturnId(file);
+    }
+
+    @Override
+    public String uploadDynamicReturnUrl(MultipartFile file) {
+        return devFileApi.uploadDynamicReturnUrl(file);
+    }
+
+    @Override
+    public String storageFileWithReturnUrlLocal(MultipartFile file) {
+        return devFileApi.storageFileWithReturnUrlLocal(file);
+    }
+
+    @Override
+    public String storageFileWithReturnIdLocal(MultipartFile file) {
+        return devFileApi.storageFileWithReturnIdLocal(file);
+    }
+
+    @Override
+    public String storageFileWithReturnUrlAliyun(MultipartFile file) {
+        return devFileApi.storageFileWithReturnUrlAliyun(file);
+    }
+
+    @Override
+    public String storageFileWithReturnIdAliyun(MultipartFile file) {
+        return devFileApi.storageFileWithReturnIdAliyun(file);
+    }
+
+    @Override
+    public String storageFileWithReturnUrlTencent(MultipartFile file) {
+        return devFileApi.storageFileWithReturnUrlTencent(file);
+    }
+
+    @Override
+    public String storageFileWithReturnIdTencent(MultipartFile file) {
+        return devFileApi.storageFileWithReturnIdTencent(file);
+    }
+
+    @Override
+    public String storageFileWithReturnUrlMinio(MultipartFile file) {
+        return devFileApi.storageFileWithReturnUrlMinio(file);
+    }
+
+    @Override
+    public String storageFileWithReturnIdMinio(MultipartFile file) {
+        return devFileApi.storageFileWithReturnIdMinio(file);
+    }
+
+    @Override
+    public String storageFileWithReturnUrlFtp(MultipartFile file) {
+        return devFileApi.storageFileWithReturnUrlFtp(file);
+    }
+
+    @Override
+    public String storageFileWithReturnIdFtp(MultipartFile file) {
+        return devFileApi.storageFileWithReturnIdFtp(file);
+    }
+
+    @Override
+    public JSONObject getFileInfoById(String id) {
+        return devFileApi.getFileInfoById(id);
+    }
+
+    @Override
+    public void deleteAbsoluteById(String id) {
+        devFileApi.deleteAbsoluteById(id);
+    }
+
+    @Override
+    public JSONArray getFileListByIds(List<String> ids) {
+        return devFileApi.getFileListByIds(ids);
+    }
+
+    @Override
+    public String storageFileWithReturnUrlOss(MultipartFile file) {
+        return devFileApi.storageFileWithReturnUrlOss(file);
+    }
+
+    @Override
+    public byte[] getFileBytes(String engine, String bucket, String fileKey) {
+        return devFileApi.getFileBytes(engine, bucket, fileKey);
+    }
+
+    @Override
+    public String storageFileWithReturnUrlRustfs(MultipartFile file) {
+        return devFileApi.storageFileWithReturnUrlRustfs(file);
+    }
+
+    @Override
+    public String storageFileWithReturnIdRustfs(MultipartFile file) {
+        return devFileApi.storageFileWithReturnIdRustfs(file);
+    }
+
+    @Override
+    public Long getFileSize(String engine, String bucket, String fileKey) {
+        return devFileApi.getFileSize(engine, bucket, fileKey);
+    }
+
+    @Override
+    public Response writeFileToStream(String engine, String bucket, String fileKey) {
+        // 服务端直接把文件边读边写入响应体，返回null表示响应已自行输出
+        HttpServletResponse response = CommonServletUtil.getResponse();
+        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        try {
+            devFileApi.writeFileToStream(engine, bucket, fileKey, response.getOutputStream());
+        } catch (IOException e) {
+            throw new CommonException("输出文件流失败：{}", e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public String registerExistingFileReturnId(String engine, String bucket, String objectKey, String fileName, Long sizeBytes) {
+        return devFileApi.registerExistingFileReturnId(engine, bucket, objectKey, fileName, sizeBytes);
+    }
+
+    @Override
+    public String storageStreamReturnId(String engine, String fileName, Long size, byte[] content) {
+        byte[] bytes = ObjectUtil.isNull(content) ? new byte[0] : content;
+        return devFileApi.storageStreamReturnId(engine, new ByteArrayInputStream(bytes), fileName, size);
+    }
+
+    @Override
+    public void generateThumbnail(String fileId) {
+        devFileApi.generateThumbnail(fileId);
+    }
+
+    @Override
+    public String registerSharedFileReturnId(String sourceFileId, String targetEngine, String fileName, Long sizeBytes) {
+        return devFileApi.registerSharedFileReturnId(sourceFileId, targetEngine, fileName, sizeBytes);
+    }
+}

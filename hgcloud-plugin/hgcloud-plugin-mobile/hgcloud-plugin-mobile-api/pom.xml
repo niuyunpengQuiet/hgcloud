@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>vip.xiaonuo</groupId>
+        <groupId>com.hgcloud</groupId>
         <artifactId>hgcloud-plugin-mobile</artifactId>
         <version>3.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -18,7 +18,7 @@
     <dependencies>
         <!-- 每个插件接口都要引入common -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-common</artifactId>
         </dependency>
     </dependencies>

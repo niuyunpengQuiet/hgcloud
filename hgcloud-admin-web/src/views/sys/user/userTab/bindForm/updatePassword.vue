@@ -3,7 +3,7 @@
 		<a-modal title="修改密码" :width="400" :open="visible" :destroy-on-close="true" @cancel="onClose">
 			<a-skeleton active v-if="!updatePasswordConfig" />
 			<a-form v-else ref="formRef" :model="formState" :rules="formRules" layout="vertical">
-				<div v-if="updatePasswordConfig.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'OLD'">
+				<div v-if="updatePasswordConfig.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'OLD'">
 					<a-form-item label="旧密码：" name="password" has-feedback>
 						<a-input-password
 							v-model:value="formState.password"
@@ -16,22 +16,22 @@
 				<a-form-item
 					name="phone"
 					has-feedback
-					v-if="updatePasswordConfig.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'PHONE'"
+					v-if="updatePasswordConfig.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'PHONE'"
 				>
 					<a-input v-model:value="formState.phone" placeholder="请输入手机号" allow-clear autocomplete="off" />
 				</a-form-item>
 				<a-form-item
 					name="email"
 					has-feedback
-					v-if="updatePasswordConfig.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'EMAIL'"
+					v-if="updatePasswordConfig.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'EMAIL'"
 				>
 					<a-input v-model:value="formState.email" placeholder="请输入邮箱号" allow-clear autocomplete="off" />
 				</a-form-item>
 				<a-form-item
 					name="validCode"
 					v-if="
-						updatePasswordConfig.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'PHONE' ||
-						updatePasswordConfig.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'EMAIL'
+						updatePasswordConfig.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'PHONE' ||
+						updatePasswordConfig.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'EMAIL'
 					"
 				>
 					<a-row :gutter="8">
@@ -136,8 +136,8 @@
 					if (!value) return Promise.resolve()
 
 					// 检查密码长度
-					const minLength = updatePasswordConfig.value.SNOWY_SYS_DEFAULT_PASSWORD_MIN_LENGTH_FOR_B
-					const maxLength = updatePasswordConfig.value.SNOWY_SYS_DEFAULT_PASSWORD_MAX_LENGTH_FOR_B
+					const minLength = updatePasswordConfig.value.HGCLOUD_SYS_DEFAULT_PASSWORD_MIN_LENGTH_FOR_B
+					const maxLength = updatePasswordConfig.value.HGCLOUD_SYS_DEFAULT_PASSWORD_MAX_LENGTH_FOR_B
 					if (value.length < minLength) {
 						return Promise.reject(`密码长度不能小于${minLength}位`)
 					}
@@ -147,7 +147,7 @@
 
 					// 检查连续相同字符
 					const maxSameChar =
-						updatePasswordConfig.value.SNOWY_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTINUOUS_SAME_CHARACTER_LENGTH_FOR_B
+						updatePasswordConfig.value.HGCLOUD_SYS_DEFAULT_PASSWORD_NOT_ALLOW_CONTINUOUS_SAME_CHARACTER_LENGTH_FOR_B
 					let maxCount = 1
 					let currentChar = value[0]
 					let currentCount = 1
@@ -165,7 +165,7 @@
 					}
 
 					// 检查密码复杂度
-					const complexity = updatePasswordConfig.value.SNOWY_SYS_DEFAULT_PASSWORD_COMPLEXITY_FOR_B
+					const complexity = updatePasswordConfig.value.HGCLOUD_SYS_DEFAULT_PASSWORD_COMPLEXITY_FOR_B
 					const hasNumber = /\d/.test(value)
 					const hasLowerCase = /[a-z]/.test(value)
 					const hasUpperCase = /[A-Z]/.test(value)
@@ -215,7 +215,7 @@
 	const getValidCode = () => {
 		formRef.value
 			.validateFields([
-				updatePasswordConfig.value.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'PHONE' ? 'phone' : 'email'
+				updatePasswordConfig.value.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'PHONE' ? 'phone' : 'email'
 			])
 			.then(() => {
 				captchaVisible.value = true
@@ -230,7 +230,7 @@
 			.then(() => {
 				submitLoading.value = true
 				const cloneFormData = cloneDeep(formState.value)
-				if (updatePasswordConfig.value.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'OLD') {
+				if (updatePasswordConfig.value.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'OLD') {
 					cloneFormData.password = smCrypto.doSm2Encrypt(formState.value.password)
 					cloneFormData.newPassword = smCrypto.doSm2Encrypt(formState.value.newPassword)
 					userCenterApi
@@ -242,7 +242,7 @@
 						.finally(() => {
 							submitLoading.value = false
 						})
-				} else if (updatePasswordConfig.value.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'PHONE') {
+				} else if (updatePasswordConfig.value.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'PHONE') {
 					userCenterApi
 						.userUpdatePasswordByPhone(cloneFormData)
 						.then(() => {
@@ -252,7 +252,7 @@
 						.finally(() => {
 							submitLoading.value = false
 						})
-				} else if (updatePasswordConfig.value.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'EMAIL') {
+				} else if (updatePasswordConfig.value.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'EMAIL') {
 					userCenterApi
 						.userUpdatePasswordByEmail(cloneFormData)
 						.then(() => {
@@ -310,7 +310,7 @@
 				validCodeReqNo: formState.value.validCodeReqNo,
 				validCode: captchaFormModalData.value.validCode
 			}
-			if (updatePasswordConfig.value.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'PHONE') {
+			if (updatePasswordConfig.value.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'PHONE') {
 				param.phone = formState.value.phone
 				userCenterApi
 					.userUpdatePasswordGetPhoneValidCode(param)
@@ -326,7 +326,7 @@
 					.finally(() => {
 						captchaFormModalData.value.validCode = ''
 					})
-			} else if (updatePasswordConfig.value.SNOWY_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'EMAIL') {
+			} else if (updatePasswordConfig.value.HGCLOUD_SYS_DEFAULT_PASSWORD_UPDATE_VALID_TYPE_FOR_B === 'EMAIL') {
 				param.email = formState.value.email
 				userCenterApi
 					.userUpdatePasswordGetEmailValidCode(param)

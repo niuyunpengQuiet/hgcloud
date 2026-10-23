@@ -129,7 +129,7 @@
 		white-space: nowrap;
 		max-width: 200px;
 	}
-	:deep(.snowy-theme-dark) & {
+	:deep(.hgcloud-theme-dark) & {
 		.notice-title {
 			color: rgba(255, 255, 255, 0.85);
 		}

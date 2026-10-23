@@ -1,14 +1,14 @@
 /*
  * Copyright [2022] [https://www.xiaonuo.vip]
  *
- * Snowy采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ * Hgcloud采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *
  * 1.请不要删除和修改根目录下的LICENSE文件。
- * 2.请不要删除和修改Snowy源码头部的版权声明。
+ * 2.请不要删除和修改Hgcloud源码头部的版权声明。
  * 3.本项目代码可免费商业使用，商业使用请保留源码和相关描述文件的项目出处，作者声明等。
  * 4.分发源码时候，请注明软件出处 https://www.xiaonuo.vip
  * 5.不可二次分发开源参与同类竞品，如有想法可联系团队xiaonuobase@qq.com商议合作。
- * 6.若您的项目无法满足以上几点，需要更多功能代码，获取Snowy商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
+ * 6.若您的项目无法满足以上几点，需要更多功能代码，获取Hgcloud商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
  */
 package com.hgcloud.gateway.config;
 
@@ -27,11 +27,11 @@ import cn.hutool.http.ContentType;
 import cn.hutool.http.Header;
 import feign.codec.Decoder;
 import jakarta.annotation.Resource;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.boot.http.converter.autoconfigure.HttpMessageConverters;
+import org.springframework.cloud.openfeign.support.FeignHttpMessageConverters;
+import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
 import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.context.annotation.Bean;
@@ -46,11 +46,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
-import vip.xiaonuo.auth.core.enums.SaClientTypeEnum;
-import vip.xiaonuo.auth.core.util.StpClientLoginUserUtil;
-import vip.xiaonuo.auth.core.util.StpClientUtil;
-import vip.xiaonuo.auth.core.util.StpLoginUserUtil;
-import vip.xiaonuo.common.enums.SysBuildInEnum;
+import com.hgcloud.auth.core.enums.SaClientTypeEnum;
+import com.hgcloud.auth.core.util.StpClientLoginUserUtil;
+import com.hgcloud.auth.core.util.StpClientUtil;
+import com.hgcloud.auth.core.util.StpLoginUserUtil;
+import com.hgcloud.common.enums.SysBuildInEnum;
 import com.hgcloud.gateway.core.util.GlobalExceptionUtil;
 
 import java.util.ArrayList;
@@ -245,24 +245,18 @@ public class GatewayConfigure {
      * @return Decoder
      **/
     @Bean
-    public Decoder feignDecoder() {
-        return new ResponseEntityDecoder(new SpringDecoder(feignHttpMessageConverter()));
+    public Decoder feignDecoder(ObjectProvider<FeignHttpMessageConverters> messageConverters) {
+        return new ResponseEntityDecoder(new SpringDecoder(messageConverters));
     }
 
     /**
-     * @description Feign http 消息转换器
+     * @description Feign 增加 text/html 的 Jackson 转换器
      * @author dongxiayu
      * @date 2022/11/16 1:46
-     * @return
      **/
-    public ObjectFactory<HttpMessageConverters> feignHttpMessageConverter() {
-        final HttpMessageConverters httpMessageConverters = new HttpMessageConverters(new GateWayMappingJackson2HttpMessageConverter());
-        return new ObjectFactory<HttpMessageConverters>() {
-            @Override
-            public HttpMessageConverters getObject() throws BeansException {
-                return httpMessageConverters;
-            }
-        };
+    @Bean
+    public HttpMessageConverterCustomizer gatewayFeignHttpMessageConverterCustomizer() {
+        return converters -> converters.add(0, new GateWayMappingJackson2HttpMessageConverter());
     }
 
     /**

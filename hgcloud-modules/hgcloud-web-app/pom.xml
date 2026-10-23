@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>vip.xiaonuo</groupId>
+        <groupId>com.hgcloud</groupId>
         <artifactId>hgcloud-modules</artifactId>
         <version>3.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -32,10 +32,16 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- RestTemplateBuilder（Boot 4 从 webmvc 拆出） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-restclient</artifactId>
+        </dependency>
+
         <!-- dynamic-datasource -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+            <artifactId>dynamic-datasource-spring-boot4-starter</artifactId>
         </dependency>
 
         <!-- mysql -->
@@ -72,9 +78,15 @@
             <artifactId>kingbase8</artifactId>
         </dependency>-->
 
+        <!-- openGauss。Doris 复用上方 mysql-connector-j -->
+        <dependency>
+            <groupId>org.opengauss</groupId>
+            <artifactId>opengauss-jdbc</artifactId>
+        </dependency>
+
         <!-- hgcloud-common -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-common</artifactId>
             <exclusions>
                 <exclusion>
@@ -91,85 +103,85 @@
 
         <!-- 登录鉴权插件Feign接口 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-auth-feign</artifactId>
         </dependency>
 
         <!-- 登录鉴权插件Feign接口实现 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-auth-feign-provider</artifactId>
         </dependency>
 
         <!-- 登录鉴权插件 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-auth-func</artifactId>
         </dependency>
 
         <!-- C端功能插件 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-client-func</artifactId>
         </dependency>
 
         <!-- 开发工具插件 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-dev-func</artifactId>
         </dependency>
 
         <!-- hgcloud-plugin-dev-feign，向外暴露feign接口 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-dev-feign</artifactId>
         </dependency>
 
         <!-- hgcloud-plugin-dev-feign-provider，向外暴露feign接口实现 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-dev-feign-provider</artifactId>
         </dependency>
 
         <!-- 代码生成插件 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-gen-func</artifactId>
         </dependency>
 
         <!-- 移动端管理插件 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-mobile-func</artifactId>
         </dependency>
 
         <!-- hgcloud-plugin-mobile-feign，向外暴露feign接口 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-mobile-feign</artifactId>
         </dependency>
 
         <!-- hgcloud-plugin-mobile-feign-provider，向外暴露feign接口 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-mobile-feign-provider</artifactId>
         </dependency>
 
         <!-- 系统功能插件 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-sys-func</artifactId>
         </dependency>
 
         <!-- hgcloud-plugin-sys-feign，向外暴露feign接口 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-sys-feign</artifactId>
         </dependency>
 
         <!-- hgcloud-plugin-sys-feign-provider，向外暴露feign接口实现 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-sys-feign-provider</artifactId>
         </dependency>
 

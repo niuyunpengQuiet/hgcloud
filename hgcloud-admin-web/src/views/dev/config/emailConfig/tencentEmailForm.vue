@@ -10,18 +10,18 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="腾讯云密钥ID：" name="SNOWY_EMAIL_TENCENT_SECRET_ID">
-						<a-input v-model:value="formData.SNOWY_EMAIL_TENCENT_SECRET_ID" placeholder="请输入腾讯云密钥ID" />
+					<a-form-item label="腾讯云密钥ID：" name="HGCLOUD_EMAIL_TENCENT_SECRET_ID">
+						<a-input v-model:value="formData.HGCLOUD_EMAIL_TENCENT_SECRET_ID" placeholder="请输入腾讯云密钥ID" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="腾讯云密钥SECRET：" name="SNOWY_EMAIL_TENCENT_SECRET_KEY">
-						<a-input v-model:value="formData.SNOWY_EMAIL_TENCENT_SECRET_KEY" placeholder="请输入腾讯云密钥SECRET" />
+					<a-form-item label="腾讯云密钥SECRET：" name="HGCLOUD_EMAIL_TENCENT_SECRET_KEY">
+						<a-input v-model:value="formData.HGCLOUD_EMAIL_TENCENT_SECRET_KEY" placeholder="请输入腾讯云密钥SECRET" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="默认发送账号：" name="SNOWY_EMAIL_TENCENT_FROM">
-						<a-input v-model:value="formData.SNOWY_EMAIL_TENCENT_FROM" placeholder="请输入默认发送账号" />
+					<a-form-item label="默认发送账号：" name="HGCLOUD_EMAIL_TENCENT_FROM">
+						<a-input v-model:value="formData.HGCLOUD_EMAIL_TENCENT_FROM" placeholder="请输入默认发送账号" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -65,9 +65,9 @@
 
 	// 默认要校验的
 	const formRules = {
-		SNOWY_EMAIL_TENCENT_SECRET_ID: [required('请输入腾讯云密钥ID')],
-		SNOWY_EMAIL_TENCENT_SECRET_KEY: [required('请输入腾讯云密钥SECRET')],
-		SNOWY_EMAIL_TENCENT_FROM: [required('请输入默认发送账号')]
+		HGCLOUD_EMAIL_TENCENT_SECRET_ID: [required('请输入腾讯云密钥ID')],
+		HGCLOUD_EMAIL_TENCENT_SECRET_KEY: [required('请输入腾讯云密钥SECRET')],
+		HGCLOUD_EMAIL_TENCENT_FROM: [required('请输入默认发送账号')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

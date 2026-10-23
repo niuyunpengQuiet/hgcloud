@@ -8,7 +8,7 @@ description: 元技能——教 AI 如何为本项目新增一个符合规范的
 ## 流程（5 步）
 
 1. **定边界**：新技能解决什么问题？与现有 26 个技能是否重叠？（重叠就合并进去，不新建）
-2. **核实事实**：技能里的每条规范、每个代码片段、每个参考路径，**必须先 Read 真实代码核实**，禁止凭模型先验写（本项目与同类快速开发框架大量反向，先验会写反）；本仓库是**微服务版**，也不要拿 Snowy 单体版的路径与机制套用（插件多一层 `{p}-api / {p}-func / {p}-feign` 等子模块、能力分布在 web-app / biz-app 两个服务、跨服务走 Feign、前端经网关前缀）
+2. **核实事实**：技能里的每条规范、每个代码片段、每个参考路径，**必须先 Read 真实代码核实**，禁止凭模型先验写（本项目与同类快速开发框架大量反向，先验会写反）；本仓库是**微服务版**，也不要拿 Hgcloud 单体版的路径与机制套用（插件多一层 `{p}-api / {p}-func / {p}-feign` 等子模块、能力分布在 web-app / biz-app 两个服务、跨服务走 Feign、前端经网关前缀）
 3. **写文件**：`.claude/skills/{name}/SKILL.md`，格式见下
 4. **注册**：更新 `.claude/hooks/skill-forced-eval.js` 里的技能清单（加一行）
 5. **验证**：参考路径 100% 存在（注意多模块路径，如 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/...`、`hgcloud-base/hgcloud-common/...`）；触发词演练（3 条该命中 + 2 条不该命中）
@@ -51,7 +51,7 @@ description: 一句话定位。触发场景：1) ... 2) ... 3) ...。触发词�
 | 平台能力 | common-toolkit、cache-redis、file-oss-management、sms-mail、message-push、scheduled-jobs、dict-config |
 | 安全前端 | security-auth、crypto-sm、frontend-pc |
 | C 端与质量 | client-mobile、bug-detective、performance-doctor、project-navigator、git-workflow |
-| Snowy 特色自研 | env-setup（环境与首启）、api-verify（接口自测闭环）、platform-extension（平台扩展点地图） |
+| Hgcloud 特色自研 | env-setup（环境与首启）、api-verify（接口自测闭环）、platform-extension（平台扩展点地图） |
 | 元技能 | add-skill |
 
 新增技能先对照此表：内容若属于某现有技能的一个章节，**合并**而不是新建。

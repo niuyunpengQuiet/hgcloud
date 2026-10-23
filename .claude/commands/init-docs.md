@@ -19,7 +19,7 @@ Read `.claude/templates/需求文档模板.md`、`项目状态模板.md`、`待�
 
 ### 3. 扫描现有业务填充初始数据
 
-- 业务域枚举（同 /progress 口径：扫描 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/`，以 framework-config.json 的 business.backend.scanRoot 为准，排除出厂 7 演示域）
+- 业务域枚举（同 /progress 口径：扫描 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/`，以 framework-config.json 的 business.backend.scanRoot 为准，排除出厂 7 演示域）
 - 每域六件套完整度
 - TODO/FIXME 扫描
 - git 提交（可用时取全部提交做"已完成"时间线；不可用跳过）

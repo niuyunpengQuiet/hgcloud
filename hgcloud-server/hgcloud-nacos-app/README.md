@@ -3,22 +3,22 @@
 #### Nacos 相关资料
 * Gihub 发布版本下载地址：https://github.com/alibaba/nacos/releases
 * Gitee 发布版本下载地址：https://gitee.com/mirrors/Nacos/releases
-* 目前版本 Snowy-Cloud 使用的 Nacos 版本为：2.1.2.RELEASE
+* 目前版本 Hgcloud 使用的 Nacos 版本为：2.1.2.RELEASE
 
 #### Nacos 开发环境启动
 * mvn install 安装 hgcloud-nacos-app/pom.xml
-* 创建 Snowy-Cloud 使用的nacos数据库 hgcloud-nacos-app
+* 创建 Hgcloud 使用的nacos数据库 hgcloud-nacos-app
 * 导入 hgcloud-nacos-app db 初始化数据
 ```
 src/main/resources/META-INF/nacos-db.sql
 ```
 * 导入 hgcloud-nacos-app db 更新数据
 ```
-src/main/resources/META-INF/nacos-db-snowy-config-init.sql
+src/main/resources/META-INF/nacos-db-hgcloud-config-init.sql
 ```
-* 运行 com.alibaba.nacos.SnowyNacosApp 类，即可在开发环境启动 nacos 2.1.2
+* 运行 com.alibaba.nacos.HgcloudNacosApp 类，即可在开发环境启动 nacos 2.1.2
 
-#### Snowy-Cloud Nacos配置数据
+#### Hgcloud Nacos配置数据
 * src/main/resources/META-INF/config-data
 
 #### Nacos 服务器方式启动

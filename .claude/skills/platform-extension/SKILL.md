@@ -1,9 +1,9 @@
 ---
 name: platform-extension
-description: Snowy 微服务版平台扩展点地图：不改框架代码实现定制的所有正规途径——数据变更监听、跨插件/跨服务 api 复用、provider 与 Feign 五件套暴露、定时任务、系统配置、CommonWrapper、网关与服务两层白名单、前端复用，并标注各扩展点在 web-app / biz-app 的可用范围。触发场景：1) 用户说"我想改/增强平台某行为"（如用户变更后同步业务缓存、给某接口加默认逻辑）2) 判断一个定制需求该新建业务域还是扩展平台 3) 想复用平台能力（用户/字典/文件/消息）不知道从哪接。触发词：扩展、增强、定制、改平台、改框架、钩子、监听、联动、同步缓存、复用平台、不动源码、覆盖、事件、跨服务联动、Feign 复用、biz-app 能不能用。注意：新建业务功能走 crud-development/dev；本技能讲"平台行为定制"的正规入口；模块与服务间通信细节见 plugin-architecture。
+description: Hgcloud 微服务版平台扩展点地图：不改框架代码实现定制的所有正规途径——数据变更监听、跨插件/跨服务 api 复用、provider 与 Feign 五件套暴露、定时任务、系统配置、CommonWrapper、网关与服务两层白名单、前端复用，并标注各扩展点在 web-app / biz-app 的可用范围。触发场景：1) 用户说"我想改/增强平台某行为"（如用户变更后同步业务缓存、给某接口加默认逻辑）2) 判断一个定制需求该新建业务域还是扩展平台 3) 想复用平台能力（用户/字典/文件/消息）不知道从哪接。触发词：扩展、增强、定制、改平台、改框架、钩子、监听、联动、同步缓存、复用平台、不动源码、覆盖、事件、跨服务联动、Feign 复用、biz-app 能不能用。注意：新建业务功能走 crud-development/dev；本技能讲"平台行为定制"的正规入口；模块与服务间通信细节见 plugin-architecture。
 ---
 
-# Snowy 微服务版平台扩展点地图
+# Hgcloud 微服务版平台扩展点地图
 
 ## 核心原则
 
@@ -38,12 +38,12 @@ description: Snowy 微服务版平台扩展点地图：不改框架代码实现�
 /*
  * ... 版权头
  */
-package vip.xiaonuo.biz.core.listener;
+package com.hgcloud.biz.core.listener;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import org.springframework.stereotype.Component;
-import vip.xiaonuo.common.listener.CommonDataChangeListener;
+import com.hgcloud.common.listener.CommonDataChangeListener;
 
 import java.util.List;
 
@@ -128,13 +128,13 @@ private DevMessageApi devMessageApi;    // 站内信（自动实时推送）
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/core/listener/BizDataChangeListener.java` | 监听器官方范本（监听 biz 机构变更清 biz 机构缓存，运行在 biz-app） |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/core/listener/BizDataChangeListener.java` | 监听器官方范本（监听 biz 机构变更清 biz 机构缓存，运行在 biz-app） |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/listener/SysDataChangeListener.java` | biz-app 内的机构变更联动登录用户数据范围缓存 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeEventCenter.java` | 事件中心（注册/广播，进程内） |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/listener/CommonDataChangeListener.java` | 监听接口（全部回调） |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/annotation/CommonWrapper.java` | 返回包装注解 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/job/task/DevJobTimerTaskRunner.java` | 定时任务扩展点范本（web-app） |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/` | 可注入的平台能力全集（web-app 全可用） |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/` | biz-app 可注入的 dev 能力（远程代理清单） |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/src/main/java/vip/xiaonuo/sys/api/context/` | biz-app 可注入的 sys 能力（远程代理清单） |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/listener/CommonDataChangeEventCenter.java` | 事件中心（注册/广播，进程内） |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/listener/CommonDataChangeListener.java` | 监听接口（全部回调） |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/annotation/CommonWrapper.java` | 返回包装注解 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/job/task/DevJobTimerTaskRunner.java` | 定时任务扩展点范本（web-app） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/com/hgcloud/dev/api/` | 可注入的平台能力全集（web-app 全可用） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/com/hgcloud/dev/api/context/` | biz-app 可注入的 dev 能力（远程代理清单） |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/src/main/java/com/hgcloud/sys/api/context/` | biz-app 可注入的 sys 能力（远程代理清单） |
 | `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | 网关白名单 |

@@ -10,9 +10,9 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="是否允许注册：" name="SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C">
+					<a-form-item label="是否允许注册：" name="HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C">
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否允许注册"
@@ -21,12 +21,12 @@
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
-						v-if="formData.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C"
+						v-if="formData.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C"
 						label="注册后是否需要绑定手机号："
-						name="SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_C"
+						name="HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_C"
 					>
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_C"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_C"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择注册后是否需要绑定手机号"
@@ -35,12 +35,12 @@
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
-						v-if="formData.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C"
+						v-if="formData.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C"
 						label="注册后是否需要绑定邮箱："
-						name="SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_C"
+						name="HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_C"
 					>
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_C"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_C"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择注册后是否需要绑定邮箱"
@@ -94,9 +94,9 @@
 	}
 	// 默认要校验的
 	const formRules = {
-		SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C: [required('请选择是否需要注册')],
-		SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_C: [required('请选择注册时是否需要绑定手机号')],
-		SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_C: [required('请选择注册时是否需要绑定邮箱')]
+		HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C: [required('请选择是否需要注册')],
+		HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_C: [required('请选择注册时是否需要绑定手机号')],
+		HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_C: [required('请选择注册时是否需要绑定邮箱')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

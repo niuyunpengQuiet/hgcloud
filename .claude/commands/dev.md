@@ -21,7 +21,7 @@ description: 开发新功能（建表 + 后端六件套 + 前端三件 + 菜单S
 ```bash
 # Grep 检查是否已有同名/同义业务域
 Grep pattern: "(?i)(功能名英文|表名)"  path: hgcloud-plugin/hgcloud-plugin-biz/
-ls hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/
+ls hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/
 ```
 发现重复 → 停止，向用户报告冲突并询问是扩展已有模块还是确认新建。
 
@@ -33,7 +33,7 @@ ls hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/x
 
 ## 第 4 步：执行建表（降级链）
 
-建表到业务库 **snowy-cloud**。数据库连接从 Nacos 配置源文件 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-biz-app-dev.yaml` 的 `spring.datasource.dynamic.datasource.master` 段动态解析（运行时以 Nacos 控制台 `http://localhost:8848/nacos` 里的同名配置为准；**禁止硬编码口令**）：
+建表到业务库 **hgcloud**。数据库连接从 Nacos 配置源文件 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-biz-app-dev.yaml` 的 `spring.datasource.dynamic.datasource.master` 段动态解析（运行时以 Nacos 控制台 `http://localhost:8848/nacos` 里的同名配置为准；**禁止硬编码口令**）：
 1. mysql CLI 可用 → 直接执行建表
 2. 不可用 → SQL 写入 `docs/sql-pending/YYYY-MM-DD-{功能}.sql`，明确提示用户手动执行后再继续第 6 步
 
@@ -44,8 +44,8 @@ ls hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/x
 ## 第 6 步：生成代码
 
 ### 模式 A（AI 直写）
-1. **先 Read 范本**：`hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/notice/` 下的 Controller/Entity/Service/ServiceImpl/Param（强制，逐文件对照）
-2. 按顺序生成到 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/{域名}/`（全部带 12 行版权头、中文注释、@author/@date）：
+1. **先 Read 范本**：`hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/` 下的 Controller/Entity/Service/ServiceImpl/Param（强制，逐文件对照）
+2. 按顺序生成到 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/{域名}/`（全部带 12 行版权头、中文注释、@author/@date）：
    - `entity/Biz{Xxx}.java` → `mapper/Biz{Xxx}Mapper.java` → `service/Biz{Xxx}Service.java` → `service/impl/Biz{Xxx}ServiceImpl.java` → `param/` 四类 → `controller/Biz{Xxx}Controller.java`（→ 需要时 `result/`、`enums/`）
    - Controller 与 @SaCheckPermission 只写 `/biz/{域名}/{动作}`，不带网关前缀
 3. 前端三件：`hgcloud-admin-web/src/api/biz/biz{Xxx}Api.js`（`/biz/{域名}/` 前缀，由 apiAdaptive.js 自动转 `/api/bizapp`；域名不要取 sys/auth/client/dev/gen/mobile）+ `views/biz/{域名}/index.vue` + `form.vue`
@@ -61,7 +61,7 @@ ls hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/x
 
 - [ ] 菜单/按钮 SQL 已执行（或已落盘 sql-pending 并告知）
 - [ ] 提醒用户：重启 **hgcloud-biz-app**（新代码只在它里面加载）→ 前端 `http://localhost:9000` 系统管理→角色管理，给角色"授权资源"（菜单+按钮）与"授权权限"（`/biz/{域名}/*`，手写接口连超管角色也要授）→ 前端刷新
-- [ ] **接口自测**（服务已启动时，见 api-verify 技能，全部走网关 9003）：SM2 加密密码登录 superAdmin/Snowy@2026!（`POST http://localhost:9003/api/webapp/auth/b/doLogin`）拿 token → curl `http://localhost:9003/api/bizapp/biz/{域名}/...` 五连（page/add/校验拦截/edit/delete）→ 输出自测报告；返回无权限时先检查超管角色是否已"授权权限"
+- [ ] **接口自测**（服务已启动时，见 api-verify 技能，全部走网关 9003）：SM2 加密密码登录 superAdmin/Hgcloud@2026!（`POST http://localhost:9003/api/webapp/auth/b/doLogin`）拿 token → curl `http://localhost:9003/api/bizapp/biz/{域名}/...` 五连（page/add/校验拦截/edit/delete）→ 输出自测报告；返回无权限时先检查超管角色是否已"授权权限"
 - [ ] 建议运行 `/check` 审查本次产出
 - [ ] 询问是否记入任务跟踪（更新 docs/待办清单.md 或项目状态.md）
 

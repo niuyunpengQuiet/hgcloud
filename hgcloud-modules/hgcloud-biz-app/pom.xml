@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>vip.xiaonuo</groupId>
+        <groupId>com.hgcloud</groupId>
         <artifactId>hgcloud-modules</artifactId>
         <version>3.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -26,7 +26,7 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
 
         <!-- test -->
@@ -39,7 +39,7 @@
         <!-- dynamic-datasource -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+            <artifactId>dynamic-datasource-spring-boot4-starter</artifactId>
         </dependency>
 
         <!-- mysql -->
@@ -76,10 +76,16 @@
             <artifactId>kingbase8</artifactId>
         </dependency>-->
 
+        <!-- openGauss。Doris 复用上方 mysql-connector-j -->
+        <dependency>
+            <groupId>org.opengauss</groupId>
+            <artifactId>opengauss-jdbc</artifactId>
+        </dependency>
+
         <!-- sa-token -->
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot3-starter</artifactId>
+            <artifactId>sa-token-spring-boot4-starter</artifactId>
         </dependency>
 
         <!-- sa-token 整合 redisson -->
@@ -90,7 +96,7 @@
 
         <!-- hgcloud-common -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-common</artifactId>
             <exclusions>
                 <exclusion>
@@ -107,19 +113,19 @@
 
         <!-- 登录鉴权插件 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-auth-api</artifactId>
         </dependency>
 
         <!-- 登录鉴权插件api接口context（提供loginUserApi的Feign代理实现） -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-auth-api-context</artifactId>
         </dependency>
 
         <!-- 业务功能插件 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-biz-func</artifactId>
             <exclusions>
                 <exclusion>
@@ -139,19 +145,19 @@
 
         <!-- 系统功能插件Feign接口 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-sys-feign</artifactId>
         </dependency>
 
         <!-- 系统功能插件Api接口context -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-sys-api-context</artifactId>
         </dependency>
 
         <!-- 开发工具插件Feign接口 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-dev-feign</artifactId>
             <exclusions>
                 <exclusion>
@@ -171,7 +177,7 @@
 
         <!-- 开发工具功能插件Api接口Context -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-dev-api-context</artifactId>
             <exclusions>
                 <exclusion>
@@ -191,13 +197,13 @@
 
         <!-- 移动端管理功能插件Feign接口 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-mobile-feign</artifactId>
         </dependency>
 
         <!-- 移动端管理功能插件api接口context -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-mobile-api-context</artifactId>
         </dependency>
 

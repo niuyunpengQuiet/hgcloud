@@ -12,7 +12,7 @@ description: 下一步开发建议（优先级排序）
 存在 → 高/中/低优先级各区取头部条目。不存在 → 跳过并提示可 /init-docs。
 
 ### 2. 代码缺口（biz 范围）
-- 六件套不齐的域（/progress 口径，业务域在 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/` 下）→ "补齐 X 件"
+- 六件套不齐的域（/progress 口径，业务域在 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/` 下）→ "补齐 X 件"
 - 前端三件缺失 → "补前端"
 - 新业务 URL 前缀（非 /biz/）未在前端 apiAdaptive.js 登记 → "补网关前缀登记"（否则经网关 404；若是新建服务，还要补网关路由）
 ```bash

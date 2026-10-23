@@ -168,6 +168,6 @@
 		padding-top: 24px;
 		padding-left: 24px;
 		padding-right: 24px;
-		background: var(--snowy-background-color);
+		background: var(--hgcloud-background-color);
 	}
 </style>

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * PreToolUse Hook - 危险命令拦截与文件守护 (Snowy 版)
+ * PreToolUse Hook - 危险命令拦截与文件守护 (Hgcloud 版)
  * 拦截: Bash 危险命令、Windows `> nul` 误创建文件
- * 守护: Snowy 版权头缺失警告、框架模块修改警告、敏感配置写入提醒
+ * 守护: Hgcloud 版权头缺失警告、框架模块修改警告、敏感配置写入提醒
  * 原则: 任何解析失败都放行，永不阻断正常工作流
  */
 
@@ -108,11 +108,11 @@ if (toolName === 'Write') {
     warn('⚠️ 正在写入配置文件 ' + filePath.split('/').pop() + '：注意不要泄露数据库口令/密钥，不要提交生产环境配置（Nacos 配置源文件改动后还需同步到 Nacos 才生效）');
   }
 
-  // Java 版权头检查：Snowy 要求每个 .java 头部有 Apache 2.0 版权声明
+  // Java 版权头检查：Hgcloud 要求每个 .java 头部有 Apache 2.0 版权声明
   if (filePath.endsWith('.java')) {
     const hasLicense = content.includes('Copyright [2022] [https://www.xiaonuo.vip]');
     if (!hasLicense) {
-      warn('⚠️ Snowy 规范：每个 .java 文件头部必须有 12 行 Apache 2.0 版权声明（含 "Copyright [2022] [https://www.xiaonuo.vip]"）。请参考任意现有 Java 文件头部补齐');
+      warn('⚠️ Hgcloud 规范：每个 .java 文件头部必须有 12 行 Apache 2.0 版权声明（含 "Copyright [2022] [https://www.xiaonuo.vip]"）。请参考任意现有 Java 文件头部补齐');
     }
   }
 
@@ -131,7 +131,7 @@ if (toolName === 'Write') {
     '/hgcloud-server/'
   ];
   if (frameworkPaths.some(p => filePath.includes(p))) {
-    warn('⚠️ 正在修改 Snowy 平台框架模块（' + filePath.split('/').slice(-2).join('/') + '）：业务二次开发应优先放在 hgcloud-plugin-biz（hgcloud-plugin-biz-func），修改框架会影响升级兼容性');
+    warn('⚠️ 正在修改 Hgcloud 平台框架模块（' + filePath.split('/').slice(-2).join('/') + '）：业务二次开发应优先放在 hgcloud-plugin-biz（hgcloud-plugin-biz-func），修改框架会影响升级兼容性');
   }
 
   allow();

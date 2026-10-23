@@ -12,7 +12,7 @@
 			<span class="left-span-label">系统基础配置</span>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="系统LOGO：" name="SNOWY_SYS_LOGO">
+					<a-form-item label="系统LOGO：" name="HGCLOUD_SYS_LOGO">
 						<a-upload
 							class="avatar-uploader"
 							list-type="picture-card"
@@ -29,9 +29,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="系统描述：" name="SNOWY_SYS_DEFAULT_DESCRRIPTION">
+					<a-form-item label="系统描述：" name="HGCLOUD_SYS_DEFAULT_DESCRRIPTION">
 						<a-textarea
-							v-model:value="formData.SNOWY_SYS_DEFAULT_DESCRRIPTION"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_DESCRRIPTION"
 							placeholder="请输入系统描述"
 							:auto-size="{ minRows: 3, maxRows: 8 }"
 						/>
@@ -40,19 +40,19 @@
 			</a-row>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="系统名称：" name="SNOWY_SYS_NAME">
-						<a-input v-model:value="formData.SNOWY_SYS_NAME" placeholder="请输入系统名称" />
+					<a-form-item label="系统名称：" name="HGCLOUD_SYS_NAME">
+						<a-input v-model:value="formData.HGCLOUD_SYS_NAME" placeholder="请输入系统名称" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="系统版本：" name="SNOWY_SYS_VERSION">
-						<a-input v-model:value="formData.SNOWY_SYS_VERSION" placeholder="请输入系统版本" />
+					<a-form-item label="系统版本：" name="HGCLOUD_SYS_VERSION">
+						<a-input v-model:value="formData.HGCLOUD_SYS_VERSION" placeholder="请输入系统版本" />
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="默认快捷方式：" name="SNOWY_SYS_DEFAULT_WORKBENCH_DATA">
+					<a-form-item label="默认快捷方式：" name="HGCLOUD_SYS_DEFAULT_WORKBENCH_DATA">
 						<menuTreeSelect ref="menuTreeSelectRef" :resultData="true" />
 					</a-form-item>
 				</a-col>
@@ -60,9 +60,9 @@
 			<span class="left-span-label">验证码配置</span>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="后台验证码开关：" name="SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B">
+					<a-form-item label="后台验证码开关：" name="HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B">
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B"
 							checked-children="开"
 							un-checked-children="关"
 							placeholder="请选择后台验证码开关"
@@ -70,9 +70,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="前台验证码开关：" name="SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C">
+					<a-form-item label="前台验证码开关：" name="HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C">
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C"
 							checked-children="开"
 							un-checked-children="关"
 							placeholder="请选择前台验证码开关"
@@ -82,9 +82,9 @@
 			</a-row>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="后台验证码失效时间：" name="SNOWY_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_B">
+					<a-form-item label="后台验证码失效时间：" name="HGCLOUD_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_B">
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_B"
 							placeholder="分钟"
 						>
 							<template #addonAfter> 分钟 </template>
@@ -92,9 +92,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="前台验证码失效时间：" name="SNOWY_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_C">
+					<a-form-item label="前台验证码失效时间：" name="HGCLOUD_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_C">
 						<a-input-number
-							v-model:value="formData.SNOWY_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_C"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_C"
 							placeholder="分钟"
 						>
 							<template #addonAfter> 分钟 </template>
@@ -105,18 +105,18 @@
 			<span class="left-span-label">默认引擎配置</span>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="默认文件引擎：" name="SNOWY_SYS_DEFAULT_FILE_ENGINE">
+					<a-form-item label="默认文件引擎：" name="HGCLOUD_SYS_DEFAULT_FILE_ENGINE">
 						<a-radio-group
-							v-model:value="formData.SNOWY_SYS_DEFAULT_FILE_ENGINE"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_FILE_ENGINE"
 							:options="fileEngineOptions"
 							placeholder="请选择系统默认文件引擎"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="默认邮件引擎：" name="SNOWY_SYS_DEFAULT_EMAIL_ENGINE">
+					<a-form-item label="默认邮件引擎：" name="HGCLOUD_SYS_DEFAULT_EMAIL_ENGINE">
 						<a-radio-group
-							v-model:value="formData.SNOWY_SYS_DEFAULT_EMAIL_ENGINE"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_EMAIL_ENGINE"
 							:options="emailEngineOptions"
 							placeholder="请选择系统默认邮件引擎"
 						/>
@@ -125,18 +125,18 @@
 			</a-row>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="默认短信引擎：" name="SNOWY_SYS_DEFAULT_SMS_ENGINE">
+					<a-form-item label="默认短信引擎：" name="HGCLOUD_SYS_DEFAULT_SMS_ENGINE">
 						<a-radio-group
-							v-model:value="formData.SNOWY_SYS_DEFAULT_SMS_ENGINE"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_SMS_ENGINE"
 							:options="smsEngineOptions"
 							placeholder="请选择系统默认短信引擎"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-					<a-form-item label="默认消息推送引擎：" name="SNOWY_SYS_DEFAULT_PUSH_ENGINE">
+					<a-form-item label="默认消息推送引擎：" name="HGCLOUD_SYS_DEFAULT_PUSH_ENGINE">
 						<a-radio-group
-							v-model:value="formData.SNOWY_SYS_DEFAULT_PUSH_ENGINE"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_PUSH_ENGINE"
 							:options="pushEngineOptions"
 							placeholder="请选择系统默认消息推送引擎"
 						/>
@@ -146,15 +146,15 @@
 			<span class="left-span-label">版权信息配置</span>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="版权信息：" name="SNOWY_SYS_COPYRIGHT">
-						<a-input v-model:value="formData.SNOWY_SYS_COPYRIGHT" placeholder="请输入版权信息" />
+					<a-form-item label="版权信息：" name="HGCLOUD_SYS_COPYRIGHT">
+						<a-input v-model:value="formData.HGCLOUD_SYS_COPYRIGHT" placeholder="请输入版权信息" />
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="版权链接URL：" name="SNOWY_SYS_COPYRIGHT_URL">
-						<a-input v-model:value="formData.SNOWY_SYS_COPYRIGHT_URL" placeholder="请输入版权链接URL" />
+					<a-form-item label="版权链接URL：" name="HGCLOUD_SYS_COPYRIGHT_URL">
+						<a-input v-model:value="formData.HGCLOUD_SYS_COPYRIGHT_URL" placeholder="请输入版权链接URL" />
 					</a-form-item>
 				</a-col>
 			</a-row>
@@ -200,10 +200,10 @@
 		if (data) {
 			data.forEach((item) => {
 				// 如果是系统的logo，直接存base64字符串
-				if (item.configKey === 'SNOWY_SYS_LOGO') {
+				if (item.configKey === 'HGCLOUD_SYS_LOGO') {
 					formData.value[item.configKey] = item.configValue
 					imageUrl.value = item.configValue
-				} else if (item.configKey === 'SNOWY_SYS_DEFAULT_WORKBENCH_DATA') {
+				} else if (item.configKey === 'HGCLOUD_SYS_DEFAULT_WORKBENCH_DATA') {
 					try {
 						menuTreeSelectRef.value.setSelectData(JSON.parse(item.configValue).shortcut)
 						// eslint-disable-next-line no-empty
@@ -237,7 +237,7 @@
 		getBase64(data.file)
 			.then((res) => {
 				imageUrl.value = res
-				formData.value.SNOWY_SYS_LOGO = res
+				formData.value.HGCLOUD_SYS_LOGO = res
 			})
 			.catch((err) => {})
 	}
@@ -257,19 +257,19 @@
 
 	// 默认要校验的
 	const formRules = {
-		SNOWY_SYS_NAME: [required('请输入系统名称')],
-		SNOWY_SYS_VERSION: [required('请输入系统版本')],
-		SNOWY_SYS_COPYRIGHT: [required('请输入版权信息')],
-		SNOWY_SYS_COPYRIGHT_URL: [required('请输入版权链接URL')],
-		SNOWY_SYS_DEFAULT_FILE_ENGINE: [required('请选择系统默认文件引擎')],
-		SNOWY_SYS_DEFAULT_SMS_ENGINE: [required('请选择系统默认短信引擎')],
-		SNOWY_SYS_DEFAULT_EMAIL_ENGINE: [required('请选择系统默认邮件引擎')],
-		SNOWY_SYS_DEFAULT_PUSH_ENGINE: [required('请选择系统默认消息推送引擎')],
-		SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C: [required('请选择前台验证码开关')],
-		SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B: [required('请选择后台验证码开关')],
-		SNOWY_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_C: [required('请输入过期时间')],
-		SNOWY_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_B: [required('请输入过期时间')],
-		SNOWY_SYS_DEFAULT_PASSWORD: [required('请输入系统重置密码默认密码')]
+		HGCLOUD_SYS_NAME: [required('请输入系统名称')],
+		HGCLOUD_SYS_VERSION: [required('请输入系统版本')],
+		HGCLOUD_SYS_COPYRIGHT: [required('请输入版权信息')],
+		HGCLOUD_SYS_COPYRIGHT_URL: [required('请输入版权链接URL')],
+		HGCLOUD_SYS_DEFAULT_FILE_ENGINE: [required('请选择系统默认文件引擎')],
+		HGCLOUD_SYS_DEFAULT_SMS_ENGINE: [required('请选择系统默认短信引擎')],
+		HGCLOUD_SYS_DEFAULT_EMAIL_ENGINE: [required('请选择系统默认邮件引擎')],
+		HGCLOUD_SYS_DEFAULT_PUSH_ENGINE: [required('请选择系统默认消息推送引擎')],
+		HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C: [required('请选择前台验证码开关')],
+		HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B: [required('请选择后台验证码开关')],
+		HGCLOUD_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_C: [required('请输入过期时间')],
+		HGCLOUD_SYS_DEFAULT_CAPTCHA_EXPIRED_DURATION_FOR_B: [required('请输入过期时间')],
+		HGCLOUD_SYS_DEFAULT_PASSWORD: [required('请输入系统重置密码默认密码')]
 	}
 	// 表单固定label实现
 	const labelCol = ref({
@@ -288,7 +288,7 @@
 				const shortcut = {
 					shortcut: menuTreeSelectRef.value.getSelectData()
 				}
-				submitParam.SNOWY_SYS_DEFAULT_WORKBENCH_DATA = JSON.stringify(shortcut)
+				submitParam.HGCLOUD_SYS_DEFAULT_WORKBENCH_DATA = JSON.stringify(shortcut)
 				const param = Object.entries(submitParam).map((item) => {
 					return {
 						configKey: item[0],
@@ -299,7 +299,7 @@
 					.configEditForm(param)
 					.then(() => {
 						// 执行成功后改变界面使其生效
-						tool.data.set('SNOWY_SYS_BASE_CONFIG', submitParam)
+						tool.data.set('HGCLOUD_SYS_BASE_CONFIG', submitParam)
 						store.setSysBaseConfig(submitParam)
 					})
 					.finally(() => {
@@ -312,12 +312,12 @@
 	const resetForm = () => {
 		imageUrl.value = ''
 		formData.value = {
-			SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C: true,
-			SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B: true,
-			SNOWY_SYS_DEFAULT_FILE_ENGINE: 'LOCAL',
-			SNOWY_SYS_DEFAULT_SMS_ENGINE: 'XIAONUO',
-			SNOWY_SYS_DEFAULT_EMAIL_ENGINE: 'LOCAL',
-			SNOWY_SYS_DEFAULT_PUSH_ENGINE: 'DINGTALK'
+			HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C: true,
+			HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B: true,
+			HGCLOUD_SYS_DEFAULT_FILE_ENGINE: 'LOCAL',
+			HGCLOUD_SYS_DEFAULT_SMS_ENGINE: 'XIAONUO',
+			HGCLOUD_SYS_DEFAULT_EMAIL_ENGINE: 'LOCAL',
+			HGCLOUD_SYS_DEFAULT_PUSH_ENGINE: 'DINGTALK'
 		}
 	}
 	const layout = {

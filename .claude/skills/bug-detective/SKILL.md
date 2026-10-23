@@ -1,9 +1,9 @@
 ---
 name: bug-detective
-description: Snowy 问题排查方法论与高发故障库：启动失败、401/403、接口报错、数据查不到、前后端联调问题的诊断决策树。触发场景：1) 任何报错/不工作/异常排查 2) 启动失败或页面白屏 3) 权限/数据问题定位。触发词：Bug、报错、异常、错误、不工作、失败、排查、调试、401、403、404、500、503、白屏、启动失败、查不到、排查思路、Nacos、网关、服务注册、Feign、跨服务、NoSuchMethodError、串会话。
+description: Hgcloud 问题排查方法论与高发故障库：启动失败、401/403、接口报错、数据查不到、前后端联调问题的诊断决策树。触发场景：1) 任何报错/不工作/异常排查 2) 启动失败或页面白屏 3) 权限/数据问题定位。触发词：Bug、报错、异常、错误、不工作、失败、排查、调试、401、403、404、500、503、白屏、启动失败、查不到、排查思路、Nacos、网关、服务注册、Feign、跨服务、NoSuchMethodError、串会话。
 ---
 
-# Snowy 问题排查指南
+# Hgcloud 问题排查指南
 
 ## 诊断决策树（先分类再深入）
 
@@ -21,14 +21,14 @@ description: Snowy 问题排查方法论与高发故障库：启动失败、401/
 ## 树 A：后端启动失败
 
 1. 端口被占？（8848 Nacos / 9003 网关 / 9101 web-app / 9102 biz-app；命令见 env-setup 自检）
-2. Nacos 没起 / 配置没拉到 → 各服务本地 `application.yml` 只接 Nacos（`optional:nacos:` 导入），拉不到配置时启动**不会因此中止**，常见表现是端口变成默认 8080、报找不到数据源/Redis 连接参数（推导的典型症状，以实际日志为准）。核对：Nacos 已启动；命名空间 `snowy-cloud-dev`、分组 `dev`、data-id `hgcloud-web-app-dev.yaml` / `hgcloud-biz-app-dev.yaml` / `hgcloud-gateway-app-dev.yaml` 在 Nacos 控制台存在且启动 profile 是 dev
-3. MySQL 连不上/库没导 → Nacos 库 `hgcloud-nacos-app-open`（nacos-db.sql 等）与业务库 `snowy-cloud`（`hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/snowy_mysql.sql`）都要导；数据源口令改 Nacos 配置，不在本地文件
+2. Nacos 没起 / 配置没拉到 → 各服务本地 `application.yml` 只接 Nacos（`optional:nacos:` 导入），拉不到配置时启动**不会因此中止**，常见表现是端口变成默认 8080、报找不到数据源/Redis 连接参数（推导的典型症状，以实际日志为准）。核对：Nacos 已启动；命名空间 `hgcloud-dev`、分组 `dev`、data-id `hgcloud-web-app-dev.yaml` / `hgcloud-biz-app-dev.yaml` / `hgcloud-gateway-app-dev.yaml` 在 Nacos 控制台存在且启动 profile 是 dev
+3. MySQL 连不上/库没导 → Nacos 库 `hgcloud-nacos-app-open`（nacos-db.sql 等）与业务库 `hgcloud`（`hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/hgcloud_mysql.sql`）都要导；数据源口令改 Nacos 配置，不在本地文件
 4. Redis 连不上 → 本地 6379 是否启动（database 1）
 5. JDK 版本 → 主栈用 17
 6. 依赖没编译 → 根目录 `mvn clean install -DskipTests`
 7. **NoSuchMethodError / NoClassDefFoundError / ClassNotFoundException（启动即挂）** → 常见原因是依赖版本冲突：根 pom 的 dependencyManagement 手工锁定了 logback、jackson 等版本，升级 Spring Boot 或改这些锁定值时，若与 Spring Boot BOM 期望的版本不一致就会出现；nacos/sentinel/xxl-job 三个中间件应用另有自己的 Spring Boot 2.7.18 + logback 1.2.13，若被主栈版本串用也会挂。用 `mvn dependency:tree -Dincludes=ch.qos.logback,com.fasterxml.jackson.core -pl <模块> -am` 看实际生效版本
 8. **Bean 冲突 / 缺 Bean** → 同一应用里某插件的 `-func` 与 `-api-context` 不能同装（Bean 名冲突，如 loginUserApi）；biz-app 注入了没有 ContextBean 的 Api（dev 侧 Dict/Log/Job/Push/WeakPassword、sys 侧 Menu/Button/Module 目前没有）会缺 Bean（推导，使用前请先确认）
-9. Knife4j 401 → 网关聚合文档 `http://localhost:9003/doc.html` 的 basic 认证是 snowyAdmin/Snowy@2026!
+9. Knife4j 401 → 网关聚合文档 `http://localhost:9003/doc.html` 的 basic 认证是 hgcloudAdmin/Hgcloud@2026!
 
 ## 树 B：接口报错
 
@@ -73,12 +73,12 @@ description: Snowy 问题排查方法论与高发故障库：启动失败、401/
 | 现象 | 根因 | 处理 |
 |---|---|---|
 | 经网关 404，直连服务正常 | 新 URL 前缀没登记：前端 `apiAdaptive.js` 没映射（请求没带 `/api/webapp`/`/api/bizapp`），或网关路由没有该前缀 | 先查前端 apiAdaptive.js 是否映射；新建服务再查网关路由（`hgcloud-gateway-app-dev.yaml` 的 routes，StripPrefix=2）。Knife4j 聚合只影响接口文档，不会导致 404 |
-| 经网关 503 / Unable to find instance | 目标服务没注册到 Nacos：服务没起、启动失败，或 profile 不同导致命名空间/分组不一致（网关在 `snowy-cloud-dev` / `dev` 里找） | Nacos 控制台 → 服务管理看实例；核对各服务 `spring.profiles.active` |
+| 经网关 503 / Unable to find instance | 目标服务没注册到 Nacos：服务没起、启动失败，或 profile 不同导致命名空间/分组不一致（网关在 `hgcloud-dev` / `dev` 里找） | Nacos 控制台 → 服务管理看实例；核对各服务 `spring.profiles.active` |
 | 免登录接口经网关仍 401 | 白名单只配了服务 GlobalConfigure | 网关 GatewayConfigure 补带前缀的条目，重启网关 |
 | 直连服务 401、经网关也 401 | 白名单只配了网关 | 服务 GlobalConfigure 补不带前缀的条目，重启服务 |
 | biz-app 启动报找不到 `XxxApi` 的 Bean | 该 Api 没有 api-context 远程代理（dev 侧 Dict/Log/Job/Push/WeakPassword、sys 侧 Menu/Button/Module 目前缺），或 biz-app pom 没引对应 `-feign` + `-api-context`（推导，使用前请先确认） | 补齐 `-feign`、`-feign-provider`、`-api-context` 三件，或改用已有 Api |
 | Feign 调用对端报未登录 / 取不到登录用户 | 定时任务、@Async、消息消费等线程没有请求上下文，`FeignRequestInterceptor` 无头可透传，token 丢失 | 在有请求上下文的线程里调；或评估 mocker-token 插件的 `@CommonMockerToken`（默认未装配，使用前请先确认） |
-| 登录时 ClassCastException 等怪错 / 登录后马上被踢 | 本地多个 Snowy 项目共用同一 Redis 库，token 名与 superAdmin ID 相同，读到了别的项目写的会话 | 本地各项目用不同 Redis 库号；改 web-app、biz-app、网关三份 Nacos 配置的 `spring.data.redis.database`（三者必须一致），重启并清浏览器 token |
+| 登录时 ClassCastException 等怪错 / 登录后马上被踢 | 本地多个 Hgcloud 项目共用同一 Redis 库，token 名与 superAdmin ID 相同，读到了别的项目写的会话 | 本地各项目用不同 Redis 库号；改 web-app、biz-app、网关三份 Nacos 配置的 `spring.data.redis.database`（三者必须一致），重启并清浏览器 token |
 | 网关认不出 web-app 签发的 token | 三个服务 Redis 地址/库号或 sa-token 配置不一致 | 对齐三份 Nacos 配置的 Redis 段与 sa-token 段 |
 | biz 里写的定时任务报"找不到对应的类" | 定时任务调度（dev 插件）只装在 web-app，Runner 类必须在 web-app 类路径上 | Runner 放到 web-app 装配的模块；跑在 biz-app 的定时需求暂无现成方案 |
 | biz 接口的操作日志查不到 | @CommonLog 落库切面只在 web-app 的 dev 插件里（推导，使用前请先确认） | 不要依赖 biz-app 的 @CommonLog 落库 |
@@ -87,13 +87,13 @@ description: Snowy 问题排查方法论与高发故障库：启动失败、401/
 
 ```bash
 # 看后端日志：IDE 控制台为主；文件日志在启动目录下 logs/{应用名}-log/（如 logs/hgcloud-biz-app-log/log_error.log）
-# 数据库直查（业务库 snowy-cloud；连接信息从 Nacos 配置 snowy-*-app-dev.yaml 的数据源段取）
-mysql -h127.0.0.1 -uroot -p****** snowy-cloud -e "SELECT ID,DELETE_FLAG FROM BIZ_XXX LIMIT 5;"
+# 数据库直查（业务库 hgcloud；连接信息从 Nacos 配置 hgcloud-*-app-dev.yaml 的数据源段取）
+mysql -h127.0.0.1 -uroot -p****** hgcloud -e "SELECT ID,DELETE_FLAG FROM BIZ_XXX LIMIT 5;"
 
 # 服务注册情况（dev 命名空间 + dev 分组）
-curl -s "http://localhost:8848/nacos/v1/ns/service/list?pageNo=1&pageSize=20&groupName=dev&namespaceId=snowy-cloud-dev"
+curl -s "http://localhost:8848/nacos/v1/ns/service/list?pageNo=1&pageSize=20&groupName=dev&namespaceId=hgcloud-dev"
 
-# 验证接口（Knife4j 网关聚合：http://localhost:9003/doc.html，basic 认证 snowyAdmin/Snowy@2026!，可带 token 调试）
+# 验证接口（Knife4j 网关聚合：http://localhost:9003/doc.html，basic 认证 hgcloudAdmin/Hgcloud@2026!，可带 token 调试）
 
 # 全局搜代码
 Grep pattern: "方法名/类名/错误消息片段"  path: hgcloud-plugin
@@ -103,7 +103,7 @@ Grep pattern: "方法名/类名/错误消息片段"  path: hgcloud-plugin
 
 ## 本项目特有问题库（高发 Top 12）
 
-1. **登录一直报密码错误** → 本仓库出厂密码是 **Snowy@2026!**（不是网上说的 123456——那是官方演示站的）；权威来源 DEV_CONFIG 的 SNOWY_SYS_DEFAULT_PASSWORD_FOR_B。接口直调登录还需 SM2 加密密码（见 api-verify 技能），且走网关 `/api/webapp/auth/b/doLogin`
+1. **登录一直报密码错误** → 本仓库出厂密码是 **Hgcloud@2026!**（不是网上说的 123456——那是官方演示站的）；权威来源 DEV_CONFIG 的 HGCLOUD_SYS_DEFAULT_PASSWORD_FOR_B。接口直调登录还需 SM2 加密密码（见 api-verify 技能），且走网关 `/api/webapp/auth/b/doLogin`
 2. **Sa-Token 白名单改了没生效** → 网关 GatewayConfigure 与服务 GlobalConfigure 都是启动时构建的，两处都要改、两个都要重启
 3. **授权了还是 403** → 授权的是按钮码，但接口权限要的是"资源授权勾选到对应菜单/按钮"生成的 apiUrl 集合；重新授权（在线会话会被刷新），仍不行让用户**重新登录**（权限码在 Redis 的 TokenSession 里）
 4. **SM4 字段 like 查不到** → 设计期就要定查询方案
@@ -114,7 +114,7 @@ Grep pattern: "方法名/类名/错误消息片段"  path: hgcloud-plugin
 9. **生成的代码包名错** → 代码生成器 packageName/pluginName 填错，落位后要手工核（生成到 `hgcloud-plugin/{插件}/{插件}-func/src/main/java`）
 10. **新业务前缀经网关 404** → apiAdaptive.js 没登记；新建服务时网关路由没加
 11. **Nacos 配置改了不生效 / 改错地方** → 改的是仓库 `config-data/*.yaml` 源文件但没同步进 Nacos；或 Nacos 里改了别的命名空间
-12. **本地登录 ClassCastException** → 多个 Snowy 项目共用同一 Redis 库串会话（见树 E）
+12. **本地登录 ClassCastException** → 多个 Hgcloud 项目共用同一 Redis 库串会话（见树 E）
 
 ## 检查清单（修复后）
 
@@ -132,7 +132,7 @@ Grep pattern: "方法名/类名/错误消息片段"  path: hgcloud-plugin
 | `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java`、`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | 服务白名单/拦截规则 |
 | `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/` | 全部环境配置（数据源/Redis/网关路由/Sa-Token） |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/interceptor/FeignRequestInterceptor.java` | Feign 请求头透传 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/consts/FeignConstant.java` | Feign 服务名常量 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/consts/FeignConstant.java` | Feign 服务名常量 |
 | `hgcloud-admin-web/src/utils/apiAdaptive.js` | 前端 URL 前缀映射 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/log/` | 操作/异常日志模块 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/monitor/` | 服务器监控 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/log/` | 操作/异常日志模块 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/monitor/` | 服务器监控 |

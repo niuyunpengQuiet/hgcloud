@@ -1,9 +1,9 @@
 ---
 name: performance-doctor
-description: Snowy 性能优化规范：慢查询与索引、N+1、分页规范、缓存策略、@Trans 批量翻译、列表页大数据。触发场景：1) 接口慢/列表加载久 2) 优化 SQL 与索引 3) 缓存策略选型 4) 大数据量处理。触发词：性能、慢、优化、慢查询、索引、N+1、卡顿、内存、大数据量、分页、批量、缓存策略、Feign 调用慢、跨服务调用、网关耗时。
+description: Hgcloud 性能优化规范：慢查询与索引、N+1、分页规范、缓存策略、@Trans 批量翻译、列表页大数据。触发场景：1) 接口慢/列表加载久 2) 优化 SQL 与索引 3) 缓存策略选型 4) 大数据量处理。触发词：性能、慢、优化、慢查询、索引、N+1、卡顿、内存、大数据量、分页、批量、缓存策略、Feign 调用慢、跨服务调用、网关耗时。
 ---
 
-# Snowy 性能优化指南
+# Hgcloud 性能优化指南
 
 ## 诊断流程
 
@@ -14,7 +14,7 @@ description: Snowy 性能优化规范：慢查询与索引、N+1、分页规范�
 │   ├─ SQL 慢 → Druid 监控看慢 SQL / 执行计划 EXPLAIN
 │   │     web-app：http://localhost:9003/druid/index.html（网关已转发）或 http://localhost:9101/druid/index.html
 │   │     biz-app：http://localhost:9102/druid/index.html（网关未转发 biz 的 /druid）
-│   │     账号见各服务 Nacos 配置的 stat-view-servlet 段（出厂默认关闭，开启后账号 snowyAdmin/Snowy@2026!）
+│   │     账号见各服务 Nacos 配置的 stat-view-servlet 段（出厂默认关闭，开启后账号 hgcloudAdmin/Hgcloud@2026!）
 │   ├─ 循环查库（N+1）→ 看代码 for 里有没有 getById/listBy
 │   ├─ 循环跨服务调用 → 看 for 里有没有调 sysUserApi 等（在 biz-app 里每次都是一次 Feign HTTP 往返）
 │   └─ 翻译慢 → @Trans 相关表数据量
@@ -100,9 +100,9 @@ orders.forEach(o -> o.setUserName(userMap.get(o.getUserId()).getStr("name")));
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/monitor/` | 服务器监控（内存/线程排查入口，监控的是 web-app 所在进程） |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/vip/xiaonuo/sys/modular/user/service/impl/SysUserServiceImpl.java` | 批量查询实战 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/src/main/java/vip/xiaonuo/sys/api/context/SysUserApiContextBean.java` | biz-app 侧的远程代理（每次调用 = 一次 Feign） |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/cache/CommonCacheOperator.java` | 缓存操作器 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/monitor/` | 服务器监控（内存/线程排查入口，监控的是 web-app 所在进程） |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/service/impl/SysUserServiceImpl.java` | 批量查询实战 |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/src/main/java/com/hgcloud/sys/api/context/SysUserApiContextBean.java` | biz-app 侧的远程代理（每次调用 = 一次 Feign） |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/cache/CommonCacheOperator.java` | 缓存操作器 |
 | `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-web-app-dev.yaml`、`hgcloud-biz-app-dev.yaml` | Druid 监控、easy-trans 配置 |
 | 应用监控 `http://localhost:9001`（hgcloud-actuator-app，Spring Boot Admin） | 各服务 JVM/线程/内存总览（需启动 actuator 应用） |

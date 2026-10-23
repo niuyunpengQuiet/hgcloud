@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Stop Hook - 清理 Windows 误创建的 nul 文件 (Snowy 版)
+ * Stop Hook - 清理 Windows 误创建的 nul 文件 (Hgcloud 版)
  * 在 cwd 下递归（深度 5，跳过 . 开头目录、node_modules、target）删除名为 nul 的文件
  * 与 pre-tool-use.js 的 `> nul` 拦截形成双保险
  */

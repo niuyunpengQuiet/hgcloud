@@ -67,7 +67,7 @@
 	const footerStyle = computed(() => ({
 		padding: toPx(props.footerPadding),
 		borderTop: props.footerDivider ? '1px solid var(--border-color-split)' : 'none',
-		background: 'var(--snowy-background-color)'
+		background: 'var(--hgcloud-background-color)'
 	}))
 
 	const bodyStyle = computed(() => ({
@@ -96,7 +96,7 @@
 		width: 100%;
 		height: 100%;
 		/* 背景颜色跟随系统暗黑主题变量 */
-		background: var(--snowy-background-color);
+		background: var(--hgcloud-background-color);
 		overflow: hidden;
 	}
 
@@ -133,7 +133,7 @@
 		flex: 1;
 		overflow: auto;
 		/* 主体背景：更浅的背景层 */
-		background: var(--snowy-background-color);
+		background: var(--hgcloud-background-color);
 		scrollbar-width: none;
 		-ms-overflow-style: none;
 	}
@@ -149,6 +149,6 @@
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
-		background: var(--snowy-background-color);
+		background: var(--hgcloud-background-color);
 	}
 </style>

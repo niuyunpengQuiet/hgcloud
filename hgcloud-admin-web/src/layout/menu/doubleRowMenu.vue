@@ -9,11 +9,11 @@
 			collapsible
 			v-show="displayLayout"
 		>
-			<header id="snowyHeaderLogo" class="snowy-header-logo">
-				<div class="snowy-header-left">
+			<header id="hgcloudHeaderLogo" class="hgcloud-header-logo">
+				<div class="hgcloud-header-left">
 					<div class="logo-bar">
 						<router-link to="/">
-							<img class="logo" :title="sysBaseConfig.SNOWY_SYS_NAME" :src="sysBaseConfig.SNOWY_SYS_LOGO" />
+							<img class="logo" :title="sysBaseConfig.HGCLOUD_SYS_NAME" :src="sysBaseConfig.HGCLOUD_SYS_LOGO" />
 						</router-link>
 					</div>
 				</div>
@@ -21,7 +21,7 @@
 			<a-menu
 				:selectedKeys="doublerowSelectedKey"
 				:theme="sideTheme"
-				class="snowy-doublerow-layout-menu"
+				class="hgcloud-doublerow-layout-menu"
 				v-for="item in menu"
 				:key="item.path"
 			>
@@ -46,8 +46,8 @@
 						</a-tooltip>
 						<component v-else :is="item.meta.icon" class="xn-pl10" />
 					</template>
-					<div v-if="!isTablet" class="snowy-doublerow-layout-menu-item-fort-div">
-						<span class="snowy-doublerow-layout-menu-item-fort-div-span">
+					<div v-if="!isTablet" class="hgcloud-doublerow-layout-menu-item-fort-div">
+						<span class="hgcloud-doublerow-layout-menu-item-fort-div-span">
 							{{ item.meta.title }}
 						</span>
 					</div>
@@ -57,11 +57,11 @@
 		<!-- 手机端情况下的左侧菜单 -->
 		<Side-m v-if="isPhone" v-show="displayLayout" />
 		<a-layout>
-			<div id="snowyHeader" class="snowy-header" v-show="displayLayout">
-				<div class="snowy-header-left xn-pl0">
+			<div id="hgcloudHeader" class="hgcloud-header" v-show="displayLayout">
+				<div class="hgcloud-header-left xn-pl0">
 					<moduleMenu v-if="moduleMenuShow" @switchModule="switchModule" />
 				</div>
-				<div class="snowy-header-right">
+				<div class="hgcloud-header-right">
 					<user-bar />
 				</div>
 			</div>
@@ -100,8 +100,8 @@
 							</router-view>
 							<iframe-view />
 							<div v-if="footerCopyrightOpen" class="main-bottom-wrapper">
-								<a class="xn-color-a0a0a0" :href="sysBaseConfig.SNOWY_SYS_COPYRIGHT_URL" target="_blank">{{
-									sysBaseConfig.SNOWY_SYS_COPYRIGHT
+								<a class="xn-color-a0a0a0" :href="sysBaseConfig.HGCLOUD_SYS_COPYRIGHT_URL" target="_blank">{{
+									sysBaseConfig.HGCLOUD_SYS_COPYRIGHT
 								}}</a>
 							</div>
 						</div>
@@ -235,14 +235,14 @@
 	}
 	/* 平板尺寸下第一排收成纯图标栏：logo 居中，菜单项去掉左右内边距让图标居中并放大 */
 	.doublerow-first-side-tablet {
-		:deep(.snowy-header-logo) {
+		:deep(.hgcloud-header-logo) {
 			justify-content: center;
 		}
-		/* 清掉 snowy-header-left 的 20px 左内边距，否则 logo 会被顶得右偏 */
-		:deep(.snowy-header-logo .snowy-header-left) {
+		/* 清掉 hgcloud-header-left 的 20px 左内边距，否则 logo 会被顶得右偏 */
+		:deep(.hgcloud-header-logo .hgcloud-header-left) {
 			padding-left: 0;
 		}
-		:deep(.snowy-header-logo .logo-bar .logo) {
+		:deep(.hgcloud-header-logo .logo-bar .logo) {
 			margin-right: 0;
 		}
 		:deep(.ant-menu-item .ant-menu-item-icon) {

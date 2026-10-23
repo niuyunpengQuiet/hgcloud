@@ -10,9 +10,9 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="是否允许注册：" name="SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B">
+					<a-form-item label="是否允许注册：" name="HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B">
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否允许注册"
@@ -21,12 +21,12 @@
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
-						v-if="formData.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
+						v-if="formData.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
 						label="注册后是否需要绑定手机号："
-						name="SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_B"
+						name="HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_B"
 					>
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_B"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_B"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择注册后是否需要绑定手机号"
@@ -35,12 +35,12 @@
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
-						v-if="formData.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
+						v-if="formData.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
 						label="注册后是否需要绑定邮箱："
-						name="SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_B"
+						name="HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_B"
 					>
 						<a-switch
-							v-model:checked="formData.SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_B"
+							v-model:checked="formData.HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_B"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择注册后是否需要绑定邮箱"
@@ -49,46 +49,46 @@
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
-						v-if="formData.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
+						v-if="formData.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
 						label="新用户默认机构："
-						name="SNOWY_SYS_DEFAULT_NEW_USER_ORG_FOR_B"
+						name="HGCLOUD_SYS_DEFAULT_NEW_USER_ORG_FOR_B"
 					>
 						<xn-org-selector
 							:org-tree-api="selectApiFunction.orgTreeApi"
 							:org-page-api="selectApiFunction.orgPageApi"
 							:radio-model="true"
 							dataType="string"
-							v-model:value="formData.SNOWY_SYS_DEFAULT_NEW_USER_ORG_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_NEW_USER_ORG_FOR_B"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
-						v-if="formData.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
+						v-if="formData.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
 						label="新用户默认职位："
-						name="SNOWY_SYS_DEFAULT_NEW_USER_POSITION_FOR_B"
+						name="HGCLOUD_SYS_DEFAULT_NEW_USER_POSITION_FOR_B"
 					>
 						<xn-position-selector
 							:org-tree-api="selectApiFunction.orgTreeApi"
 							:position-page-api="selectApiFunction.positionPageApi"
 							:radio-model="true"
 							dataType="string"
-							v-model:value="formData.SNOWY_SYS_DEFAULT_NEW_USER_POSITION_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_NEW_USER_POSITION_FOR_B"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
-						v-if="formData.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
+						v-if="formData.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B"
 						label="新用户默认角色："
-						name="SNOWY_SYS_DEFAULT_NEW_USER_ROLE_FOR_B"
+						name="HGCLOUD_SYS_DEFAULT_NEW_USER_ROLE_FOR_B"
 					>
 						<xn-role-selector
 							:org-tree-api="selectApiFunction.orgTreeApi"
 							:role-page-api="selectApiFunction.rolePageApi"
 							:radio-model="true"
 							dataType="string"
-							v-model:value="formData.SNOWY_SYS_DEFAULT_NEW_USER_ROLE_FOR_B"
+							v-model:value="formData.HGCLOUD_SYS_DEFAULT_NEW_USER_ROLE_FOR_B"
 						/>
 					</a-form-item>
 				</a-col>
@@ -162,12 +162,12 @@
 	}
 	// 默认要校验的
 	const formRules = {
-		SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B: [required('请选择是否需要注册')],
-		SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_B: [required('请选择注册时是否需要绑定手机号')],
-		SNOWY_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_B: [required('请选择注册时是否需要绑定邮箱')],
-		SNOWY_SYS_DEFAULT_NEW_USER_ORG_FOR_B: [required('请选择注册时新用户默认的机构')],
-		SNOWY_SYS_DEFAULT_NEW_USER_ROLE_FOR_B: [required('请选择注册时新用户默认的角色')],
-		SNOWY_SYS_DEFAULT_NEW_USER_POSITION_FOR_B: [required('请选择注册时新用户默认的职位')]
+		HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B: [required('请选择是否需要注册')],
+		HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_PHONE_FOR_B: [required('请选择注册时是否需要绑定手机号')],
+		HGCLOUD_SYS_DEFAULT_REGISTER_NEED_BIND_EMAIL_FOR_B: [required('请选择注册时是否需要绑定邮箱')],
+		HGCLOUD_SYS_DEFAULT_NEW_USER_ORG_FOR_B: [required('请选择注册时新用户默认的机构')],
+		HGCLOUD_SYS_DEFAULT_NEW_USER_ROLE_FOR_B: [required('请选择注册时新用户默认的角色')],
+		HGCLOUD_SYS_DEFAULT_NEW_USER_POSITION_FOR_B: [required('请选择注册时新用户默认的职位')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

@@ -1,14 +1,14 @@
 /*
  * Copyright [2022] [https://www.xiaonuo.vip]
  *
- * Snowy采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ * Hgcloud采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *
  * 1.请不要删除和修改根目录下的LICENSE文件。
- * 2.请不要删除和修改Snowy源码头部的版权声明。
+ * 2.请不要删除和修改Hgcloud源码头部的版权声明。
  * 3.本项目代码可免费商业使用，商业使用请保留源码和相关描述文件的项目出处，作者声明等。
  * 4.分发源码时候，请注明软件出处 https://www.xiaonuo.vip
  * 5.不可二次分发开源参与同类竞品，如有想法可联系团队xiaonuobase@qq.com商议合作。
- * 6.若您的项目无法满足以上几点，需要更多功能代码，获取Snowy商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
+ * 6.若您的项目无法满足以上几点，需要更多功能代码，获取Hgcloud商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
  */
 package com.hgcloud.web.core.config;
 
@@ -46,7 +46,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,23 +55,23 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import vip.xiaonuo.auth.core.util.StpClientUtil;
-import vip.xiaonuo.auth.core.util.StpLockUtil;
-import vip.xiaonuo.common.annotation.CommonNoRepeat;
-import vip.xiaonuo.common.annotation.CommonWrapper;
-import vip.xiaonuo.common.cache.CommonCacheOperator;
-import vip.xiaonuo.common.enums.CommonDeleteFlagEnum;
-import vip.xiaonuo.common.enums.SysBuildInEnum;
-import vip.xiaonuo.common.exception.CommonException;
-import vip.xiaonuo.common.interceptor.CommonTraceInterceptor;
-import vip.xiaonuo.common.listener.CommonDataChangeEventCenter;
-import vip.xiaonuo.common.listener.CommonDataChangeListener;
-import vip.xiaonuo.common.pojo.CommonResult;
-import vip.xiaonuo.common.pojo.CommonWrapperInterface;
-import vip.xiaonuo.common.util.CommonIpAddressUtil;
-import vip.xiaonuo.common.util.CommonJoinPointUtil;
-import vip.xiaonuo.common.util.CommonServletUtil;
-import vip.xiaonuo.common.util.CommonTimeFormatUtil;
+import com.hgcloud.auth.core.util.StpClientUtil;
+import com.hgcloud.auth.core.util.StpLockUtil;
+import com.hgcloud.common.annotation.CommonNoRepeat;
+import com.hgcloud.common.annotation.CommonWrapper;
+import com.hgcloud.common.cache.CommonCacheOperator;
+import com.hgcloud.common.enums.CommonDeleteFlagEnum;
+import com.hgcloud.common.enums.SysBuildInEnum;
+import com.hgcloud.common.exception.CommonException;
+import com.hgcloud.common.interceptor.CommonTraceInterceptor;
+import com.hgcloud.common.listener.CommonDataChangeEventCenter;
+import com.hgcloud.common.listener.CommonDataChangeListener;
+import com.hgcloud.common.pojo.CommonResult;
+import com.hgcloud.common.pojo.CommonWrapperInterface;
+import com.hgcloud.common.util.CommonIpAddressUtil;
+import com.hgcloud.common.util.CommonJoinPointUtil;
+import com.hgcloud.common.util.CommonServletUtil;
+import com.hgcloud.common.util.CommonTimeFormatUtil;
 import com.hgcloud.web.core.handler.GlobalExceptionUtil;
 
 import java.lang.reflect.Array;
@@ -82,13 +82,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Snowy配置
+ * Hgcloud配置
  *
  * @author xuyuxiang
  * @date 2021/10/9 14:24
  **/
 @Configuration
-@MapperScan(basePackages = {"vip.xiaonuo.**.mapper"})
+@MapperScan(basePackages = {"com.hgcloud.**.mapper"})
 public class GlobalConfigure implements WebMvcConfigurer {
 
     @Resource
@@ -395,7 +395,7 @@ public class GlobalConfigure implements WebMvcConfigurer {
          * @author xuyuxiang
          * @date 2022/9/15 21:27
          */
-        @Pointcut("@annotation(vip.xiaonuo.common.annotation.CommonNoRepeat)")
+        @Pointcut("@annotation(com.hgcloud.common.annotation.CommonNoRepeat)")
         private void noRepeatPointcut() {
 
         }
@@ -463,7 +463,7 @@ public class GlobalConfigure implements WebMvcConfigurer {
          * @author xuyuxiang
          * @date 2022/9/15 21:27
          */
-        @Pointcut("@annotation(vip.xiaonuo.common.annotation.CommonWrapper)")
+        @Pointcut("@annotation(com.hgcloud.common.annotation.CommonWrapper)")
         private void wrapperPointcut() {
 
         }

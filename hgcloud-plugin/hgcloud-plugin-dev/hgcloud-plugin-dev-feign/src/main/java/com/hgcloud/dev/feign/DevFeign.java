@@ -1,0 +1,55 @@
+/*
+ * Copyright [2022] [https://www.xiaonuo.vip]
+ *
+ * Hgcloud采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ *
+ * 1.请不要删除和修改根目录下的LICENSE文件。
+ * 2.请不要删除和修改Hgcloud源码头部的版权声明。
+ * 3.本项目代码可免费商业使用，商业使用请保留源码和相关描述文件的项目出处，作者声明等。
+ * 4.分发源码时候，请注明软件出处 https://www.xiaonuo.vip
+ * 5.不可二次分发开源参与同类竞品，如有想法可联系团队xiaonuobase@qq.com商议合作。
+ * 6.若您的项目无法满足以上几点，需要更多功能代码，获取Hgcloud商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
+ */
+package com.hgcloud.dev.feign;
+
+import cn.hutool.json.JSONObject;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import com.hgcloud.common.consts.FeignConstant;
+
+/**
+ * 开发工具模块综合Feign
+ *
+ * @author dongxiayu
+ * @date 2022/11/22 22:46
+ */
+@FeignClient(name= FeignConstant.WEB_APP, contextId = "DevFeign")
+public interface DevFeign {
+
+    /**
+     * 获得dev模块运维数据
+     *
+     * @author yubaoshan
+     * @date 2024/7/18 17:35
+     **/
+    @PostMapping("/feign/dev/getDevOpCount")
+    JSONObject getDevOpCount();
+
+    /**
+     * 获得dev工具数量（短信、邮件、文件、消息）
+     *
+     * @author yubaoshan
+     * @date 2024/7/18 17:35
+     **/
+    @PostMapping("/feign/dev/getToolDataCount")
+    JSONObject getToolDataCount();
+
+    /**
+     * 获取系统运行信息（Java版本、OS、运行时长、服务器IP）
+     *
+     * @author yubaoshan
+     * @date 2026/4/21
+     **/
+    @PostMapping("/feign/dev/getSysRunInfo")
+    JSONObject getSysRunInfo();
+}

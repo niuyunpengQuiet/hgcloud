@@ -10,33 +10,33 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="FTP主机：" name="SNOWY_FILE_FTP_HOST">
-						<a-input v-model:value="formData.SNOWY_FILE_FTP_HOST" placeholder="请输入FTP主机" />
+					<a-form-item label="FTP主机：" name="HGCLOUD_FILE_FTP_HOST">
+						<a-input v-model:value="formData.HGCLOUD_FILE_FTP_HOST" placeholder="请输入FTP主机" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="FTP端口：" name="SNOWY_FILE_FTP_PORT">
-						<a-input v-model:value="formData.SNOWY_FILE_FTP_PORT" placeholder="请输入FTP端口" />
+					<a-form-item label="FTP端口：" name="HGCLOUD_FILE_FTP_PORT">
+						<a-input v-model:value="formData.HGCLOUD_FILE_FTP_PORT" placeholder="请输入FTP端口" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="FTP用户名：" name="SNOWY_FILE_FTP_USERNAME">
-						<a-input v-model:value="formData.SNOWY_FILE_FTP_USERNAME" placeholder="请输入FTP用户名" />
+					<a-form-item label="FTP用户名：" name="HGCLOUD_FILE_FTP_USERNAME">
+						<a-input v-model:value="formData.HGCLOUD_FILE_FTP_USERNAME" placeholder="请输入FTP用户名" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="FTP密码：" name="SNOWY_FILE_FTP_PASSWORD">
-						<a-input-password v-model:value="formData.SNOWY_FILE_FTP_PASSWORD" placeholder="请输入FTP密码" />
+					<a-form-item label="FTP密码：" name="HGCLOUD_FILE_FTP_PASSWORD">
+						<a-input-password v-model:value="formData.HGCLOUD_FILE_FTP_PASSWORD" placeholder="请输入FTP密码" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="FTP基础目录：" name="SNOWY_FILE_FTP_BASE_PATH">
-						<a-input v-model:value="formData.SNOWY_FILE_FTP_BASE_PATH" placeholder="请输入FTP基础目录" />
+					<a-form-item label="FTP基础目录：" name="HGCLOUD_FILE_FTP_BASE_PATH">
+						<a-input v-model:value="formData.HGCLOUD_FILE_FTP_BASE_PATH" placeholder="请输入FTP基础目录" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="FTP储存桶：" name="SNOWY_FILE_FTP_DEFAULT_BUCKET_NAME">
-						<a-input v-model:value="formData.SNOWY_FILE_FTP_DEFAULT_BUCKET_NAME" placeholder="请输入FTP储存桶" />
+					<a-form-item label="FTP储存桶：" name="HGCLOUD_FILE_FTP_DEFAULT_BUCKET_NAME">
+						<a-input v-model:value="formData.HGCLOUD_FILE_FTP_DEFAULT_BUCKET_NAME" placeholder="请输入FTP储存桶" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -80,12 +80,12 @@
 
 	// 默认要校验的
 	const formRules = {
-		SNOWY_FILE_FTP_HOST: [required('请输入FTP主机')],
-		SNOWY_FILE_FTP_PORT: [required('请输入FTP端口')],
-		SNOWY_FILE_FTP_USERNAME: [required('请输入FTP用户名')],
-		SNOWY_FILE_FTP_PASSWORD: [required('请输入FTP密码')],
-		SNOWY_FILE_FTP_BASE_PATH: [required('请输入FTP基础目录')],
-		SNOWY_FILE_FTP_DEFAULT_BUCKET_NAME: [required('请输入FTP储存桶')]
+		HGCLOUD_FILE_FTP_HOST: [required('请输入FTP主机')],
+		HGCLOUD_FILE_FTP_PORT: [required('请输入FTP端口')],
+		HGCLOUD_FILE_FTP_USERNAME: [required('请输入FTP用户名')],
+		HGCLOUD_FILE_FTP_PASSWORD: [required('请输入FTP密码')],
+		HGCLOUD_FILE_FTP_BASE_PATH: [required('请输入FTP基础目录')],
+		HGCLOUD_FILE_FTP_DEFAULT_BUCKET_NAME: [required('请输入FTP储存桶')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

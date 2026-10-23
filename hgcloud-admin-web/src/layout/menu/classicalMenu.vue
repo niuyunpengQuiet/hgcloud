@@ -9,12 +9,12 @@
 			width="210"
 			v-show="displayLayout"
 		>
-			<header id="snowyHeaderLogo" class="snowy-header-logo">
-				<div class="snowy-header-left">
+			<header id="hgcloudHeaderLogo" class="hgcloud-header-logo">
+				<div class="hgcloud-header-left">
 					<div class="logo-bar">
-						<img class="logo" :src="sysBaseConfig.SNOWY_SYS_LOGO" />
-						<span :style="{ fontSize: sysNameFontSize }" :title="sysBaseConfig.SNOWY_SYS_NAME">{{
-							sysBaseConfig.SNOWY_SYS_NAME
+						<img class="logo" :src="sysBaseConfig.HGCLOUD_SYS_LOGO" />
+						<span :style="{ fontSize: sysNameFontSize }" :title="sysBaseConfig.HGCLOUD_SYS_NAME">{{
+							sysBaseConfig.HGCLOUD_SYS_NAME
 						}}</span>
 					</div>
 				</div>
@@ -39,15 +39,15 @@
 		<Side-m v-if="isPhone" v-show="displayLayout" />
 		<!-- 右侧布局 -->
 		<a-layout>
-			<div id="snowyHeader" class="snowy-header" v-show="displayLayout">
-				<div class="snowy-header-left xn-pl0">
+			<div id="hgcloudHeader" class="hgcloud-header" v-show="displayLayout">
+				<div class="hgcloud-header-left xn-pl0">
 					<div v-if="!isPhone" class="panel-item hidden-sm-and-down" @click="menuIsCollapseClick">
 						<MenuUnfoldOutlined v-if="sideCollapsed" />
 						<MenuFoldOutlined v-else />
 					</div>
 					<moduleMenu v-if="moduleMenuShow" @switchModule="switchModule" />
 				</div>
-				<div class="snowy-header-right">
+				<div class="hgcloud-header-right">
 					<user-bar />
 				</div>
 			</div>
@@ -65,8 +65,8 @@
 					</router-view>
 					<iframe-view />
 					<div v-if="footerCopyrightOpen" class="main-bottom-wrapper">
-						<a class="xn-color-a0a0a0" :href="sysBaseConfig.SNOWY_SYS_COPYRIGHT_URL" target="_blank">{{
-							sysBaseConfig.SNOWY_SYS_COPYRIGHT
+						<a class="xn-color-a0a0a0" :href="sysBaseConfig.HGCLOUD_SYS_COPYRIGHT_URL" target="_blank">{{
+							sysBaseConfig.HGCLOUD_SYS_COPYRIGHT
 						}}</a>
 					</div>
 				</div>
@@ -112,7 +112,7 @@
 	const emit = defineEmits(['onSelect', 'onOpenChange', 'switchModule', 'menuIsCollapseClick', 'displayLayoutChange'])
 	// 系统名称的视觉宽度权重：中文与全角符号按一个字宽计，英文数字按约六成字宽计
 	const sysNameWeight = computed(() => {
-		const sysName = props.sysBaseConfig ? props.sysBaseConfig.SNOWY_SYS_NAME || '' : ''
+		const sysName = props.sysBaseConfig ? props.sysBaseConfig.HGCLOUD_SYS_NAME || '' : ''
 		let weight = 0
 		for (const word of sysName) {
 			weight += /[一-龥＀-￯]/.test(word) ? 1 : 0.6
@@ -237,31 +237,31 @@
 		padding: 0;
 	}
 	/* 系统名称区：logo 与名称整组水平居中，左右留白自动对称 */
-	.snowy-header-logo {
+	.hgcloud-header-logo {
 		justify-content: center;
 		padding: 0 10px;
 	}
 	/* 清掉出厂的 20px 左内边距，否则整组会被顶得右偏 */
-	.snowy-header-logo .snowy-header-left {
+	.hgcloud-header-logo .hgcloud-header-left {
 		padding-left: 0;
 		min-width: 0;
 	}
-	.snowy-header-logo .logo-bar {
+	.hgcloud-header-logo .logo-bar {
 		min-width: 0;
 	}
-	.snowy-header-logo .logo-bar .logo {
+	.hgcloud-header-logo .logo-bar .logo {
 		flex-shrink: 0;
 		margin-right: 8px;
 	}
 	/* 字号已按字数分档，这里再兜一层省略号，超长时可悬停看全称 */
-	.snowy-header-logo .logo-bar > span {
+	.hgcloud-header-logo .logo-bar > span {
 		min-width: 0;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 	}
 	/* 侧边栏折叠后名称已隐藏，清掉它预留的右间距，让 logo 正居中 */
-	.ant-layout-sider-collapsed .snowy-header-logo .logo-bar .logo {
+	.ant-layout-sider-collapsed .hgcloud-header-logo .logo-bar .logo {
 		margin-right: 0;
 	}
 	.no-radius-menu :deep(.ant-menu-item),

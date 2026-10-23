@@ -6,25 +6,25 @@
 
 ## 框架介绍
 
-Snowy-Cloud（SnowyAdmin微服务版）是国内首个国密前后端分离快速开发平台，集成国密加解密插件，
+Hgcloud（HgcloudAdmin微服务版）是国内首个国密前后端分离快速开发平台，集成国密加解密插件，
 软件层面完全符合等保测评要求，同时实现国产化机型、中间件、数据库适配，是您的不二之选！
 将国密能力内置于技术框架底层，让密码技术从"专业门槛"变为"开箱即用"，真正实现业务安全从底层做起。
 历经多年开源社区打磨与企业客户实践验证，新版本在大数据处理能力与安全体系方面实现了全面升级。
 
 采用SpringCloud+SpringBoot+MybatisPlus+AntDesignVue+Vite 等更多优秀组件及前沿技术开发，注释丰富，代码简洁，开箱即用！
 
-Snowy谐音“小诺”，恰应小诺团队名称；意思为”下雪的、纯洁的“，寓意框架追求简洁至上，大道至简。
+Hgcloud谐音“小诺”，恰应小诺团队名称；意思为”下雪的、纯洁的“，寓意框架追求简洁至上，大道至简。
 
 <p align="center">     
     <p align="center">
-        <a href="https://gitcode.com/xiaonuobase/Snowy-Cloud">
-            <img src="https://gitcode.com/xiaonuobase/Snowy-Cloud/star/badge.svg" alt="bootstrap">
+        <a href="https://gitcode.com/xiaonuobase/Hgcloud">
+            <img src="https://gitcode.com/xiaonuobase/Hgcloud/star/badge.svg" alt="bootstrap">
         </a>
-        <a href="https://gitee.com/xiaonuobase/snowy">
-            <img src="https://gitee.com/xiaonuobase/snowy/badge/star.svg?theme=dark" alt="Gitee star">
+        <a href="https://gitee.com/xiaonuobase/hgcloud">
+            <img src="https://gitee.com/xiaonuobase/hgcloud/badge/star.svg?theme=dark" alt="Gitee star">
         </a>
-        <a href="https://gitee.com/xiaonuobase/snowy">
-            <img src="https://gitee.com/xiaonuobase/snowy/badge/fork.svg?theme=dark" alt="Gitee fork">
+        <a href="https://gitee.com/xiaonuobase/hgcloud">
+            <img src="https://gitee.com/xiaonuobase/hgcloud/badge/fork.svg?theme=dark" alt="Gitee fork">
         </a>
         <a href="https://www.antdv.com/docs/vue/introduce-cn/">
             <img src="https://img.shields.io/badge/vue-3-blue.svg" alt="bootstrap">
@@ -49,19 +49,19 @@ Snowy谐音“小诺”，恰应小诺团队名称；意思为”下雪的、纯
 
 ## 快速链接
 
-gitee下载地址：[https://gitee.com/xiaonuobase/snowy-cloud](https://gitee.com/xiaonuobase/snowy-cloud)
+gitee下载地址：[https://gitee.com/xiaonuobase/hgcloud](https://gitee.com/xiaonuobase/hgcloud)
 
-github下载地址（镜像）：[https://github.com/xiaonuobase/Snowy-Cloud](https://github.com/xiaonuobase/Snowy-Cloud)
+github下载地址（镜像）：[https://github.com/xiaonuobase/Hgcloud](https://github.com/xiaonuobase/Hgcloud)
 
-gitcode下载地址：[https://gitcode.com/xiaonuobase/Snowy-Cloud](https://gitcode.com/xiaonuobase/Snowy-Cloud)
+gitcode下载地址：[https://gitcode.com/xiaonuobase/Hgcloud](https://gitcode.com/xiaonuobase/Hgcloud)
 
-演示地址：[https://snowy.xiaonuo.vip](https://snowy.xiaonuo.vip)
+演示地址：[https://hgcloud.xiaonuo.vip](https://hgcloud.xiaonuo.vip)
 
 文档地址：[https://xiaonuo.vip/doc](https://xiaonuo.vip/doc)
 
 别划走，您以为这就完了？微服务仅仅是我们体系中的一个版本，我们还有其他版本，例如单体分离版：
 
-下载地址：[https://gitee.com/xiaonuobase/snowy](https://gitee.com/xiaonuobase/snowy)
+下载地址：[https://gitee.com/xiaonuobase/hgcloud](https://gitee.com/xiaonuobase/hgcloud)
 
 ## 商业产品
 
@@ -136,7 +136,7 @@ npm run dev
 
 |         应用         |       启动类        | 端口号  |
 |:------------------:|:----------------:|:----:|
-|  hgcloud-nacos-app   |  SnowyNacosApp   | 8848 |
+|  hgcloud-nacos-app   |  HgcloudNacosApp   | 8848 |
 | hgcloud-actuator-app | HgActuatorApp | 9001 |
 | hgcloud-sentinel-app | HgSentinelApp | 9002 |
 | hgcloud-gateway-app  | HgGatewayApp  | 9003 |
@@ -146,10 +146,10 @@ npm run dev
 
 ## 代码结构
 
-Snowy-Cloud3.0框架对代码以插件化的模式进行分包，使得包层级结构更加清晰合理，同时降低了耦合度，关于插件模块化开发的规范请查阅文档【SNOWY-CLOUD开源文档——前端手册or后端手册——开发规范】板块。
+Hgcloud3.0框架对代码以插件化的模式进行分包，使得包层级结构更加清晰合理，同时降低了耦合度，关于插件模块化开发的规范请查阅文档【HGCLOUD开源文档——前端手册or后端手册——开发规范】板块。
 
 ```
-snowy-cloud
+hgcloud
   |-hgcloud-admin-web == 前端
     |-public == 基础静态文件
     |-src == 前端源代码
@@ -213,11 +213,11 @@ snowy-cloud
 
 团队开发的分支（代码可能随时会推，不保证运行和使用）
 
-- snowy-cloud1.8
+- hgcloud1.8
 
 1.x分支，目前已停止新增功能，只限于bug的维护，推荐使用2x版本
 
-- snowy-cloud2.5
+- hgcloud2.5
 
 2.x分支，目前已停止新增功能，只限于bug的维护，可以平滑过渡至3x版本
 
@@ -317,17 +317,17 @@ QQ技术群：732230670（已满）、685395081
 
 ## 示例代码
 
-从 v3.6.0，我们把前端示例的一些界面文件拿到了另外一个仓库，使用时可以自行下载：[https://gitee.com/xiaonuoadmin/snowy-exm](https://gitee.com/xiaonuoadmin/snowy-exm)
+从 v3.6.0，我们把前端示例的一些界面文件拿到了另外一个仓库，使用时可以自行下载：[https://gitee.com/xiaonuoadmin/hgcloud-exm](https://gitee.com/xiaonuoadmin/hgcloud-exm)
 
 ## 代码贡献
 
-近期有很多热心开源的小伙伴陆续为咱们Snowy框架提交PR或者提出好的建议，基本合格的PR我们都接受，这样您的头像就列入到咱们Snowy仓库的贡献者列表啦！
+近期有很多热心开源的小伙伴陆续为咱们Hgcloud框架提交PR或者提出好的建议，基本合格的PR我们都接受，这样您的头像就列入到咱们Hgcloud仓库的贡献者列表啦！
 
 如何贡献
 
 1、fork一份代码至自己的账号下，本地修改您要提的代码，提交至您fork的仓库
 
-2、登录gitee后到Snowy仓库下创建Pull Requests,选择您的仓库到Snowy的dev分支，提交即可
+2、登录gitee后到Hgcloud仓库下创建Pull Requests,选择您的仓库到Hgcloud的dev分支，提交即可
 
 因为dev分支是团队开发分支，并不是统一发版本的测试过的，所以我们建议提代码至dev即可
 
@@ -335,7 +335,7 @@ QQ技术群：732230670（已满）、685395081
 
 如果您（或您公司）有外包开发需求，可以通过联系客服方式，提交您的需求，经过工作量分析，出具合适的报价，合作开发并交付。
 
-本团队具备雄厚的技术人才力量，均跟随小诺团队发展至今，已完全熟练每一处细节代码，您的产品自然也是由Snowy平台进行开发并交付。
+本团队具备雄厚的技术人才力量，均跟随小诺团队发展至今，已完全熟练每一处细节代码，您的产品自然也是由Hgcloud平台进行开发并交付。
 
 1、工期保障
 2、源码质量保障
@@ -388,10 +388,10 @@ QQ技术群：732230670（已满）、685395081
 
 ## 版权说明
 
-- Snowy生态技术框架全系版本采用 Apache License2.0协议
+- Hgcloud生态技术框架全系版本采用 Apache License2.0协议
 
-- 代码可用于个人项目等接私活或企业项目脚手架使用，Snowy全系开源版完全免费
+- 代码可用于个人项目等接私活或企业项目脚手架使用，Hgcloud全系开源版完全免费
 
 - 二次开源不可参与同类竞争，可在其他赛道进行，有好的案例可以提供，我们会挂在本页进行宣传
 
-- 请不要删除和修改Snowy源码头部的版权与作者声明及出处
+- 请不要删除和修改Hgcloud源码头部的版权与作者声明及出处

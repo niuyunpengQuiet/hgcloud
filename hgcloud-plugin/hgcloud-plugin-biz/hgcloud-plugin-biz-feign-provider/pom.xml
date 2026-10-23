@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>vip.xiaonuo</groupId>
+        <groupId>com.hgcloud</groupId>
         <artifactId>hgcloud-plugin-biz</artifactId>
         <version>3.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -16,7 +16,7 @@
 
         <!-- hgcloud-common -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-common</artifactId>
             <exclusions>
                 <exclusion>
@@ -35,7 +35,7 @@
         <!-- mybatis-plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
         </dependency>
 
         <!-- hutool -->
@@ -46,7 +46,7 @@
 
         <!-- hgcloud-plugin-biz-feign -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-biz-feign</artifactId>
         </dependency>
 

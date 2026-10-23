@@ -1,9 +1,9 @@
 ---
 name: security-auth
-description: Snowy 鉴权与安全规范：Sa-Token B/C 双端模型、路由白名单三段、登录方式、获取当前用户、接口权限与按钮权限、数据范围、三方登录、SSO。触发场景：1) 接口需要登录/免登录/权限校验 2) 获取当前登录用户信息 3) 数据范围（按机构过滤）4) 三方登录或 SSO 集成。触发词：鉴权、权限、登录、Sa-Token、StpUtil、token、白名单、免登录、401、403、数据范围、DataScope、角色、三方登录、SSO、OAuth2、越权、网关鉴权、GatewayConfigure、SaReactorFilter、跨服务会话、Feign 接口暴露。
+description: Hgcloud 鉴权与安全规范：Sa-Token B/C 双端模型、路由白名单三段、登录方式、获取当前用户、接口权限与按钮权限、数据范围、三方登录、SSO。触发场景：1) 接口需要登录/免登录/权限校验 2) 获取当前登录用户信息 3) 数据范围（按机构过滤）4) 三方登录或 SSO 集成。触发词：鉴权、权限、登录、Sa-Token、StpUtil、token、白名单、免登录、401、403、数据范围、DataScope、角色、三方登录、SSO、OAuth2、越权、网关鉴权、GatewayConfigure、SaReactorFilter、跨服务会话、Feign 接口暴露。
 ---
 
-# Snowy 鉴权与安全规范
+# Hgcloud 鉴权与安全规范
 
 ## 双端模型（B 端 / C 端）
 
@@ -21,7 +21,7 @@ description: Snowy 鉴权与安全规范：Sa-Token B/C 双端模型、路由白
 | 网关层 | `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | `SaReactorFilter`（响应式） | **带**网关前缀：`/api/webapp/...`、`/api/bizapp/...` |
 | 服务层 | `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java`、`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | `SaServletFilter`；另有 `SaInterceptor` 处理 `@SaCheckPermission` 等注解 | **不带**前缀：`/biz/...`、`/sys/...` |
 
-**会话跨服务共享**：登录在 web-app 完成，Sa-Token 会话（含 `loginUser`，里面有权限码、角色码、数据范围）写入 Redis（Sa-Token alone-redis，与业务缓存同为 database 1）。网关和 biz-app 都从同一个 Redis 读会话来判登录、取权限，所以三者的 Redis 地址/库号、`sa-token.token-name`（`token`）、timeout 必须一致（都在各自的 Nacos 配置 `snowy-*-app-dev.yaml` 里）。
+**会话跨服务共享**：登录在 web-app 完成，Sa-Token 会话（含 `loginUser`，里面有权限码、角色码、数据范围）写入 Redis（Sa-Token alone-redis，与业务缓存同为 database 1）。网关和 biz-app 都从同一个 Redis 读会话来判登录、取权限，所以三者的 Redis 地址/库号、`sa-token.token-name`（`token`）、timeout 必须一致（都在各自的 Nacos 配置 `hgcloud-*-app-dev.yaml` 里）。
 
 ## 路由级白名单（两处都要改，改后必须重启）
 
@@ -41,7 +41,7 @@ description: Snowy 鉴权与安全规范：Sa-Token B/C 双端模型、路由白
 
 ```java
 import cn.dev33.satoken.stp.StpUtil;
-import vip.xiaonuo.auth.core.util.StpLoginUserUtil;
+import com.hgcloud.auth.core.util.StpLoginUserUtil;
 
 String userId = StpUtil.getLoginIdAsString();                // 当前用户 id
 SaBaseLoginUser user = StpLoginUserUtil.getLoginUser();      // 完整登录用户（name/orgId/...），从 Redis 会话读取
@@ -75,7 +75,7 @@ String orgId = StpLoginUserUtil.getLoginUser().getOrgId();
 
 ## 登录方式矩阵（auth 插件已实现，直接用）
 
-账密（密码 SM2 加密传输 + SM3 摘要校验）、手机验证码、邮箱验证码、OTP 动态口令、三方 token 换绑。入口：`hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/controller/AuthController.java`（B 端 `/auth/b/*`）与 `AuthClientController`（C 端 `/auth/c/*`），都运行在 web-app，经网关为 `/api/webapp/auth/...`。
+账密（密码 SM2 加密传输 + SM3 摘要校验）、手机验证码、邮箱验证码、OTP 动态口令、三方 token 换绑。入口：`hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/modular/login/controller/AuthController.java`（B 端 `/auth/b/*`）与 `AuthClientController`（C 端 `/auth/c/*`），都运行在 web-app，经网关为 `/api/webapp/auth/...`。
 
 ## 三方登录与 SSO
 
@@ -120,11 +120,11 @@ String orgId = StpLoginUserUtil.getLoginUser().getOrgId();
 | `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java` | web-app 白名单 + SaServletFilter（含锁屏校验） |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | biz-app 白名单 + SaServletFilter |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/AuthConfigure.java` | biz-app 双端 StpLogic + StpInterfaceImpl + SaInterceptor |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/core/config/AuthConfigure.java` | web-app 双端 StpLogic + StpInterfaceImpl + SaInterceptor |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/vip/xiaonuo/sys/modular/user/provider/SysLoginUserApiProvider.java` | 权限码/按钮码/数据范围组装（refreshOnlineUserPermission） |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/` | 登录全流程 |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-api/src/main/java/vip/xiaonuo/auth/core/pojo/SaBaseLoginUser.java` | 登录用户 POJO |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-api/src/main/java/vip/xiaonuo/auth/core/util/StpLoginUserUtil.java` | 取当前用户、数据范围 |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/third/` | 三方登录 |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/core/protocol/` | SSO 协议栈 |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/core/config/AuthConfigure.java` | web-app 双端 StpLogic + StpInterfaceImpl + SaInterceptor |
+| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/provider/SysLoginUserApiProvider.java` | 权限码/按钮码/数据范围组装（refreshOnlineUserPermission） |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/modular/login/` | 登录全流程 |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-api/src/main/java/com/hgcloud/auth/core/pojo/SaBaseLoginUser.java` | 登录用户 POJO |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-api/src/main/java/com/hgcloud/auth/core/util/StpLoginUserUtil.java` | 取当前用户、数据范围 |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/modular/third/` | 三方登录 |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/core/protocol/` | SSO 协议栈 |
 | `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/` | 各服务 sa-token 段与 Redis 配置 |

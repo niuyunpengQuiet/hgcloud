@@ -1,14 +1,14 @@
 <template>
     <uni-popup ref="popRef" type="bottom" background-color="transparent" maskBackgroundColor="rgba(0, 0, 0, 0.6)">
         <tui-list-view unlined="all" background-color="transparent">
-            <tui-list-cell v-if="$snowy.hasPerm('mobile${className}Edit')" :hover="true" :arrow="false" @click="edit" :radius="10" >
-                <view class="snowy-text-center"> 编辑 </view>
+            <tui-list-cell v-if="$hgcloud.hasPerm('mobile${className}Edit')" :hover="true" :arrow="false" @click="edit" :radius="10" >
+                <view class="hgcloud-text-center"> 编辑 </view>
             </tui-list-cell>
-            <tui-list-cell v-if="$snowy.hasPerm('mobile${className}Delete')" :hover="true" :arrow="false" @click="del" :radius="10" :margin-top="2">
-                <view class="snowy-text-center"> 刪除 </view>
+            <tui-list-cell v-if="$hgcloud.hasPerm('mobile${className}Delete')" :hover="true" :arrow="false" @click="del" :radius="10" :margin-top="2">
+                <view class="hgcloud-text-center"> 刪除 </view>
             </tui-list-cell>
             <tui-list-cell :hover="true" :arrow="false" @click="cancel" :margin-top="10" :radius="10">
-                <view class="snowy-text-center"> 取消 </view>
+                <view class="hgcloud-text-center"> 取消 </view>
             </tui-list-cell>
         </tui-list-view>
     </uni-popup>
@@ -33,7 +33,7 @@
     }
     // 删除
     const del = () => {
-    	uni.$snowy.modal.confirm(`确定要删除吗？`).then(() => {
+    	uni.$hgcloud.modal.confirm(`确定要删除吗？`).then(() => {
             ${classNameFirstLower}Api.${classNameFirstLower}Delete([{
                 id: record.value.id
             }]).then(data => {

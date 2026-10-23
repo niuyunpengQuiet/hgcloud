@@ -1,9 +1,9 @@
 ---
 name: dict-config
-description: Snowy 字典/配置/枚举三件套规范：DEV_DICT 系统字典与 BIZ 业务字典双轨、前端 DictSelect 组件、@Trans 字典翻译、业务枚举类规范、DEV_CONFIG 系统配置与 Nacos 配置的区别。触发场景：1) 字段需要下拉选项（状态/类型）2) 需要系统参数配置 3) 定义业务枚举 4) biz-app 里用字典翻译/读系统配置（跨服务）。触发词：字典、dict、DEV_DICT、BIZ_DICT、DictSelect、下拉、枚举、enum、系统配置、DEV_CONFIG、参数配置、Nacos 配置、easy-trans、跨服务字典、DevConfigApi。
+description: Hgcloud 字典/配置/枚举三件套规范：DEV_DICT 系统字典与 BIZ 业务字典双轨、前端 DictSelect 组件、@Trans 字典翻译、业务枚举类规范、DEV_CONFIG 系统配置与 Nacos 配置的区别。触发场景：1) 字段需要下拉选项（状态/类型）2) 需要系统参数配置 3) 定义业务枚举 4) biz-app 里用字典翻译/读系统配置（跨服务）。触发词：字典、dict、DEV_DICT、BIZ_DICT、DictSelect、下拉、枚举、enum、系统配置、DEV_CONFIG、参数配置、Nacos 配置、easy-trans、跨服务字典、DevConfigApi。
 ---
 
-# Snowy 字典 / 配置 / 枚举规范
+# Hgcloud 字典 / 配置 / 枚举规范
 
 ## 三种"可选项"怎么选
 
@@ -12,7 +12,7 @@ description: Snowy 字典/配置/枚举三件套规范：DEV_DICT 系统字典�
 | 选项需要最终用户在界面维护 | **字典**（DEV_DICT / BIZ 字典） | 数据库 |
 | 选项与代码逻辑强绑定（不同值走不同分支） | **枚举类**（modular/{域}/enums/） | Java 代码 |
 | 运行时可调的参数（开关/阈值） | **系统配置** DEV_CONFIG | 数据库（界面改） |
-| 服务启动级基础设施参数（数据源/Redis/端口/Sa-Token/`snowy.config.common.*`） | **Nacos 配置** | Nacos `snowy-{应用名}-dev.yaml`（仓库源文件在 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/`） |
+| 服务启动级基础设施参数（数据源/Redis/端口/Sa-Token/`hgcloud.config.common.*`） | **Nacos 配置** | Nacos `hgcloud-{应用名}-dev.yaml`（仓库源文件在 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/`） |
 
 ## 字典双轨
 
@@ -55,10 +55,10 @@ description: Snowy 字典/配置/枚举三件套规范：DEV_DICT 系统字典�
 /*
  * ... 版权头
  */
-package vip.xiaonuo.biz.modular.supplier.enums;
+package com.hgcloud.biz.modular.supplier.enums;
 
 import lombok.Getter;
-import vip.xiaonuo.common.exception.CommonException;
+import com.hgcloud.common.exception.CommonException;
 
 /**
  * 供应商状态枚举
@@ -115,9 +115,9 @@ String value = devConfigApi.getValueByKey("BIZ_XXX_SWITCH");
 
 | | DEV_CONFIG（系统配置） | Nacos 配置 |
 |---|---|---|
-| 存哪 | 业务库 `snowy-cloud` 的 DEV_CONFIG 表 | Nacos（命名空间 `snowy-cloud-dev`，data-id `snowy-{应用名}-dev.yaml`） |
+| 存哪 | 业务库 `hgcloud` 的 DEV_CONFIG 表 | Nacos（命名空间 `hgcloud-dev`，data-id `hgcloud-{应用名}-dev.yaml`） |
 | 谁读 | 所有服务经 `DevConfigApi.getValueByKey` | 各服务启动时作为 Spring 配置加载 |
-| 放什么 | 业务开关/阈值、文件/短信/邮件/推送引擎参数等运行时可调项 | 数据源、Redis、端口、Sa-Token、springdoc 分组、`snowy.config.common.*` 等基础设施 |
+| 放什么 | 业务开关/阈值、文件/短信/邮件/推送引擎参数等运行时可调项 | 数据源、Redis、端口、Sa-Token、springdoc 分组、`hgcloud.config.common.*` 等基础设施 |
 | 改了怎么生效 | 界面修改后清除该键缓存，下次读取即为新值 | 项目未使用 `@RefreshScope`，建议重启对应服务（是否热生效未验证） |
 
 ## 常见错误正误对照
@@ -145,11 +145,11 @@ String value = devConfigApi.getValueByKey("BIZ_XXX_SWITCH");
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/dict/` | 系统字典模块（web-app） |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/dict/` | 业务字典模块（biz-app） |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/notice/enums/BizNoticeStatusEnum.java` | 枚举范本 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/vip/xiaonuo/dev/api/DevConfigApi.java` | 配置读取接口 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/vip/xiaonuo/dev/api/context/` | biz-app 可用的 Dev*Api 远程代理清单 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/dict/` | 系统字典模块（web-app） |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/dict/` | 业务字典模块（biz-app） |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/enums/BizNoticeStatusEnum.java` | 枚举范本 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/com/hgcloud/dev/api/DevConfigApi.java` | 配置读取接口 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/com/hgcloud/dev/api/context/` | biz-app 可用的 Dev*Api 远程代理清单 |
 | `hgcloud-admin-web/src/components/DictSelect/` | 字典下拉组件（含 README） |
-| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/user/entity/BizUser.java` | @Trans DICTIONARY 实战 |
+| `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/user/entity/BizUser.java` | @Trans DICTIONARY 实战 |
 | `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-biz-app-dev.yaml` | biz-app 的 easy-trans 配置（web-app 同目录） |

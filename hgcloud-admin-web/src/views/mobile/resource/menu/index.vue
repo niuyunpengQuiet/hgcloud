@@ -64,7 +64,7 @@
 				</template>
 				<template v-if="column.dataIndex === 'icon'">
 					<a-tag :color="record.color">
-						<span class="snowy xn-icons" :class="record.icon"></span>
+						<span class="hgcloud xn-icons" :class="record.icon"></span>
 					</a-tag>
 				</template>
 				<template v-if="column.dataIndex === 'regType'">

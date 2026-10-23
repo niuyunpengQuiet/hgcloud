@@ -1,25 +1,25 @@
 # CLAUDE.md
 
-本文件是 Snowy 微服务版二次开发项目的工程宪法。所有 AI 辅助开发必须遵守此处规范；详细规范见 `.claude/skills/` 与 `.claude/docs/`。
+本文件是 Hgcloud 微服务版二次开发项目的工程宪法。所有 AI 辅助开发必须遵守此处规范；详细规范见 `.claude/skills/` 与 `.claude/docs/`。
 
 ## 这是什么项目
 
-**Snowy-Cloud v3.0.0（Snowy 微服务版）** —— 小诺开源的国密前后端分离快速开发平台的 Spring Cloud 微服务版本，本项目以它为底座做二次开发。
+**Hgcloud v3.0.0（Hgcloud 微服务版）** —— 小诺开源的国密前后端分离快速开发平台的 Spring Cloud 微服务版本，本项目以它为底座做二次开发。
 
-- 后端：Java 17 + Spring Boot 3.5.16 + Spring Cloud 2025.0.0 + Spring Cloud Alibaba 2023.0.3.3（Nacos 注册/配置中心、Sentinel）+ Spring Cloud Gateway + OpenFeign + MyBatis-Plus 3.5.9 + Sa-Token 1.44.0 + Redisson 3.46.0 + Hutool 5.8.25（**插件化 Maven 多模块 + 多服务架构**）
+- 后端：Java 21 + Maven 3.9.x + Spring Boot 4.0.8 + Spring Cloud 2025.1.3 + Spring Cloud Alibaba 2025.1.0.0（Nacos 注册/配置中心、Sentinel）+ Spring Cloud Gateway + OpenFeign + MyBatis-Plus 3.5.17（mybatis-plus-spring-boot4-starter）+ dynamic-datasource 4.5.0（dynamic-datasource-spring-boot4-starter）+ Sa-Token 1.45.0 + Redisson 3.46.0 + Hutool 5.8.25（**插件化 Maven 多模块 + 多服务架构**）
 - 前端：`hgcloud-admin-web/`（Vue 3.5 + Vite 6 + **Ant Design Vue 4.2.6** + Pinia + vue-i18n，**JavaScript，不是 TS**，包管理用 npm），请求统一经网关（9003）
-- 数据库：MySQL 业务库 `snowy-cloud`（脚本 `hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/snowy_mysql.sql`）+ Nacos 存储库 `hgcloud-nacos-app-open`，表名**全大写下划线**
+- 数据库：MySQL 业务库 `hgcloud`（脚本 `hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/hgcloud_mysql.sql`）+ Nacos 存储库 `hgcloud-nacos-app-open`，表名**全大写下划线**；Nacos 配置另预留 Doris（MySQL 协议 / FE 9030）与 openGauss 注释数据源，启用时切换注释并放开对应 JDBC 依赖
 - 国密：登录密码 SM2 加密传输、口令 SM3 摘要存储、敏感字段 SM4-CBC 落库加密
 - 本项目定位：**二次开发底座**——业务代码写在 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func`（运行在 `hgcloud-biz-app` 服务），平台插件（sys/auth/dev/gen/client/mobile）原则上不动
 
 ## 目录结构
 
 ```
-snowy-cloud/
+hgcloud/
 ├── hgcloud-base/
-│   └── hgcloud-common/        公共基础模块（包 vip.xiaonuo.common）：CommonResult/CommonException/
+│   └── hgcloud-common/        公共基础模块（包 com.hgcloud.common）：CommonResult/CommonException/
 │                            CommonEntity/CommonPageRequest/CommonCacheOperator/国密工具/FeignConstant 等
-├── hgcloud-plugin/            8 个插件（包 vip.xiaonuo.{插件名}），每个插件再拆子模块（见下表）
+├── hgcloud-plugin/            8 个插件（包 com.hgcloud.{插件名}），每个插件再拆子模块（见下表）
 │   ├── hgcloud-plugin-sys     B端系统：用户/组织/职位/角色/资源菜单/关系/数据范围
 │   ├── hgcloud-plugin-auth    登录鉴权：B/C端登录、SSO、OAuth2/OIDC/CAS/SAML、三方登录
 │   ├── hgcloud-plugin-dev     开发工具：配置/字典/邮件/文件/定时任务/日志/站内信/监控/短信/推送
@@ -45,15 +45,15 @@ snowy-cloud/
 
 | 子模块 | 内容 |
 |---|---|
-| `{p}-api` | 对外接口 `vip.xiaonuo.{p}.api.XxxApi`（只依赖 hgcloud-common） |
-| `{p}-func` | 真正实现 `vip.xiaonuo.{p}.{core,modular}`，含 `provider/XxxApiProvider` |
-| `{p}-feign` | Feign 接口 `vip.xiaonuo.{p}.feign.XxxFeign` |
-| `{p}-feign-provider` | Feign 服务端 `vip.xiaonuo.{p}.feign.provider.*`（@RestController 转调本地 XxxApi） |
-| `{p}-api-context` | 调用方远程代理 `vip.xiaonuo.{p}.api.context.XxxApiContextBean`（@Component implements XxxApi） |
+| `{p}-api` | 对外接口 `com.hgcloud.{p}.api.XxxApi`（只依赖 hgcloud-common） |
+| `{p}-func` | 真正实现 `com.hgcloud.{p}.{core,modular}`，含 `provider/XxxApiProvider` |
+| `{p}-feign` | Feign 接口 `com.hgcloud.{p}.feign.XxxFeign` |
+| `{p}-feign-provider` | Feign 服务端 `com.hgcloud.{p}.feign.provider.*`（@RestController 转调本地 XxxApi） |
+| `{p}-api-context` | 调用方远程代理 `com.hgcloud.{p}.api.context.XxxApiContextBean`（@Component implements XxxApi） |
 
 插件内两层结构（-func 模块内，以 biz 为例）：
-- `vip.xiaonuo.biz.core.{config,enums,listener,timer,util}` —— 插件级基础设施（按需存在，biz 出厂只有 config/enums/listener）
-- `vip.xiaonuo.biz.modular.{业务域}.{controller,entity,enums,mapper,mapper/mapping,param,result,service,service/impl,provider}` —— 业务域标准结构
+- `com.hgcloud.biz.core.{config,enums,listener,timer,util}` —— 插件级基础设施（按需存在，biz 出厂只有 config/enums/listener）
+- `com.hgcloud.biz.modular.{业务域}.{controller,entity,enums,mapper,mapper/mapping,param,result,service,service/impl,provider}` —— 业务域标准结构
 
 ## 常用命令
 
@@ -61,16 +61,16 @@ snowy-cloud/
 # 后端（JDK 17）首次准备：
 #   1) MySQL 建库 hgcloud-nacos-app-open，导入 hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/nacos-db.sql
 #      （建表 + 全部 18 个服务配置与 3 个命名空间，内容与 META-INF/config-data 一致；新装只导这一个即可）。
-#      同目录 nacos-db-snowy-config-init.sql 是同一批配置记录（不含建表），仅用于刷新已有 Nacos 库：两脚本主键相同，需先删同 id 记录
-#   2) MySQL 建库 snowy-cloud，导入 hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/snowy_mysql.sql（脚本不含 CREATE DATABASE）
+#      同目录 nacos-db-hgcloud-config-init.sql 是同一批配置记录（不含建表），仅用于刷新已有 Nacos 库：两脚本主键相同，需先删同 id 记录
+#   2) MySQL 建库 hgcloud，导入 hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/hgcloud_mysql.sql（脚本不含 CREATE DATABASE）
 #   3) 启动本地 Redis（127.0.0.1:6379，默认用 db 1）
-#   4)（可选，启动 xxl-job 时）导入 hgcloud-server/hgcloud-xxl-job-app/src/main/resources/db/tables_xxl_job.sql（自建 snowy-cloud-job 库）
+#   4)（可选，启动 xxl-job 时）导入 hgcloud-server/hgcloud-xxl-job-app/src/main/resources/db/tables_xxl_job.sql（自建 hgcloud-job 库）
 mvn clean install -DskipTests          # 根目录构建
-# 运行（IDE 启动各启动类）最少顺序：SnowyNacosApp(8848) → HgWebApp(9101)、HgBizApp(9102) → HgGatewayApp(9003)
+# 运行（IDE 启动各启动类）最少顺序：HgcloudNacosApp(8848) → HgWebApp(9101)、HgBizApp(9102) → HgGatewayApp(9003)
 #   README 全量顺序：nacos → actuator(9001) → sentinel(9002) → gateway(9003) → xxl-job(9004) → web-app → biz-app
 # Nacos 控制台：http://localhost:8848/nacos（nacos/nacos；单机模式、鉴权关闭）
-# 接口文档：http://localhost:9003/doc.html（网关聚合 Knife4j，basic 认证 snowyAdmin/Snowy@2026!）
-# 出厂登录：superAdmin / Snowy@2026!（⚠️不是 123456；权威来源 DEV_CONFIG 的 SNOWY_SYS_DEFAULT_PASSWORD_FOR_B）
+# 接口文档：http://localhost:9003/doc.html（网关聚合 Knife4j，basic 认证 hgcloudAdmin/Hgcloud@2026!）
+# 出厂登录：superAdmin / Hgcloud@2026!（⚠️不是 123456；权威来源 DEV_CONFIG 的 HGCLOUD_SYS_DEFAULT_PASSWORD_FOR_B）
 # 登录接口经网关：POST http://localhost:9003/api/webapp/auth/b/doLogin（password 为 SM2 密文）
 # 已在用的库密码可能被改过：登录失败不要反复重试，连续输错会锁定账号
 
@@ -80,10 +80,10 @@ npm run dev                             # 端口 9000，请求直连网关 http:
 ```
 
 ⚠️ 构建环境要求（通用要求，不依赖任何个人电脑的安装路径）：
-- JDK 17：与编译目标一致。命令行构建前用 `java -version` 确认是 17；IDEA 里 Project SDK 也选 17
-- Maven 3.8+：访问 Maven Central 慢或失败时，在自己的 `~/.m2/settings.xml` 配置阿里云镜像（mirrorOf=central → https://maven.aliyun.com/repository/public），不要改项目 pom
+- JDK 21：与编译目标一致。命令行构建前用 `java -version` 确认是 21；IDEA 里 Project SDK 也选 21
+- Maven 3.9.x：根 pom 的 enforcer 要求 `[3.9.0,3.10.0)`。访问 Maven Central 慢或失败时，在自己的 `~/.m2/settings.xml` 配置阿里云镜像（mirrorOf=central → https://maven.aliyun.com/repository/public），不要改项目 pom
 - 部分插件 pom 以 system scope 引用本地 jar（如 hgcloud-plugin-auth-func），这类 pom 装进本地仓库后会被 Maven 判为无效、传递依赖丢失：只构建单个模块时必须带 `-am`（如 `mvn install -DskipTests -pl hgcloud-modules/hgcloud-web-app -am`），或直接在根目录完整构建
-- 中间件应用 nacos/sentinel/xxl-job 在各自 pom 里固定了 Spring Boot 2.7.18、java.version 1.8，与主栈（Spring Boot 3.5.16 / Java 17）不同属正常现象，升级主栈时不要连带改它们
+- 中间件应用 nacos/sentinel/xxl-job 在各自 pom 里固定了 Spring Boot 2.7.18、java.version 1.8，与主栈（Spring Boot 4.0.8 / Java 21）不同属正常现象，升级主栈时不要连带改它们。主栈 nacos-client 为 3.1.1，这三个模块单独钉在 2.x 客户端；嵌入式 Nacos 仍是 2.3.1，对接主栈时应改用官方 Nacos 3.1.x
 
 ## 后端架构
 
@@ -139,7 +139,7 @@ URL 规范：`/{插件}/{业务域}/{动作}`，动作动词式（page/add/edit/
 
 | 必须 | 禁止 |
 |---|---|
-| 包名根 `vip.xiaonuo.*` | `com.*` / `org.*` 等其他包名 |
+| 包名根 `com.hgcloud.*` | `com.*` / `org.*` 等其他包名 |
 | 每个 .java 头部 12 行 Apache 2.0 版权声明（含 `Copyright [2022] [https://www.xiaonuo.vip]`） | 删除/省略版权头（AI 生成代码最容易漏） |
 | 依赖注入用 `@Resource` | `@Autowired`、构造器注入 |
 | `extends ServiceImpl<Mapper, Entity> implements XxxService` | 只 implements 不继承 ServiceImpl |
@@ -167,9 +167,9 @@ URL 规范：`/{插件}/{业务域}/{动作}`，动作动词式（page/add/edit/
 7. ❌ 单个 Bo + AddGroup/EditGroup → ✅ 每操作一个 Param 类
 8. ❌ Long 雪花主键 → ✅ String 主键；❌ 小写表名 → ✅ 全大写
 
-**来自 Snowy 单体版的惯性错误**——微服务版路径与运行方式不同：
-1. ❌ 启动 `vip.xiaonuo.Application`、端口 82、前端 81 → ✅ HgWebApp(9101) / HgBizApp(9102)，前端 9000 经网关 9003
-2. ❌ 改 `hgcloud-web-app/src/main/resources/application.properties` → ✅ 配置在 Nacos（dataId 如 `hgcloud-web-app-dev.yaml`，namespace `snowy-cloud-dev`、group `dev`）；仓库源文件在 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/{dev,test,prod}/`；本地 `application.yml` 只做 Nacos 接入
+**来自 Hgcloud 单体版的惯性错误**——微服务版路径与运行方式不同：
+1. ❌ 启动 `com.hgcloud.Application`、端口 82、前端 81 → ✅ HgWebApp(9101) / HgBizApp(9102)，前端 9000 经网关 9003
+2. ❌ 改 `hgcloud-web-app/src/main/resources/application.properties` → ✅ 配置在 Nacos（dataId 如 `hgcloud-web-app-dev.yaml`，namespace `hgcloud-dev`、group `dev`）；仓库源文件在 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/{dev,test,prod}/`；本地 `application.yml` 只做 Nacos 接入
 3. ❌ 业务代码写进 `hgcloud-plugin/hgcloud-plugin-biz/src/...` → ✅ `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/...`
 4. ❌ 接口定义找 `hgcloud-plugin-api/` 目录 → ✅ 在各插件内的 `{p}-api` 子模块（如 `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api`）
 5. ❌ 白名单只改服务的 GlobalConfigure → ✅ 网关 GatewayConfigure（带前缀）+ 服务 GlobalConfigure（不带前缀）两处
@@ -184,7 +184,7 @@ URL 规范：`/{插件}/{业务域}/{动作}`，动作动词式（page/add/edit/
 - **新业务表**用 `BIZ_` 前缀（出厂 biz 域复用了 SYS_/DEV_ 表是历史设计，新表不要模仿）
 - 前端是 **Ant Design Vue + JS**：不要写 Element Plus 组件、不要写 TypeScript
 - **代码生成器**：生成到 `hgcloud-plugin/{插件}/{插件}-func` 与 `hgcloud-admin-web/src`，生成器跑在 web-app 且工作目录（user.dir）必须是仓库根目录；不生成 feign/api-context，也不改网关与 apiAdaptive.js（moduleName 不在映射表里时经网关 404）
-- **本地 Redis**：多个 Snowy 项目共用同一 Redis 库且 token 名、superAdmin ID 相同时，会读到别的项目的会话导致登录 ClassCastException，本地各项目宜用不同 Redis 库号
+- **本地 Redis**：多个 Hgcloud 项目共用同一 Redis 库且 token 名、superAdmin ID 相同时，会读到别的项目的会话导致登录 ClassCastException，本地各项目宜用不同 Redis 库号
 
 ⚠️ 现状（原有缺陷/限制，只作提醒，不是推荐做法）：
 - **api-context 缺口**：dev-api-context 只有 File/Dev/Config/Message/Slideshow/Sms/Email 7 个 ContextBean，DevDictApi/DevLogApi/DevJobApi/DevPushApi/DevWeakPasswordApi 无；sys-api-context 缺 SysMenuApi/SysButtonApi/SysModuleApi。按现有装配方式，在 biz-app 注入这些 Api 会缺 Bean，使用前请先确认
@@ -196,7 +196,7 @@ URL 规范：`/{插件}/{业务域}/{动作}`，动作动词式（page/add/edit/
 
 ## 新增业务功能时的流程
 
-1. 设计表（库 `snowy-cloud`；BIZ_ 前缀大写、String 雪花主键、审计字段组齐全，参考 `.claude/skills/database-ops`）
+1. 设计表（库 `hgcloud`；BIZ_ 前缀大写、String 雪花主键、审计字段组齐全，参考 `.claude/skills/database-ops`）
 2. 开发：`/dev` 命令（模式 A：AI 直写六件套 + 前端三件；模式 B：用平台自带代码生成器）或 `/crud`（表已存在）；后端落 `hgcloud-plugin-biz-func` 的 `biz/modular/{域}`，URL 用 `/biz/` 前缀（已映射到 biz-app，无需改网关与 apiAdaptive.js）
 3. 菜单 SQL：SYS_RESOURCE 表 INSERT（MENU 行 + BUTTON 行，按钮码驼峰式，参考 gen 插件 sqlend 模板）
 4. 重启 hgcloud-biz-app + 刷新前端，在角色管理里给角色授权新资源
@@ -215,7 +215,7 @@ URL 规范：`/{插件}/{业务域}/{动作}`，动作动词式（page/add/edit/
 | `hooks/` | 3 个 hook：强制技能评估、危险命令拦截、nul 清理 |
 | `framework-config.json` | 框架 vs 业务划分与进度统计规则（机器可读） |
 
-进度统计口径：出厂 biz 7 域（index/dict/group/notice/org/position/user）为演示代码**不计进度**，新建业务域才计入（完整度 = 六件套存在数 / 6）；扫描根目录 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular`。
+进度统计口径：出厂 biz 7 域（index/dict/group/notice/org/position/user）为演示代码**不计进度**，新建业务域才计入（完整度 = 六件套存在数 / 6）；扫描根目录 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular`。
 
 ## 外部依赖说明
 

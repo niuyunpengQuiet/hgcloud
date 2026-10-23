@@ -70,7 +70,7 @@ spring:
       datasource:
         master:
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/snowy-cloud?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&useInformationSchema=true&rewriteBatchedStatements=true
+          url: jdbc:mysql://localhost:3306/hgcloud?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&useInformationSchema=true&rewriteBatchedStatements=true
           username: root
           password: 123456
       strict: true
@@ -82,7 +82,7 @@ spring:
 #        master:
 #          driver-class-name: oracle.jdbc.driver.OracleDriver
 #          url: jdbc:oracle:thin:@//127.0.0.1:1521/XE?remarksReporting=true
-#          username: SNOWY
+#          username: HGCLOUD
 #          password: 12345678
 #      strict: true
 
@@ -92,7 +92,7 @@ spring:
 #      datasource:
 #        master:
 #          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#          url: jdbc:sqlserver://localhost:1433;DatabaseName=SNOWY
+#          url: jdbc:sqlserver://localhost:1433;DatabaseName=HGCLOUD
 #          username: sa
 #          password: 12345678
 #      strict: true
@@ -114,7 +114,7 @@ spring:
 #      datasource:
 #        master:
 #          driver-class-name: com.kingbase8.Driver
-#          url: jdbc:kingbase8://localhost:54321/snowy
+#          url: jdbc:kingbase8://localhost:54321/hgcloud
 #          username: SYSTEM
 #          password: 123456
 #      strict: true
@@ -189,8 +189,8 @@ mybatis-plus:
       logic-delete-field: DELETE_FLAG
       logic-delete-value: DELETED
       logic-not-delete-value: NOT_DELETE
-  mapper-locations: classpath*:vip/xiaonuo/**/mapping/*.xml,com/bstek/**/mapping/*.xml
-  type-handlers-package: vip.xiaonuo.common.handler
+  mapper-locations: classpath*:com/hgcloud/**/mapping/*.xml,com/bstek/**/mapping/*.xml
+  type-handlers-package: com.hgcloud.common.handler
 
 #########################################
 # easy-trans configuration
@@ -246,33 +246,33 @@ knife4j:
     enableSwaggerModels: false
     enableFooter: false
     enableFooterCustom: true
-    footerCustomContent: Apache License 2.0 | Copyright 2022-[SNOWY](https://www.xiaonuo.vip)
+    footerCustomContent: Apache License 2.0 | Copyright 2022-[HGCLOUD](https://www.xiaonuo.vip)
 
 # knife4j doc groups
 springdoc:
   default-flat-param-object: true
   group-configs:
-    - group: SNOWY-PLUGIN-AUTH
-      display-name: SNOWY-PLUGIN-AUTH
-      packages-to-scan: vip.xiaonuo.auth
-    - group: SNOWY-PLUGIN-DEV
-      display-name: SNOWY-PLUGIN-DEV
-      packages-to-scan: vip.xiaonuo.dev
-    - group: SNOWY-PLUGIN-GEN
-      display-name: SNOWY-PLUGIN-GEN
-      packages-to-scan: vip.xiaonuo.gen
-    - group: SNOWY-PLUGIN-MOBILE
-      display-name: SNOWY-PLUGIN-MOBILE
-      packages-to-scan: vip.xiaonuo.mobile
-    - group: SNOWY-PLUGIN-SYS
-      display-name: SNOWY-PLUGIN-SYS
-      packages-to-scan: vip.xiaonuo.sys
+    - group: HGCLOUD-PLUGIN-AUTH
+      display-name: HGCLOUD-PLUGIN-AUTH
+      packages-to-scan: com.hgcloud.auth
+    - group: HGCLOUD-PLUGIN-DEV
+      display-name: HGCLOUD-PLUGIN-DEV
+      packages-to-scan: com.hgcloud.dev
+    - group: HGCLOUD-PLUGIN-GEN
+      display-name: HGCLOUD-PLUGIN-GEN
+      packages-to-scan: com.hgcloud.gen
+    - group: HGCLOUD-PLUGIN-MOBILE
+      display-name: HGCLOUD-PLUGIN-MOBILE
+      packages-to-scan: com.hgcloud.mobile
+    - group: HGCLOUD-PLUGIN-SYS
+      display-name: HGCLOUD-PLUGIN-SYS
+      packages-to-scan: com.hgcloud.sys
 
 
 #########################################
-# snowy configuration
+# hgcloud configuration
 #########################################
-snowy:
+hgcloud:
   config:
     # common configuration
     common:

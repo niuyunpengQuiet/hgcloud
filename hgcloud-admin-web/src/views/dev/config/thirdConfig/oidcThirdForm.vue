@@ -10,9 +10,9 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="是否允许OIDC登录：" name="SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG">
+					<a-form-item label="是否允许OIDC登录：" name="HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG">
 						<a-switch
-							v-model:checked="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG"
+							v-model:checked="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否允许OIDC登录"
@@ -22,41 +22,41 @@
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
 						label="OIDC认证地址："
-						name="SNOWY_THIRD_OIDC_AUTHORIZE_URL"
-						v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG"
+						name="HGCLOUD_THIRD_OIDC_AUTHORIZE_URL"
+						v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG"
 					>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_AUTHORIZE_URL" placeholder="请输入OIDC认证地址" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_AUTHORIZE_URL" placeholder="请输入OIDC认证地址" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
 						label="OIDC获取token地址："
-						name="SNOWY_THIRD_OIDC_ACCESS_TOKEN_URL"
-						v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG"
+						name="HGCLOUD_THIRD_OIDC_ACCESS_TOKEN_URL"
+						v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG"
 					>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_ACCESS_TOKEN_URL" placeholder="请输入OIDC获取token地址" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_ACCESS_TOKEN_URL" placeholder="请输入OIDC获取token地址" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
 						label="OIDC获取用户信息地址："
-						name="SNOWY_THIRD_OIDC_USER_INFO_URL"
-						v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG"
+						name="HGCLOUD_THIRD_OIDC_USER_INFO_URL"
+						v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG"
 					>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_USER_INFO_URL" placeholder="请输入OIDC获取用户信息地址" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_USER_INFO_URL" placeholder="请输入OIDC获取用户信息地址" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
 						label="OIDC权限范围："
-						name="SNOWY_THIRD_OIDC_SCOPE"
-						v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG"
+						name="HGCLOUD_THIRD_OIDC_SCOPE"
+						v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG"
 					>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_SCOPE" placeholder="请输入OIDC权限范围" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_SCOPE" placeholder="请输入OIDC权限范围" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item name="SNOWY_THIRD_OIDC_PUBLIC_KEY" v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG">
+					<a-form-item name="HGCLOUD_THIRD_OIDC_PUBLIC_KEY" v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG">
 						<template #label>
 							<a-tooltip>
 								<template #title> 请填写公钥base64字符串或者jwk字符串或jwk地址 </template>
@@ -64,11 +64,11 @@
 							</a-tooltip>
 							OIDC公钥：
 						</template>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_PUBLIC_KEY" placeholder="请输入OIDC公钥" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_PUBLIC_KEY" placeholder="请输入OIDC公钥" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item name="SNOWY_THIRD_OIDC_ALGORITHM" v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG">
+					<a-form-item name="HGCLOUD_THIRD_OIDC_ALGORITHM" v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG">
 						<template #label>
 							<a-tooltip>
 								<template #title> 请填写RS256或HS256 </template>
@@ -76,29 +76,29 @@
 							</a-tooltip>
 							OIDC签名算法：
 						</template>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_ALGORITHM" placeholder="请输入OIDC签名算法" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_ALGORITHM" placeholder="请输入OIDC签名算法" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
 						label="OIDC客户端ID："
-						name="SNOWY_THIRD_OIDC_CLIENT_ID"
-						v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG"
+						name="HGCLOUD_THIRD_OIDC_CLIENT_ID"
+						v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG"
 					>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_CLIENT_ID" placeholder="请输入OIDC客户端ID" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_CLIENT_ID" placeholder="请输入OIDC客户端ID" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 					<a-form-item
 						label="OIDC客户端SECRET："
-						name="SNOWY_THIRD_OIDC_CLIENT_SECRET"
-						v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG"
+						name="HGCLOUD_THIRD_OIDC_CLIENT_SECRET"
+						v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG"
 					>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_CLIENT_SECRET" placeholder="请输入OIDC客户端SECRET" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_CLIENT_SECRET" placeholder="请输入OIDC客户端SECRET" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item name="SNOWY_THIRD_OIDC_REDIRECT_URL" v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG">
+					<a-form-item name="HGCLOUD_THIRD_OIDC_REDIRECT_URL" v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG">
 						<template #label>
 							<a-tooltip>
 								<template #title> 请填写{前端地址}/callback/OIDC，如http://localhost:81/callback/OIDC </template>
@@ -106,11 +106,11 @@
 							</a-tooltip>
 							重定向地址：
 						</template>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_REDIRECT_URL" placeholder="请输入重定向URL" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_REDIRECT_URL" placeholder="请输入重定向URL" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item name="SNOWY_THIRD_OIDC_SOURCE_PROPERTY" v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG">
+					<a-form-item name="HGCLOUD_THIRD_OIDC_SOURCE_PROPERTY" v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG">
 						<template #label>
 							<a-tooltip>
 								<template #title> 请填写源系统中用户信息唯一字段 </template>
@@ -118,11 +118,11 @@
 							</a-tooltip>
 							关联源属性：
 						</template>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_SOURCE_PROPERTY" placeholder="请输入关联源属性" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_SOURCE_PROPERTY" placeholder="请输入关联源属性" />
 					</a-form-item>
 				</a-col>
 <!--				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item name="SNOWY_THIRD_OIDC_TARGET_PROPERTY" v-if="formData.SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG">
+					<a-form-item name="HGCLOUD_THIRD_OIDC_TARGET_PROPERTY" v-if="formData.HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG">
 						<template #label>
 							<a-tooltip>
 								<template #title> 请填写对应本系统字段 </template>
@@ -130,7 +130,7 @@
 							</a-tooltip>
 							关联目标属性：
 						</template>
-						<a-input v-model:value="formData.SNOWY_THIRD_OIDC_TARGET_PROPERTY" placeholder="请输入关联目标属性" />
+						<a-input v-model:value="formData.HGCLOUD_THIRD_OIDC_TARGET_PROPERTY" placeholder="请输入关联目标属性" />
 					</a-form-item>
 				</a-col>-->
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -181,18 +181,18 @@
 	}
 	// 默认要校验的
 	const formRules = {
-		SNOWY_THIRD_OIDC_ALLOW_LOGIN_FLAG: [required('请选择是否允许OIDC登录')],
-		SNOWY_THIRD_OIDC_AUTHORIZE_URL: [required('请输入OIDC认证地址')],
-		SNOWY_THIRD_OIDC_ACCESS_TOKEN_URL: [required('请输入OIDC获取token地址')],
-		SNOWY_THIRD_OIDC_USER_INFO_URL: [required('请输入OIDC获取用户信息地址')],
-		SNOWY_THIRD_OIDC_SCOPE: [required('请输入OIDC权限范围')],
-		SNOWY_THIRD_OIDC_PUBLIC_KEY: [required('请输入OIDC公钥')],
-		SNOWY_THIRD_OIDC_ALGORITHM: [required('请输入OIDC签名算法')],
-		SNOWY_THIRD_OIDC_CLIENT_ID: [required('请输入OIDC客户端ID')],
-		SNOWY_THIRD_OIDC_CLIENT_SECRET: [required('请输入OIDC客户端SECRET')],
-		SNOWY_THIRD_OIDC_REDIRECT_URL: [required('请输入重定向URL')],
-		SNOWY_THIRD_OIDC_SOURCE_PROPERTY: [required('请输入OIDC关联源属性')],
-		SNOWY_THIRD_OIDC_TARGET_PROPERTY: [required('请输入OIDC关联目标属性')]
+		HGCLOUD_THIRD_OIDC_ALLOW_LOGIN_FLAG: [required('请选择是否允许OIDC登录')],
+		HGCLOUD_THIRD_OIDC_AUTHORIZE_URL: [required('请输入OIDC认证地址')],
+		HGCLOUD_THIRD_OIDC_ACCESS_TOKEN_URL: [required('请输入OIDC获取token地址')],
+		HGCLOUD_THIRD_OIDC_USER_INFO_URL: [required('请输入OIDC获取用户信息地址')],
+		HGCLOUD_THIRD_OIDC_SCOPE: [required('请输入OIDC权限范围')],
+		HGCLOUD_THIRD_OIDC_PUBLIC_KEY: [required('请输入OIDC公钥')],
+		HGCLOUD_THIRD_OIDC_ALGORITHM: [required('请输入OIDC签名算法')],
+		HGCLOUD_THIRD_OIDC_CLIENT_ID: [required('请输入OIDC客户端ID')],
+		HGCLOUD_THIRD_OIDC_CLIENT_SECRET: [required('请输入OIDC客户端SECRET')],
+		HGCLOUD_THIRD_OIDC_REDIRECT_URL: [required('请输入重定向URL')],
+		HGCLOUD_THIRD_OIDC_SOURCE_PROPERTY: [required('请输入OIDC关联源属性')],
+		HGCLOUD_THIRD_OIDC_TARGET_PROPERTY: [required('请输入OIDC关联目标属性')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

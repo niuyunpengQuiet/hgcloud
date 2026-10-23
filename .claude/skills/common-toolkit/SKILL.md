@@ -3,9 +3,9 @@ name: common-toolkit
 description: hgcloud-common 工具类地图与 Hutool 优先原则：CommonCacheOperator、CommonCryptogramUtil、CommonEmailUtil、CommonDownloadUtil 等 17 个工具类的用途索引与选择决策树（微服务版 hgcloud-common 位于 hgcloud-base 下，另含 FeignConstant、AppConstant、CommonThreadLocalUtil）。触发场景：1) 需要 utility（加密/邮件/下载/IP/验证码/头像等）时先查这里 2) 不确定用哪个工具类 3) 想自写工具前检查是否已有。触发词：工具类、util、CommonCryptogramUtil、CommonEmailUtil、CommonDownloadUtil、Hutool、工具选择、复用、FeignConstant、AppConstant、CommonThreadLocalUtil、hgcloud-base。注意：缓存的完整用法见 cache-redis，国密详见 crypto-sm。
 ---
 
-# Snowy 工具类地图
+# Hgcloud 工具类地图
 
-> 微服务版公共模块路径：`hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/`（包名仍是 `vip.xiaonuo.common`），web-app、biz-app、网关共用。
+> 微服务版公共模块路径：`hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/`（包名仍是 `com.hgcloud.common`），web-app、biz-app、网关共用。
 
 ## 选择决策树（自上而下）
 
@@ -55,7 +55,7 @@ description: hgcloud-common 工具类地图与 Hutool 优先原则：CommonCache
 | `AppConstant` | `common/consts/` | 微服务版新增：启动信息模板、`TRACE_ID_STRING`（Feign 透传 traceId 的请求头名） |
 | `SysBuildInEnum` / `SysDataTypeEnum` | `common/enums/` | 微服务版新增：超管账号/角色编码、系统数据类型（sys 插件内另有同名副本） |
 | `AppStartupListener` | `common/runner/` | 微服务版新增：启动完成打印应用信息，web-app/biz-app 启动类里以 @Bean 注册 |
-| `CommonProperties` | `common/prop/` | `snowy.config.common.*`（front-url/backend-url/file-url），值在 Nacos 配置 |
+| `CommonProperties` | `common/prop/` | `hgcloud.config.common.*`（front-url/backend-url/file-url），值在 Nacos 配置 |
 | `CommonTimerTaskRunner` | `common/timer/` | 定时任务接口（详见 scheduled-jobs 技能；只在 web-app 调度） |
 | `CommonDeleteAbsoluteMapper` | `common/mapper/` | 物理删除专用 Mapper（慎用） |
 
@@ -95,6 +95,6 @@ description: hgcloud-common 工具类地图与 Hutool 优先原则：CommonCache
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/util/` | 17 个工具类源码 |
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/consts/` | CacheConstant / FeignConstant / AppConstant |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/vip/xiaonuo/auth/modular/login/service/impl/AuthServiceImpl.java` | 工具类组合使用现场（加密/IP/UA/缓存） |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/util/` | 17 个工具类源码 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/consts/` | CacheConstant / FeignConstant / AppConstant |
+| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/modular/login/service/impl/AuthServiceImpl.java` | 工具类组合使用现场（加密/IP/UA/缓存） |

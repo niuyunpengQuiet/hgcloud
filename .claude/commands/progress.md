@@ -10,14 +10,14 @@ description: 项目进度梳理（业务模块完整度报告）
 
 ### 1. 枚举业务域
 ```bash
-ls hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/
+ls hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/
 ```
 扫描根以 framework-config.json 的 `business.backend.scanRoot` 为准（微服务版业务域在 biz 插件的 `-func` 子模块里）。过滤掉 excludeModules：index、dict、group、notice、org、position、user。剩余为自建域（空则报告"0 个自建业务域，进度 0%"）。
 
 ### 2. 逐域统计六件套（分母 6）
 对每个自建域检查：
 ```bash
-ls hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/vip/xiaonuo/biz/modular/{域}/entity/
+ls hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/{域}/entity/
 ls .../{域}/mapper/            # Mapper 接口（mapping/ 下 XML 是加分项）
 ls .../{域}/service/           # Service 接口
 ls .../{域}/service/impl/      # ServiceImpl

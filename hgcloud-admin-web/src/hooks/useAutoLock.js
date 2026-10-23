@@ -1,12 +1,12 @@
 /**
  *  Copyright [2022] [https://www.xiaonuo.vip]
- *	Snowy采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ *	Hgcloud采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *	1.请不要删除和修改根目录下的LICENSE文件。
- *	2.请不要删除和修改Snowy源码头部的版权声明。
+ *	2.请不要删除和修改Hgcloud源码头部的版权声明。
  *	3.本项目代码可免费商业使用，商业使用请保留源码和相关描述文件的项目出处，作者声明等。
  *	4.分发源码时候，请注明软件出处 https://www.xiaonuo.vip
  *	5.不可二次分发开源参与同类竞品，如有想法可联系团队xiaonuobase@qq.com商议合作。
- *	6.若您的项目无法满足以上几点，需要更多功能代码，获取Snowy商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
+ *	6.若您的项目无法满足以上几点，需要更多功能代码，获取Hgcloud商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
  */
 import { globalStore } from '@/store'
 import tool from '@/utils/tool'
@@ -18,10 +18,10 @@ const ACTIVITY_EVENT_LIST = ['mousedown', 'mousemove', 'keydown', 'touchstart', 
 const ACTIVITY_THROTTLE_INTERVAL = 1000
 // 活跃时间写入本地缓存的间隔（毫秒），比上面宽是因为写缓存要读写整个聚合对象，开销大于重置定时器
 const SHARED_ACTIVITY_WRITE_INTERVAL = 5000
-// tool.data 中 SNOWY_ 前缀键的聚合存储项，用于跨标签页同步锁屏状态
-const SNOWY_SETTING_KEY = 'SNOWY_SETTING'
+// tool.data 中 HGCLOUD_ 前缀键的聚合存储项，用于跨标签页同步锁屏状态
+const HGCLOUD_SETTING_KEY = 'HGCLOUD_SETTING'
 // 最近活跃时间的缓存键，多个标签页共用同一个 token，活跃时间必须共享
-const LAST_ACTIVITY_KEY = 'SNOWY_LAST_ACTIVITY'
+const LAST_ACTIVITY_KEY = 'HGCLOUD_LAST_ACTIVITY'
 
 const setLastActivityAt = (timestamp) => tool.data.set(LAST_ACTIVITY_KEY, timestamp)
 
@@ -100,10 +100,10 @@ export const useAutoLock = () => {
 
 	// 其他标签页锁屏/解锁时同步本标签页，直接赋值以避免再次写回缓存
 	const handleStorageChange = (event) => {
-		if (event.key !== SNOWY_SETTING_KEY) {
+		if (event.key !== HGCLOUD_SETTING_KEY) {
 			return
 		}
-		const locked = !!tool.data.get('SNOWY_IS_LOCKED')
+		const locked = !!tool.data.get('HGCLOUD_IS_LOCKED')
 		if (locked !== store.isLocked) {
 			store.isLocked = locked
 		}

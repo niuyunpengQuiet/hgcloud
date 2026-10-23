@@ -1,6 +1,6 @@
 <template>
 	<transition name="lock-fade">
-		<div v-show="visible" :class="['snowy-lock-screen', { dark: isDark }]">
+		<div v-show="visible" :class="['hgcloud-lock-screen', { dark: isDark }]">
 			<div class="lock-screen-mask"></div>
 			<div class="lock-screen-content">
 				<div class="lock-screen-avatar">
@@ -121,7 +121,7 @@
 </script>
 
 <style lang="less" scoped>
-	.snowy-lock-screen {
+	.hgcloud-lock-screen {
 		position: fixed;
 		top: 0;
 		left: 0;

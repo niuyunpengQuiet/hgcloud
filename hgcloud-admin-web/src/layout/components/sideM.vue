@@ -4,11 +4,11 @@
 			<appstore-outlined class="xn-appout-line" />
 		</div>
 		<a-drawer v-model:open="visible" :width="210" :closable="false" placement="left">
-			<header class="snowy-header-logo mobile-nav">
-				<div class="snowy-header-left">
+			<header class="hgcloud-header-logo mobile-nav">
+				<div class="hgcloud-header-left">
 					<div class="logo-bar">
-						<img class="logo" :src="sysBaseConfig.SNOWY_SYS_LOGO" />
-						<span>{{ sysBaseConfig.SNOWY_SYS_NAME }}</span>
+						<img class="logo" :src="sysBaseConfig.HGCLOUD_SYS_LOGO" />
+						<span>{{ sysBaseConfig.HGCLOUD_SYS_NAME }}</span>
 					</div>
 				</div>
 			</header>

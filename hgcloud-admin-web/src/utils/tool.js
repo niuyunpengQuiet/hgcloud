@@ -1,12 +1,12 @@
 /**
  *  Copyright [2022] [https://www.xiaonuo.vip]
- *	Snowy采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ *	Hgcloud采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *	1.请不要删除和修改根目录下的LICENSE文件。
- *	2.请不要删除和修改Snowy源码头部的版权声明。
+ *	2.请不要删除和修改Hgcloud源码头部的版权声明。
  *	3.本项目代码可免费商业使用，商业使用请保留源码和相关描述文件的项目出处，作者声明等。
  *	4.分发源码时候，请注明软件出处 https://www.xiaonuo.vip
  *	5.不可二次分发开源参与同类竞品，如有想法可联系团队xiaonuobase@qq.com商议合作。
- *	6.若您的项目无法满足以上几点，需要更多功能代码，获取Snowy商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
+ *	6.若您的项目无法满足以上几点，需要更多功能代码，获取Hgcloud商业授权许可，请在官网购买授权，地址为 https://www.xiaonuo.vip
  */
 /**
  * @Descripttion: 工具集
@@ -16,27 +16,27 @@
  */
 const tool = {}
 
-// SNOWY_ 前缀的键统一聚合存放在这个 localStorage 项里
-const SNOWY_SETTING_KEY = 'SNOWY_SETTING'
-// 判断某个键是否被聚合存放（SNOWY_SYS_BASE_CONFIG 体积大，仍单独存放）
-const isSnowySettingKey = (table) => table.slice(0, 6) === 'SNOWY_' && table !== 'SNOWY_SYS_BASE_CONFIG'
+// HGCLOUD_ 前缀的键统一聚合存放在这个 localStorage 项里
+const HGCLOUD_SETTING_KEY = 'HGCLOUD_SETTING'
+// 判断某个键是否被聚合存放（HGCLOUD_SYS_BASE_CONFIG 体积大，仍单独存放）
+const isHgcloudSettingKey = (table) => table.slice(0, 6) === 'HGCLOUD_' && table !== 'HGCLOUD_SYS_BASE_CONFIG'
 
 // localStorage
 tool.data = {
 	set(table, settings) {
 		const _set = JSON.stringify(settings)
-		const SNOWYSTRING = isSnowySettingKey(table)
-		if (SNOWYSTRING) {
-			let localSetting = JSON.parse(localStorage.getItem('SNOWY_SETTING')) || {}
+		const HGCLOUDSTRING = isHgcloudSettingKey(table)
+		if (HGCLOUDSTRING) {
+			let localSetting = JSON.parse(localStorage.getItem('HGCLOUD_SETTING')) || {}
 			let newSetting = {}
 			newSetting[table] = _set
-			return localStorage.setItem('SNOWY_SETTING', JSON.stringify(Object.assign(localSetting, newSetting)))
+			return localStorage.setItem('HGCLOUD_SETTING', JSON.stringify(Object.assign(localSetting, newSetting)))
 		} else return localStorage.setItem(table, _set)
 	},
 	get(table) {
-		const SNOWYSTRING = isSnowySettingKey(table)
-		const SNOWY_SETTING = JSON.parse(localStorage.getItem(SNOWY_SETTING_KEY)) || {}
-		let data = SNOWYSTRING ? SNOWY_SETTING[table] : localStorage.getItem(table)
+		const HGCLOUDSTRING = isHgcloudSettingKey(table)
+		const HGCLOUD_SETTING = JSON.parse(localStorage.getItem(HGCLOUD_SETTING_KEY)) || {}
+		let data = HGCLOUDSTRING ? HGCLOUD_SETTING[table] : localStorage.getItem(table)
 		try {
 			data = JSON.parse(data)
 		} catch (err) {
@@ -45,11 +45,11 @@ tool.data = {
 		return data
 	},
 	remove(table) {
-		// SNOWY_ 前缀的键存在聚合对象里，直接 removeItem 是删不掉的，需从聚合对象中摘除
-		if (isSnowySettingKey(table)) {
-			const localSetting = JSON.parse(localStorage.getItem(SNOWY_SETTING_KEY)) || {}
+		// HGCLOUD_ 前缀的键存在聚合对象里，直接 removeItem 是删不掉的，需从聚合对象中摘除
+		if (isHgcloudSettingKey(table)) {
+			const localSetting = JSON.parse(localStorage.getItem(HGCLOUD_SETTING_KEY)) || {}
 			delete localSetting[table]
-			return localStorage.setItem(SNOWY_SETTING_KEY, JSON.stringify(localSetting))
+			return localStorage.setItem(HGCLOUD_SETTING_KEY, JSON.stringify(localSetting))
 		}
 		return localStorage.removeItem(table)
 	},
@@ -65,8 +65,8 @@ tool.clearLoginCache = () => {
 	tool.data.remove('USER_INFO')
 	tool.data.remove('MENU')
 	tool.data.remove('PERMISSIONS')
-	tool.data.remove('SNOWY_IS_LOCKED')
-	tool.data.remove('SNOWY_LAST_ACTIVITY')
+	tool.data.remove('HGCLOUD_IS_LOCKED')
+	tool.data.remove('HGCLOUD_LAST_ACTIVITY')
 }
 
 // sessionStorage
@@ -204,7 +204,7 @@ const findNodeByValue = (node, value) => {
 }
 
 // 生成UUID
-tool.snowyUuid = () => {
+tool.hgcloudUuid = () => {
 	let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
 		let r = (Math.random() * 16) | 0,
 			v = c === 'x' ? r : (r & 0x3) | 0x8

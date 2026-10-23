@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>vip.xiaonuo</groupId>
+    <groupId>com.hgcloud</groupId>
     <artifactId>hgcloud-plugin-mocker</artifactId>
     <version>3.0.0</version>
     <relativePath>../pom.xml</relativePath>
@@ -18,7 +18,7 @@
   <dependencies>
     <!-- 每个插件都要引入自己的对外接口 -->
     <dependency>
-      <groupId>vip.xiaonuo</groupId>
+      <groupId>com.hgcloud</groupId>
       <artifactId>hgcloud-plugin-mocker-token-api</artifactId>
     </dependency>
 
@@ -29,7 +29,7 @@
     </dependency>
 
     <dependency>
-      <groupId>vip.xiaonuo</groupId>
+      <groupId>com.hgcloud</groupId>
       <artifactId>hgcloud-plugin-auth-feign</artifactId>
     </dependency>
 

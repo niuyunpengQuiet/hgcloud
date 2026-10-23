@@ -2,8 +2,8 @@
 # XXL-JOB v2.3.1
 # Copyright (c) 2015-present, xuxueli.
 
-CREATE database if NOT EXISTS `snowy-cloud-job` default character set utf8mb4 collate utf8mb4_unicode_ci;
-use `snowy-cloud-job`;
+CREATE database if NOT EXISTS `hgcloud-job` default character set utf8mb4 collate utf8mb4_unicode_ci;
+use `hgcloud-job`;
 
 SET NAMES utf8mb4;
 

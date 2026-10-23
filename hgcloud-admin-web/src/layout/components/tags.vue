@@ -1,5 +1,5 @@
 <template>
-	<div class="snowy-tags">
+	<div class="hgcloud-tags">
 		<xn-context-menu
 			class="right-menu"
 			:target="contextMenuTarget"
@@ -8,33 +8,33 @@
 			@get-context-menu="handleTabContextMenu"
 		>
 			<div class="right-menu-item" @click="refreshTab">
-				<reload-outlined class="snowy-header-tags-right" />
-				<div class="pl-3 snowy-header-tags-right-font">刷新</div>
+				<reload-outlined class="hgcloud-header-tags-right" />
+				<div class="pl-3 hgcloud-header-tags-right-font">刷新</div>
 			</div>
 
 			<div class="right-menu-item" @click="closeTabs">
-				<close-outlined class="snowy-header-tags-right" />
-				<div class="pl-3 snowy-header-tags-right-font">关闭</div>
+				<close-outlined class="hgcloud-header-tags-right" />
+				<div class="pl-3 hgcloud-header-tags-right-font">关闭</div>
 			</div>
 
 			<div class="right-menu-item" @click="closeOtherTabs">
-				<close-outlined class="snowy-header-tags-right" />
-				<div class="pl-3 snowy-header-tags-right-font">关闭其他</div>
+				<close-outlined class="hgcloud-header-tags-right" />
+				<div class="pl-3 hgcloud-header-tags-right-font">关闭其他</div>
 			</div>
 
 			<div class="right-menu-item" @click="maximize">
-				<expand-outlined class="snowy-header-tags-right" />
-				<div class="pl-3 snowy-header-tags-right-font">最大化</div>
+				<expand-outlined class="hgcloud-header-tags-right" />
+				<div class="pl-3 hgcloud-header-tags-right-font">最大化</div>
 			</div>
 			<div class="right-menu-item" @click="openWindow">
-				<select-outlined class="snowy-header-tags-right" />
-				<div class="pl-3 snowy-header-tags-right-font">新窗口</div>
+				<select-outlined class="hgcloud-header-tags-right" />
+				<div class="pl-3 hgcloud-header-tags-right-font">新窗口</div>
 			</div>
 		</xn-context-menu>
 		<a-tabs
 			v-model:activeKey="activeKey"
 			type="editable-card"
-			:class="[{ 'snowy-radius': roundedCornerStyleOpen }, 'snowy-admin-tabs']"
+			:class="[{ 'hgcloud-radius': roundedCornerStyleOpen }, 'hgcloud-admin-tabs']"
 			:animated="!roundedCornerStyleOpen"
 			hide-add
 			ref="tabs"
@@ -43,12 +43,12 @@
 			@mouseup="onTabUp"
 		>
 			<template #leftExtra>
-				<div class="snowy-admin-tabs-arrow" @click="scrollLeft">
+				<div class="hgcloud-admin-tabs-arrow" @click="scrollLeft">
 					<left-outlined />
 				</div>
 			</template>
 			<template #rightExtra>
-				<div class="snowy-admin-tabs-arrow" @click="scrollRight">
+				<div class="hgcloud-admin-tabs-arrow" @click="scrollRight">
 					<right-outlined />
 				</div>
 			</template>
@@ -313,7 +313,7 @@
 	}
 </script>
 <style lang="less">
-	.snowy-admin-tabs {
+	.hgcloud-admin-tabs {
 		overflow: hidden; // 新增
 		&.ant-tabs {
 			z-index: 99;
@@ -349,8 +349,8 @@
 					}
 				}
 			}
-			.snowy-admin-tabs-drop,
-			.snowy-admin-tabs-arrow,
+			.hgcloud-admin-tabs-drop,
+			.hgcloud-admin-tabs-arrow,
 			.ant-tabs-nav-operations .ant-tabs-nav-more {
 				padding: 0;
 				width: 40px;
@@ -373,7 +373,7 @@
 		box-shadow: 0 0.5em 1em 0 rgb(0 0 0 / 10%);
 		border-radius: 1px;
 	}
-	.snowy-tags {
+	.hgcloud-tags {
 		.right-menu-item {
 			display: flex;
 			align-items: center;
@@ -386,16 +386,16 @@
 			}
 		}
 	}
-	.snowy-tags {
+	.hgcloud-tags {
 		height: 40px;
-		background: var(--snowy-background-color);
+		background: var(--hgcloud-background-color);
 	}
-	.snowy-tags ul {
+	.hgcloud-tags ul {
 		display: flex;
 		overflow: hidden;
 		padding-left: 0;
 	}
-	.snowy-tags li {
+	.hgcloud-tags li {
 		cursor: pointer;
 		display: inline-block;
 		float: left;
@@ -403,7 +403,7 @@
 		position: relative;
 		flex-shrink: 0;
 	}
-	.snowy-tags li::after {
+	.hgcloud-tags li::after {
 		content: ' ';
 		width: 1px;
 		height: 100%;
@@ -411,7 +411,7 @@
 		right: 0px;
 		background-image: linear-gradient(#fff, #e6e6e6);
 	}
-	.snowy-tags li a {
+	.hgcloud-tags li a {
 		padding: 0 10px;
 		width: 100%;
 		height: 100%;
@@ -419,7 +419,7 @@
 		display: flex;
 		align-items: center;
 	}
-	.snowy-tags li i {
+	.hgcloud-tags li i {
 		margin-left: 10px;
 		border-radius: 3px;
 		width: 18px;
@@ -428,30 +428,30 @@
 		align-items: center;
 		justify-content: center;
 	}
-	.snowy-tags li i:hover {
+	.hgcloud-tags li i:hover {
 		background: rgba(0, 0, 0, 0.2);
 		color: @body-background;
 	}
-	.snowy-tags li:hover {
+	.hgcloud-tags li:hover {
 		background: @body-background;
 	}
-	.snowy-tags li.active {
+	.hgcloud-tags li.active {
 		background: @primary-color;
 	}
-	.snowy-tags li.active a {
+	.hgcloud-tags li.active a {
 		color: var(--font-color);
 	}
-	.snowy-tags li.sortable-ghost {
+	.hgcloud-tags li.sortable-ghost {
 		opacity: 0;
 	}
-	.snowy-header-tags-right {
+	.hgcloud-header-tags-right {
 		margin-right: 5px;
 		color: var(--font-color);
 	}
-	.snowy-header-tags-right-font {
+	.hgcloud-header-tags-right-font {
 		color: var(--font-color);
 	}
-	.snowy-radius .ant-tabs-tab-active {
+	.hgcloud-radius .ant-tabs-tab-active {
 		position: relative;
 		z-index: 1;
 		border-radius: 6px 6px 0 0 !important;
@@ -459,7 +459,7 @@
 			12px 15px 0 0 var(--primary-1),
 			-12px 15px 0 0 var(--primary-1);
 	}
-	.snowy-radius .ant-tabs-tab-active::before {
+	.hgcloud-radius .ant-tabs-tab-active::before {
 		content: '';
 		position: absolute;
 		left: -13px;
@@ -469,7 +469,7 @@
 		background: var(--primary-radius);
 		border-radius: 0 0 8px 0;
 	}
-	.snowy-radius .ant-tabs-tab-active::after {
+	.hgcloud-radius .ant-tabs-tab-active::after {
 		content: '';
 		position: absolute;
 		right: -13px;
@@ -480,7 +480,7 @@
 		border-radius: 0 0 0 8px;
 	}
 
-	.snowy-radius .ant-tabs-ink-bar {
+	.hgcloud-radius .ant-tabs-ink-bar {
 		visibility: hidden !important;
 	}
 </style>

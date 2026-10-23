@@ -56,7 +56,7 @@
 			}
 		]
 	})
-	const captchaOpen = ref(configData.SYS_BASE_CONFIG.SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C)
+	const captchaOpen = ref(configData.SYS_BASE_CONFIG.HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C)
 	const registerOpen = ref('false')
 	const validCodeBase64 = ref('')
 
@@ -66,7 +66,7 @@
 			registerFormData.value.tenCode = route.query.tenCode
 		}
 		registerButtonDisable.value = true
-		tool.data.set('SNOWY_TEN_CODE', '')
+		tool.data.set('HGCLOUD_TEN_CODE', '')
 		// 再去查配置
 		getSysConfig()
 	})
@@ -80,9 +80,9 @@
 					data.forEach((item) => {
 						formData.value[item.configKey] = item.configValue
 					})
-					captchaOpen.value = formData.value.SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C
-					registerOpen.value = formData.value.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C
-					tool.data.set('SNOWY_SYS_BASE_CONFIG', formData.value)
+					captchaOpen.value = formData.value.HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_C
+					registerOpen.value = formData.value.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_C
+					tool.data.set('HGCLOUD_SYS_BASE_CONFIG', formData.value)
 					setSysBaseConfig(formData.value)
 					refreshSwitch()
 				}
@@ -152,12 +152,12 @@
 			<!-- 左侧品牌展示区 -->
 			<div class="login-left">
 				<div class="brand-info">
-					<img :src="sysBaseConfig.SNOWY_SYS_LOGO" class="brand-logo" alt="Logo" />
-					<h1 class="brand-title">{{ sysBaseConfig.SNOWY_SYS_NAME }}</h1>
-					<p class="brand-desc">{{ sysBaseConfig.SNOWY_SYS_DEFAULT_DESCRRIPTION }}</p>
+					<img :src="sysBaseConfig.HGCLOUD_SYS_LOGO" class="brand-logo" alt="Logo" />
+					<h1 class="brand-title">{{ sysBaseConfig.HGCLOUD_SYS_NAME }}</h1>
+					<p class="brand-desc">{{ sysBaseConfig.HGCLOUD_SYS_DEFAULT_DESCRRIPTION }}</p>
 				</div>
 				<div class="brand-footer">
-					<p>{{ sysBaseConfig.SNOWY_SYS_COPYRIGHT }}</p>
+					<p>{{ sysBaseConfig.HGCLOUD_SYS_COPYRIGHT }}</p>
 				</div>
 			</div>
 

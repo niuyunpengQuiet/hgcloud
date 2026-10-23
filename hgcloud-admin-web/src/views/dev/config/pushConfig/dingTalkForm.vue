@@ -10,13 +10,13 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="消息推送签名：" name="SNOWY_PUSH_DINGTALK_SIGN">
-						<a-input v-model:value="formData.SNOWY_PUSH_DINGTALK_SIGN" placeholder="请输入消息推送签名" />
+					<a-form-item label="消息推送签名：" name="HGCLOUD_PUSH_DINGTALK_SIGN">
+						<a-input v-model:value="formData.HGCLOUD_PUSH_DINGTALK_SIGN" placeholder="请输入消息推送签名" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="消息推送TOKENID：" name="SNOWY_PUSH_DINGTALK_TOKEN_ID">
-						<a-input v-model:value="formData.SNOWY_PUSH_DINGTALK_TOKEN_ID" placeholder="请输入消息推送TOKENID" />
+					<a-form-item label="消息推送TOKENID：" name="HGCLOUD_PUSH_DINGTALK_TOKEN_ID">
+						<a-input v-model:value="formData.HGCLOUD_PUSH_DINGTALK_TOKEN_ID" placeholder="请输入消息推送TOKENID" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -60,8 +60,8 @@
 
 	// 默认要校验的
 	const formRules = {
-		SNOWY_PUSH_DINGTALK_SIGN: [required('请输入钉钉消息推送签名')],
-		SNOWY_PUSH_DINGTALK_TOKEN_ID: [required('请输入钉钉消息推送TOKENID')]
+		HGCLOUD_PUSH_DINGTALK_SIGN: [required('请输入钉钉消息推送签名')],
+		HGCLOUD_PUSH_DINGTALK_TOKEN_ID: [required('请输入钉钉消息推送TOKENID')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

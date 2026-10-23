@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>vip.xiaonuo</groupId>
+        <groupId>com.hgcloud</groupId>
         <artifactId>hgcloud-plugin-dev</artifactId>
         <version>3.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -19,7 +19,7 @@
 
         <!-- hgcloud-common -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-common</artifactId>
             <exclusions>
                 <exclusion>
@@ -37,7 +37,7 @@
 
         <!-- hgcloud-plugin-dev-api -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-dev-api</artifactId>
         </dependency>
 

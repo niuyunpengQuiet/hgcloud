@@ -27,7 +27,7 @@
 								:class="icon === modelValue ? 'active' : ''"
 								@click="selectIcon(icon.font_class)"
 							>
-								<span class="snowy xn-icons" :class="icon.font_class"></span>
+								<span class="hgcloud xn-icons" :class="icon.font_class"></span>
 							</li>
 						</ul>
 					</div>

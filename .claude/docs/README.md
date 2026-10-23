@@ -1,4 +1,4 @@
-# Snowy 微服务版二次开发文档中心
+# Hgcloud 微服务版二次开发文档中心
 
 > 阅读顺序：先读根目录 `CLAUDE.md`（项目宪法），再按需查本目录指南；按需知识（技能）在 `.claude/skills/`，由 hook 自动激活。
 
@@ -25,7 +25,7 @@
 
 | 项 | 规范 |
 |---|---|
-| 包名 | `vip.xiaonuo.*`（业务在 `hgcloud-plugin-biz-func`，运行于 hgcloud-biz-app） |
+| 包名 | `com.hgcloud.*`（业务在 `hgcloud-plugin-biz-func`，运行于 hgcloud-biz-app） |
 | 注入 | `@Resource`（禁 @Autowired / 构造器注入） |
 | ServiceImpl | `extends ServiceImpl<M, T> implements XxxService` |
 | 转换 | Hutool `BeanUtil`（禁 MapstructUtils） |

@@ -10,23 +10,23 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="MINIO通道KEY：" name="SNOWY_FILE_MINIO_ACCESS_KEY">
-						<a-input v-model:value="formData.SNOWY_FILE_MINIO_ACCESS_KEY" placeholder="请输入MINIO通道KEY" />
+					<a-form-item label="MINIO通道KEY：" name="HGCLOUD_FILE_MINIO_ACCESS_KEY">
+						<a-input v-model:value="formData.HGCLOUD_FILE_MINIO_ACCESS_KEY" placeholder="请输入MINIO通道KEY" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="MINIO密钥KEY：" name="SNOWY_FILE_MINIO_SECRET_KEY">
-						<a-input v-model:value="formData.SNOWY_FILE_MINIO_SECRET_KEY" placeholder="请输入MINIO密钥KEY" />
+					<a-form-item label="MINIO密钥KEY：" name="HGCLOUD_FILE_MINIO_SECRET_KEY">
+						<a-input v-model:value="formData.HGCLOUD_FILE_MINIO_SECRET_KEY" placeholder="请输入MINIO密钥KEY" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="MINIO端点：" name="SNOWY_FILE_MINIO_END_POINT">
-						<a-input v-model:value="formData.SNOWY_FILE_MINIO_END_POINT" placeholder="请输入MINIO端点" />
+					<a-form-item label="MINIO端点：" name="HGCLOUD_FILE_MINIO_END_POINT">
+						<a-input v-model:value="formData.HGCLOUD_FILE_MINIO_END_POINT" placeholder="请输入MINIO端点" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="MINIO储存桶：" name="SNOWY_FILE_MINIO_DEFAULT_BUCKET_NAME">
-						<a-input v-model:value="formData.SNOWY_FILE_MINIO_DEFAULT_BUCKET_NAME" placeholder="请输入MINIO储存桶" />
+					<a-form-item label="MINIO储存桶：" name="HGCLOUD_FILE_MINIO_DEFAULT_BUCKET_NAME">
+						<a-input v-model:value="formData.HGCLOUD_FILE_MINIO_DEFAULT_BUCKET_NAME" placeholder="请输入MINIO储存桶" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -70,10 +70,10 @@
 
 	// 默认要校验的
 	const formRules = {
-		SNOWY_FILE_MINIO_ACCESS_KEY: [required('请输入MINIO通道KEY')],
-		SNOWY_FILE_MINIO_SECRET_KEY: [required('请输入MINIO密钥KEY')],
-		SNOWY_FILE_MINIO_END_POINT: [required('请输入MINIO端点')],
-		SNOWY_FILE_MINIO_DEFAULT_BUCKET_NAME: [required('请输入MINIO储存桶')]
+		HGCLOUD_FILE_MINIO_ACCESS_KEY: [required('请输入MINIO通道KEY')],
+		HGCLOUD_FILE_MINIO_SECRET_KEY: [required('请输入MINIO密钥KEY')],
+		HGCLOUD_FILE_MINIO_END_POINT: [required('请输入MINIO端点')],
+		HGCLOUD_FILE_MINIO_DEFAULT_BUCKET_NAME: [required('请输入MINIO储存桶')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

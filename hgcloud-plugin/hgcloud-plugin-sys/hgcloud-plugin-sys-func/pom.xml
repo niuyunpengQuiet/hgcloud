@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>vip.xiaonuo</groupId>
+        <groupId>com.hgcloud</groupId>
         <artifactId>hgcloud-plugin-sys</artifactId>
         <version>3.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -18,25 +18,25 @@
     <dependencies>
         <!-- 每个插件都要引入自己的对外接口 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-sys-api</artifactId>
         </dependency>
 
         <!-- 引入登录鉴权接口，用于实现其登录所需逻辑 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-auth-api</artifactId>
         </dependency>
 
         <!-- 引入开发工具接口，用于配置信息 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-dev-api</artifactId>
         </dependency>
 
         <!-- 引入移动端接口，用于移动端菜单信息 -->
         <dependency>
-            <groupId>vip.xiaonuo</groupId>
+            <groupId>com.hgcloud</groupId>
             <artifactId>hgcloud-plugin-mobile-api</artifactId>
         </dependency>
     </dependencies>

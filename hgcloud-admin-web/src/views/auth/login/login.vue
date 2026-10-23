@@ -3,18 +3,18 @@
 		<div class="login_background">
 			<div class="logo_background">
 				<a
-					:class="{ 'no-link': !sysBaseConfig.SNOWY_SYS_COPYRIGHT_URL }"
-					:href="sysBaseConfig.SNOWY_SYS_COPYRIGHT_URL"
+					:class="{ 'no-link': !sysBaseConfig.HGCLOUD_SYS_COPYRIGHT_URL }"
+					:href="sysBaseConfig.HGCLOUD_SYS_COPYRIGHT_URL"
 					target="_blank"
 					@click="handleLink"
 				>
-					<img :alt="systemName" :src="sysBaseConfig.SNOWY_SYS_LOGO" />
+					<img :alt="systemName" :src="sysBaseConfig.HGCLOUD_SYS_LOGO" />
 					<label style="color: var(--primary-color);font-weight: bold">{{ systemName }}</label>
 				</a>
 			</div>
 			<div class="version">
-				<p>{{ sysBaseConfig.SNOWY_SYS_DEFAULT_DESCRRIPTION }}</p>
-				<p>{{ sysBaseConfig.SNOWY_SYS_COPYRIGHT }} {{ sysBaseConfig.SNOWY_SYS_VERSION }}</p>
+				<p>{{ sysBaseConfig.HGCLOUD_SYS_DEFAULT_DESCRRIPTION }}</p>
+				<p>{{ sysBaseConfig.HGCLOUD_SYS_COPYRIGHT }} {{ sysBaseConfig.HGCLOUD_SYS_VERSION }}</p>
 			</div>
 		</div>
 		<div class="login_main">
@@ -164,7 +164,7 @@
 	const { proxy } = getCurrentInstance()
 	const activeKey = ref('userAccount')
 
-	const captchaOpen = ref(configData.SYS_BASE_CONFIG.SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B)
+	const captchaOpen = ref(configData.SYS_BASE_CONFIG.HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B)
 	const registerOpen = ref('false')
 	const loginTypes = reactive({
 		phoneLogin: 'false',
@@ -218,7 +218,7 @@
 	const sysBaseConfig = computed(() => {
 		return store.sysBaseConfig
 	})
-	const systemName = ref(sysBaseConfig.value.SNOWY_SYS_NAME)
+	const systemName = ref(sysBaseConfig.value.HGCLOUD_SYS_NAME)
 	onMounted(() => {
 		let formData = ref(configData.SYS_BASE_CONFIG)
 		configApi
@@ -228,12 +228,12 @@
 					data.forEach((item) => {
 						formData.value[item.configKey] = item.configValue
 					})
-					captchaOpen.value = formData.value.SNOWY_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B
-					registerOpen.value = formData.value.SNOWY_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B
-					loginTypes.phoneLogin = formData.value.SNOWY_SYS_DEFAULT_ALLOW_PHONE_LOGIN_FLAG_FOR_B
-					loginTypes.emailLogin = formData.value.SNOWY_SYS_DEFAULT_ALLOW_EMAIL_LOGIN_FLAG_FOR_B
-					loginTypes.otpLogin = formData.value.SNOWY_SYS_DEFAULT_ALLOW_OTP_LOGIN_FLAG_FOR_B
-					tool.data.set('SNOWY_SYS_BASE_CONFIG', formData.value)
+					captchaOpen.value = formData.value.HGCLOUD_SYS_DEFAULT_CAPTCHA_OPEN_FLAG_FOR_B
+					registerOpen.value = formData.value.HGCLOUD_SYS_DEFAULT_ALLOW_REGISTER_FLAG_FOR_B
+					loginTypes.phoneLogin = formData.value.HGCLOUD_SYS_DEFAULT_ALLOW_PHONE_LOGIN_FLAG_FOR_B
+					loginTypes.emailLogin = formData.value.HGCLOUD_SYS_DEFAULT_ALLOW_EMAIL_LOGIN_FLAG_FOR_B
+					loginTypes.otpLogin = formData.value.HGCLOUD_SYS_DEFAULT_ALLOW_OTP_LOGIN_FLAG_FOR_B
+					tool.data.set('HGCLOUD_SYS_BASE_CONFIG', formData.value)
 					setSysBaseConfig(formData.value)
 					refreshSwitch()
 					if (threeLoginForAppRef.value) {
@@ -312,7 +312,7 @@
 	}
 	// logo链接
 	const handleLink = (e) => {
-		if (!sysBaseConfig.value.SNOWY_SYS_COPYRIGHT_URL) {
+		if (!sysBaseConfig.value.HGCLOUD_SYS_COPYRIGHT_URL) {
 			e?.stopPropagation()
 			e?.preventDefault()
 		}

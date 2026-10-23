@@ -1,0 +1,55 @@
+package com.hgcloud.sys.api.context;
+
+import cn.hutool.core.convert.Convert;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import com.hgcloud.common.page.CommonPageRequest;
+import com.hgcloud.sys.api.SysPositionApi;
+import com.hgcloud.sys.feign.SysPositionFeign;
+
+/**
+ * 系统模块PositionAPI上下文Bean
+ *
+ * @author dongxiayu
+ * @date 2022/11/22 22:34
+ */
+@Slf4j
+@RequiredArgsConstructor
+@Component
+public class SysPositionApiContextBean implements SysPositionApi {
+
+    final private SysPositionFeign sysPositionFeign;
+
+    /**
+     * 根据id获取名称
+     *
+     * @param positionId
+     * @author xuyuxiang
+     * @date 2022/8/4 10:13
+     */
+    @Override
+    public String getNameById(String positionId) {
+        return this.sysPositionFeign.getNameById(positionId);
+    }
+
+    /**
+     * 获取职位选择器
+     *
+     * @param orgId
+     * @param searchKey
+     * @author xuyuxiang
+     * @date 2022/7/22 14:47
+     */
+    @Override
+    public Page<JSONObject> positionSelector(String orgId, String searchKey) {
+        long current = CommonPageRequest.defaultPage().getCurrent();
+        long size = CommonPageRequest.defaultPage().getSize();
+        String feignResp = this.sysPositionFeign.positionSelector(Convert.toInt(current), Convert.toInt(size), orgId, searchKey);
+        Page<JSONObject> resp = (Page<JSONObject>) JSONUtil.toBean(feignResp,Page.class);
+        return resp;
+    }
+}

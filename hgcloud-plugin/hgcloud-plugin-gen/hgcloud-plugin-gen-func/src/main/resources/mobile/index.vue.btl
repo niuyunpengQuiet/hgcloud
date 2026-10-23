@@ -13,8 +13,8 @@
                 <% for(var i = 0; i < configList.~size; i++) { %>
                 <% if(!configList[i].needTableId && configList[i].needPage) { row ++; %>
                 <% if(row <= 1) { %>
-                <view class="snowy-z-paging-item">
-                    <snowy-search placeholder="请输入${configList[i].fieldRemark}" v-model="searchFormData.${configList[i].fieldNameCamelCase}" @confirm="$refs.dataPagingRef.reload()" @clear="$refs.dataPagingRef.reload()" :seniorEnable="true" @seniorSearch="$refs.searchRef.open()"></snowy-search>
+                <view class="hgcloud-z-paging-item">
+                    <hgcloud-search placeholder="请输入${configList[i].fieldRemark}" v-model="searchFormData.${configList[i].fieldNameCamelCase}" @confirm="$refs.dataPagingRef.reload()" @clear="$refs.dataPagingRef.reload()" :seniorEnable="true" @seniorSearch="$refs.searchRef.open()"></hgcloud-search>
                 </view>
                 <% } %>
                 <% } %>
@@ -22,7 +22,7 @@
                 <search ref="searchRef" :searchFormData="searchFormData" @confirm="$refs.dataPagingRef.reload()"></search>
                 <% } %>
             </template>
-            <view class="snowy-shadow snowy-z-paging-item snowy-padding snowy-hover" v-for="(item, index) in ${classNameFirstLower}Data" :key="index" @tap="moreTapItem(item, index)">
+            <view class="hgcloud-shadow hgcloud-z-paging-item hgcloud-padding hgcloud-hover" v-for="(item, index) in ${classNameFirstLower}Data" :key="index" @tap="moreTapItem(item, index)">
                 <% for(var i = 0; i < configList.~size; i++) { %>
                 <% if(!configList[i].needTableId && configList[i].whetherTable && configList[i].fieldNameCamelCase != 'tenantId') { %>
                 <uni-row class="item-uni-row">
@@ -30,17 +30,17 @@
                         <uni-icons size="18" type="paperclip" color="#5677fc"></uni-icons>
                     </uni-col>
                     <uni-col :span="10">
-                        <view class="snowy-sub-title">${configList[i].fieldRemark}</view>
+                        <view class="hgcloud-sub-title">${configList[i].fieldRemark}</view>
                     </uni-col>
                     <uni-col :span="12">
-                        <view class="snowy-text-right snowy-text-bold snowy-text-ellipsis"> {{ item.${configList[i].fieldNameCamelCase} }} </view>
+                        <view class="hgcloud-text-right hgcloud-text-bold hgcloud-text-ellipsis"> {{ item.${configList[i].fieldNameCamelCase} }} </view>
                     </uni-col>
                 </uni-row>
                 <% } %>
                 <% } %>
             </view>
         </z-paging>
-        <snowy-float-btn v-if="$snowy.hasPerm('mobile${className}Add')" @click="add"></snowy-float-btn>
+        <hgcloud-float-btn v-if="$hgcloud.hasPerm('mobile${className}Add')" @click="add"></hgcloud-float-btn>
         <more ref="moreRef" @handleOk="loadData(true)"></more>
     </view>
 </template>
@@ -93,7 +93,7 @@
 <style lang="scss" scoped>
     @import '@/static/scss/index.scss';
     ::v-deep .uni-row {
-        @extend .snowy-flex-v-center;
+        @extend .hgcloud-flex-v-center;
         padding: 5rpx;
     }
 </style>

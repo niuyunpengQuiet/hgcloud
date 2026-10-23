@@ -10,33 +10,33 @@
 		>
 			<a-row :gutter="8">
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="发送邮箱号：" name="SNOWY_EMAIL_LOCAL_FROM">
-						<a-input v-model:value="formData.SNOWY_EMAIL_LOCAL_FROM" placeholder="请输入发送邮箱号" />
+					<a-form-item label="发送邮箱号：" name="HGCLOUD_EMAIL_LOCAL_FROM">
+						<a-input v-model:value="formData.HGCLOUD_EMAIL_LOCAL_FROM" placeholder="请输入发送邮箱号" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="邮箱密钥：" name="SNOWY_EMAIL_LOCAL_PASSWORD">
-						<a-input v-model:value="formData.SNOWY_EMAIL_LOCAL_PASSWORD" placeholder="请输入邮箱密钥" />
+					<a-form-item label="邮箱密钥：" name="HGCLOUD_EMAIL_LOCAL_PASSWORD">
+						<a-input v-model:value="formData.HGCLOUD_EMAIL_LOCAL_PASSWORD" placeholder="请输入邮箱密钥" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="SMTP服务器域名：" name="SNOWY_EMAIL_LOCAL_SMTP_HOST">
-						<a-input v-model:value="formData.SNOWY_EMAIL_LOCAL_SMTP_HOST" placeholder="请输入SMTP服务器域名" />
+					<a-form-item label="SMTP服务器域名：" name="HGCLOUD_EMAIL_LOCAL_SMTP_HOST">
+						<a-input v-model:value="formData.HGCLOUD_EMAIL_LOCAL_SMTP_HOST" placeholder="请输入SMTP服务器域名" />
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="SMTP服务端口：" name="SNOWY_EMAIL_LOCAL_SMTP_PORT">
+					<a-form-item label="SMTP服务端口：" name="HGCLOUD_EMAIL_LOCAL_SMTP_PORT">
 						<a-input-number
-							v-model:value="formData.SNOWY_EMAIL_LOCAL_SMTP_PORT"
+							v-model:value="formData.HGCLOUD_EMAIL_LOCAL_SMTP_PORT"
 							placeholder="请输入SMTP服务端口"
 							style="width: 100%"
 						/>
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="是否需要用户名密码验证：" name="SNOWY_EMAIL_LOCAL_AUTH">
+					<a-form-item label="是否需要用户名密码验证：" name="HGCLOUD_EMAIL_LOCAL_AUTH">
 						<a-switch
-							v-model:checked="formData.SNOWY_EMAIL_LOCAL_AUTH"
+							v-model:checked="formData.HGCLOUD_EMAIL_LOCAL_AUTH"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否需要用户名密码验证"
@@ -44,9 +44,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="是否使用SSL安全连接：" name="SNOWY_EMAIL_LOCAL_SSL_ENABLE">
+					<a-form-item label="是否使用SSL安全连接：" name="HGCLOUD_EMAIL_LOCAL_SSL_ENABLE">
 						<a-switch
-							v-model:checked="formData.SNOWY_EMAIL_LOCAL_SSL_ENABLE"
+							v-model:checked="formData.HGCLOUD_EMAIL_LOCAL_SSL_ENABLE"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否使用SSL安全连接"
@@ -54,9 +54,9 @@
 					</a-form-item>
 				</a-col>
 				<a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-					<a-form-item label="是否使用STARTTLS安全连接：" name="SNOWY_EMAIL_LOCAL_STARTTLS_ENABLE">
+					<a-form-item label="是否使用STARTTLS安全连接：" name="HGCLOUD_EMAIL_LOCAL_STARTTLS_ENABLE">
 						<a-switch
-							v-model:checked="formData.SNOWY_EMAIL_LOCAL_STARTTLS_ENABLE"
+							v-model:checked="formData.HGCLOUD_EMAIL_LOCAL_STARTTLS_ENABLE"
 							checked-children="是"
 							un-checked-children="否"
 							placeholder="请选择是否使用STARTTLS安全连接"
@@ -111,11 +111,11 @@
 	}
 	// 默认要校验的
 	const formRules = {
-		SNOWY_EMAIL_LOCAL_FROM: [required('请输入发送邮箱号')],
-		SNOWY_EMAIL_LOCAL_PASSWORD: [required('请输入邮箱密钥')],
-		SNOWY_EMAIL_LOCAL_AUTH: [required('请选择是否需要用户名密码验证')],
-		SNOWY_EMAIL_LOCAL_SSL_ENABLE: [required('请选择是否使用SSL安全连接')],
-		SNOWY_EMAIL_LOCAL_STARTTLS_ENABLE: [required('请选择是否使用STARTTLS安全连接')]
+		HGCLOUD_EMAIL_LOCAL_FROM: [required('请输入发送邮箱号')],
+		HGCLOUD_EMAIL_LOCAL_PASSWORD: [required('请输入邮箱密钥')],
+		HGCLOUD_EMAIL_LOCAL_AUTH: [required('请选择是否需要用户名密码验证')],
+		HGCLOUD_EMAIL_LOCAL_SSL_ENABLE: [required('请选择是否使用SSL安全连接')],
+		HGCLOUD_EMAIL_LOCAL_STARTTLS_ENABLE: [required('请选择是否使用STARTTLS安全连接')]
 	}
 	// 验证并提交数据
 	const onSubmit = () => {

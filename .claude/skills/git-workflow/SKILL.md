@@ -7,7 +7,7 @@ description: 本项目 Git 规范：提交四原则、conventional commit 中文
 
 ## 仓库现状
 
-- 本仓库一般克隆自官方 Snowy-Cloud 仓库，`origin` 指向官方远程（以 `git remote -v` 为准），分支含 master、dev 等；当前开发分支以 `git branch --show-current` 为准
+- 本仓库一般克隆自官方 Hgcloud 仓库，`origin` 指向官方远程（以 `git remote -v` 为准），分支含 master、dev 等；当前开发分支以 `git branch --show-current` 为准
 - 上游官方提交使用"【底座】/【更新】"等前缀；本项目自己的二次开发提交按下方 Commit Message 规范
 - 根目录 `.gitignore` 覆盖 target/、.idea/、logs/、*.log 等；`hgcloud-admin-web/.gitignore` 覆盖 node_modules/、dist/、.env.local 等
 
@@ -32,7 +32,7 @@ feat: 新增供应商管理六件套与前端三件
 fix: 修复供应商分页排序字段未转下划线导致SQL报错
 refactor: 供应商查询改批量接口消除N+1
 docs: 补充国密与安全指南
-chore: 初始化 Snowy v3.0.0 原始代码基线
+chore: 初始化 Hgcloud v3.0.0 原始代码基线
 ```
 
 ## 常用操作

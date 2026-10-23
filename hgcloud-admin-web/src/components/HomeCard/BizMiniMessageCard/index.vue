@@ -161,7 +161,7 @@
 			color: #1890ff;
 		}
 	}
-	:deep(.snowy-theme-dark) & {
+	:deep(.hgcloud-theme-dark) & {
 		.message-subject {
 			color: rgba(255, 255, 255, 0.85);
 		}

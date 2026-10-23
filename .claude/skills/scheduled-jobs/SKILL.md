@@ -1,11 +1,11 @@
 ---
 name: scheduled-jobs
-description: Snowy 定时任务规范：CommonTimerTaskRunner 接口实现 + DEV_JOB 表配置 + Cron 表达式 + 任务执行日志；微服务版只在 hgcloud-web-app 调度。触发场景：1) 业务需要定时执行（对账/清理/汇总）2) 添加或排查定时任务 3) 写 Cron 表达式 4) 定时任务报"找不到对应的类"、biz-app 里要跑定时。触发词：定时任务、定时、Cron、调度、DEV_JOB、TimerTaskRunner、轮询、周期执行、任务日志、xxl-job、找不到对应的类、跨服务定时。
+description: Hgcloud 定时任务规范：CommonTimerTaskRunner 接口实现 + DEV_JOB 表配置 + Cron 表达式 + 任务执行日志；微服务版只在 hgcloud-web-app 调度。触发场景：1) 业务需要定时执行（对账/清理/汇总）2) 添加或排查定时任务 3) 写 Cron 表达式 4) 定时任务报"找不到对应的类"、biz-app 里要跑定时。触发词：定时任务、定时、Cron、调度、DEV_JOB、TimerTaskRunner、轮询、周期执行、任务日志、xxl-job、找不到对应的类、跨服务定时。
 ---
 
-# Snowy 定时任务规范
+# Hgcloud 定时任务规范
 
-## 机制（Snowy 自研 timer 体系，不是 SnailJob/xxl-job/quartz）
+## 机制（Hgcloud 自研 timer 体系，不是 SnailJob/xxl-job/quartz）
 
 ```
 后端：写一个 CommonTimerTaskRunner 实现类（@Component），且必须在 hgcloud-web-app 的类路径上
@@ -31,13 +31,13 @@ description: Snowy 定时任务规范：CommonTimerTaskRunner 接口实现 + DEV
  * Copyright [2022] [https://www.xiaonuo.vip]
  * ...（12 行版权头）
  */
-package vip.xiaonuo.web.core.timer;   // 示例包：只要最终在 hgcloud-web-app 类路径上即可，见下方「放置位置」
+package com.hgcloud.web.core.timer;   // 示例包：只要最终在 hgcloud-web-app 类路径上即可，见下方「放置位置」
 
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import vip.xiaonuo.biz.api.BizSupplierApi;
-import vip.xiaonuo.common.timer.CommonTimerTaskRunner;
+import com.hgcloud.biz.api.BizSupplierApi;
+import com.hgcloud.common.timer.CommonTimerTaskRunner;
 
 /**
  * 供应商月度对账任务
@@ -99,7 +99,7 @@ public class BizSupplierMonthlyTimerTaskRunner implements CommonTimerTaskRunner 
 | web-app 侧任务用 `@Scheduled(cron=...)` 注解（Spring 原生） | CommonTimerTaskRunner + DEV_JOB 界面配置（可管理可控） |
 | Runner 写在 `hgcloud-plugin-biz-func`（跑在 biz-app） | Runner 放 web-app 类路径，业务逻辑经 `BizXxxApi` 跨服务调用（否则"找不到对应的类"） |
 | 以为"用仓库里的 xxl-job 即可" | 仓库只有 xxl-job 调度中心，业务服务未接执行器；biz-app 侧定时属自行方案（见上方⚠️） |
-| web-app 侧再引入 quartz/xxl-job 依赖 | Snowy 自研 timer 已覆盖 |
+| web-app 侧再引入 quartz/xxl-job 依赖 | Hgcloud 自研 timer 已覆盖 |
 | 任务里把状态写死 | 可变参数走 extJson |
 | 忘记在界面注册任务 | 代码只是 Bean，必须界面新增并启用才调度 |
 | 一次性全表加载处理 | 分批 + 幂等 |
@@ -116,10 +116,10 @@ public class BizSupplierMonthlyTimerTaskRunner implements CommonTimerTaskRunner 
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-base/hgcloud-common/src/main/java/vip/xiaonuo/common/timer/CommonTimerTaskRunner.java` | 任务接口定义 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/job/task/DevJobTimerTaskRunner.java` | 官方示例任务 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/modular/job/` | 任务管理模块（DEV_JOB，`Class.forName` 校验类名） |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/vip/xiaonuo/dev/core/listener/DevJobListener.java` | web-app 启动时加载并调度运行中的任务 |
+| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/timer/CommonTimerTaskRunner.java` | 任务接口定义 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/job/task/DevJobTimerTaskRunner.java` | 官方示例任务 |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/job/` | 任务管理模块（DEV_JOB，`Class.forName` 校验类名） |
+| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/core/listener/DevJobListener.java` | web-app 启动时加载并调度运行中的任务 |
 | `hgcloud-modules/hgcloud-web-app/pom.xml` | web-app 装配清单（含 dev-func，决定 Runner 能否被找到） |
 | `hgcloud-server/hgcloud-xxl-job-app/` | xxl-job 调度中心（业务服务未接执行器） |
 | `hgcloud-admin-web/src/components/Cron/` | Cron 可视化组件 |
