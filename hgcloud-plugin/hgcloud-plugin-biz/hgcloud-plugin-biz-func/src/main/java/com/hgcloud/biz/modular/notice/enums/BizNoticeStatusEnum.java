@@ -13,7 +13,7 @@
 package com.hgcloud.biz.modular.notice.enums;
 
 import lombok.Getter;
-import com.hgcloud.common.exception.CommonException;
+import com.rhcommon.common.exception.CommonException;
 
 /**
  * 通知公告状态枚举

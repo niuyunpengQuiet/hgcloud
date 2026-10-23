@@ -5,7 +5,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <!-- 注册自定义转换器 -->
-    <conversionRule conversionWord="tid" class="com.hgcloud.common.aspect.CustomTraceIdConverter" />
+    <conversionRule conversionWord="tid" class="com.rhcommon.common.aspect.CustomTraceIdConverter" />
 
     <!-- 定义自定义日志格式 -->
     <property  name="CUSTOM_LOG_PATTERN"

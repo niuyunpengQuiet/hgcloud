@@ -27,9 +27,9 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import com.hgcloud.auth.core.enums.SaClientTypeEnum;
-import com.hgcloud.auth.core.util.StpClientLoginUserUtil;
-import com.hgcloud.auth.core.util.StpLoginUserUtil;
+import com.rhcommon.auth.core.enums.SaClientTypeEnum;
+import com.rhcommon.auth.core.util.StpClientLoginUserUtil;
+import com.rhcommon.auth.core.util.StpLoginUserUtil;
 
 import java.util.List;
 

@@ -27,7 +27,7 @@ import com.hgcloud.biz.modular.index.result.BizIndexNoticeListResult;
 import com.hgcloud.biz.modular.index.result.BizIndexSlideshowListResult;
 import com.hgcloud.biz.modular.index.service.BizIndexService;
 import com.hgcloud.biz.modular.notice.entity.BizNotice;
-import com.hgcloud.common.pojo.CommonResult;
+import com.rhcommon.common.pojo.CommonResult;
 
 import java.util.List;
 

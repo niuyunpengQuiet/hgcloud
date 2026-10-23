@@ -21,7 +21,7 @@ import lombok.Setter;
 import org.dromara.core.trans.anno.Trans;
 import org.dromara.core.trans.constant.TransType;
 import com.hgcloud.biz.modular.user.entity.BizUser;
-import com.hgcloud.common.pojo.CommonEntity;
+import com.rhcommon.common.pojo.CommonEntity;
 
 /**
  * 机构实体

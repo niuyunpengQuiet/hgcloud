@@ -22,7 +22,7 @@ import com.hgcloud.biz.api.BizNoticeApi;
 import com.hgcloud.biz.modular.notice.entity.BizNotice;
 import com.hgcloud.biz.modular.notice.enums.BizNoticeStatusEnum;
 import com.hgcloud.biz.modular.notice.mapper.BizNoticeMapper;
-import com.hgcloud.common.exception.CommonException;
+import com.rhcommon.common.exception.CommonException;
 
 import java.util.List;
 import java.util.stream.Collectors;

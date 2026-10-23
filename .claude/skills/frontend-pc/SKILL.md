@@ -88,7 +88,7 @@ export default {
 - 第三参 method，默认 POST；GET 查询传 'get'
 - 文件名 `biz{Xxx}Api.js`；缩进用 **Tab**（项目 Prettier 配置）
 - 下载文件用 baseRequest 的第 4 参 `{ responseType: 'blob' }`
-- URL 只写后端 Controller 上的原始路径（`/biz/xxx/`），**不要手写 `/api/bizapp` 网关前缀**——baseRequest 内部会经 `convertUrl` 再拼一次，写了就成双前缀
+- URL 只写后端 Controller 上的原始路径（`/biz/xxx/`），**不要手写 `/api/hgapp` 网关前缀**——baseRequest 内部会经 `convertUrl` 再拼一次，写了就成双前缀
 
 ## ② 列表页 index.vue 骨架
 
@@ -325,17 +325,17 @@ v-if="hasPerm(['bizXxxEdit', 'bizXxxDelete'], 'and')"    // 数组 + and/or（�
 | 环节 | 实际行为（以代码为准） |
 |---|---|
 | 开关 | `src/config/index.js` 的 `CLOUD_SERVER: true`；为 false 时 `convertUrl` 原样返回（仅单体适用，本仓库不要改） |
-| 前缀映射 | `src/utils/apiAdaptive.js` 的 `PREFIX`：`/mobile/` `/sys/` `/auth/` `/client/` `/dev/` `/gen/` → `/api/webapp`；`/biz/` → `/api/bizapp`；另有 `bizCustomization` 数组（出厂只有 `/custom/` 占位）拼在 PREFIX 之后 |
+| 前缀映射 | `src/utils/apiAdaptive.js` 的 `PREFIX`：`/mobile/` `/sys/` `/auth/` `/client/` `/dev/` `/gen/` → `/api/webapp`；`/biz/` → `/api/hgapp`；另有 `bizCustomization` 数组（出厂只有 `/custom/` 占位）拼在 PREFIX 之后 |
 | 匹配规则 | `url.indexOf(label) > -1` **包含匹配**，按「PREFIX → bizCustomization」顺序**取第一个命中**；都不命中则原样返回 |
-| 普通请求 | `baseRequest` 内 `url = API_URL + convertUrl(url)` 拼成**绝对地址**（开发环境如 `http://localhost:9003/api/bizapp/biz/notice/page`），直接跨域请求网关（网关已开 globalcors），**不经过 vite 代理** |
+| 普通请求 | `baseRequest` 内 `url = API_URL + convertUrl(url)` 拼成**绝对地址**（开发环境如 `http://localhost:9003/api/hgapp/biz/notice/page`），直接跨域请求网关（网关已开 globalcors），**不经过 vite 代理** |
 | 上传 / WebSocket | `XnUpload`、`layout/components/message.vue` 用 `getApiBaseUrl()`（开发环境返回 `/api`）+ `convertUrl(...)`，走 vite 代理：`/api` 前缀被去掉后转发到 `VITE_API_BASEURL`（网关 9003），WebSocket 代理已开 `ws: true` |
 | 环境变量 | `.env.development` / `.env.production`：`VITE_API_BASEURL = http://localhost:9003`、`VITE_PORT = 9000`（生产部署需把 `VITE_API_BASEURL` 改为真实网关地址） |
-| 网关转发 | `/api/webapp/**` → hgcloud-web-app、`/api/bizapp/**` → hgcloud-biz-app，均 `StripPrefix=2`；后端 Controller 与 `@SaCheckPermission` 仍写不带前缀的 `/biz/xxx/page` |
+| 网关转发 | `/api/webapp/**` → rhcommon-web-app、`/api/hgapp/**` → hgcloud-biz-app，均 `StripPrefix=2`；后端 Controller 与 `@SaCheckPermission` 仍写不带前缀的 `/biz/xxx/page` |
 
 **新业务模块的前缀登记**：
 
 - 沿用 `/biz/` 前缀（代码在 `hgcloud-plugin-biz-func`、运行在 biz-app）→ 已有映射，**无需改 apiAdaptive**
-- 新 URL 前缀（如新插件用 `/erp/`）→ 必须在前端 `apiAdaptive.js` 登记（在 `bizCustomization` 或 `PREFIX` 加 `{ label: '/erp/', value: '/api/bizapp' }`，value 填它所在服务的网关前缀），漏了经网关 404；只有新建服务（新的 `/api/xxxapp`）才需另加网关路由；新代码包另需该服务 springdoc 分组与网关 Knife4j 聚合（只影响接口文档）
+- 新 URL 前缀（如新插件用 `/erp/`）→ 必须在前端 `apiAdaptive.js` 登记（在 `bizCustomization` 或 `PREFIX` 加 `{ label: '/erp/', value: '/api/hgapp' }`，value 填它所在服务的网关前缀），漏了经网关 404；只有新建服务（新的 `/api/xxxapp`）才需另加网关路由；新代码包另需该服务 springdoc 分组与网关 Knife4j 聚合（只影响接口文档）
 - ⚠️ 包含匹配陷阱：biz 业务域名**不要**取 `mobile`/`sys`/`auth`/`client`/`dev`/`gen`——如 `/biz/dev/page` 会先命中 `/dev/` 被发到 web-app 而 404
 - ⚠️ 现状：`XnUpload` 只对**默认**上传/下载地址做了 `convertUrl`；外部传入的 `uploadDynamicReturnUrlApi` / `uploadReturnIdApi` / `uploadIdDownloadUrl` 不会再加网关前缀。出厂 `views/biz/notice/form.vue`、`views/dev/slideshow/form.vue` 传的是裸路径 `/dev/file/uploadImageDynamicReturnUrl`（推导：经网关会 404，使用前请先确认）。新写时传入 `convertUrl('/dev/file/xxx')` 的结果
 
@@ -360,7 +360,7 @@ v-if="hasPerm(['bizXxxEdit', 'bizXxxDelete'], 'and')"    // 数组 + and/or（�
 | Element Plus（el-xxx）组件 | Ant Design Vue（a-xxx） |
 | `import { ref } from 'vue'` | 自动导入，不写 |
 | 自己 axios.get('/api/biz/xxx') | api js + baseRequest 封装 |
-| api js 里写 `/api/bizapp/biz/xxx/` | 只写 `/biz/xxx/`，网关前缀由 apiAdaptive 自动加 |
+| api js 里写 `/api/hgapp/biz/xxx/` | 只写 `/biz/xxx/`，网关前缀由 apiAdaptive 自动加 |
 | 新 URL 前缀只写后端不登记前端 | 在 apiAdaptive.js 登记；新建服务另加网关路由 |
 | `:data="tableData"` 数组 | s-table `:data="loadData"` 函数 |
 | 表单不用容器直接弹 a-modal | `xn-form-container` |

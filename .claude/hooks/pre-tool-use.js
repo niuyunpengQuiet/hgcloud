@@ -96,7 +96,7 @@ if (toolName === 'Write') {
   const content = toolInput.content || '';
 
   // 敏感配置文件写入提醒（不阻止）
-  // 微服务版：服务配置在 Nacos（仓库源文件 hgcloud-nacos-app 的 META-INF/config-data/），本地 application.yml 含 Nacos 账号
+  // 微服务版：服务配置在 Nacos（仓库源文件 rhcommon-nacos-app 的 META-INF/config-data/），本地 application.yml 含 Nacos 账号
   const sensitiveFiles = [
     'application.properties',
     'application.yml',
@@ -116,19 +116,19 @@ if (toolName === 'Write') {
     }
   }
 
-  // 框架模块保护：修改平台底座时提醒（微服务版路径：hgcloud-base/hgcloud-common、hgcloud-modules/*、hgcloud-server/*）
+  // 框架模块保护：修改平台底座时提醒（微服务版路径：rhcommon-base/rhcommon-common、hgcloud-modules/*、rhcommon-server/*）
   const frameworkPaths = [
-    '/hgcloud-common/',
-    '/hgcloud-plugin/hgcloud-plugin-sys/',
-    '/hgcloud-plugin/hgcloud-plugin-auth/',
-    '/hgcloud-plugin/hgcloud-plugin-dev/',
-    '/hgcloud-plugin/hgcloud-plugin-gen/',
-    '/hgcloud-plugin/hgcloud-plugin-client/',
-    '/hgcloud-plugin/hgcloud-plugin-mobile/',
-    '/hgcloud-plugin/hgcloud-plugin-mocker/',
-    '/hgcloud-web-app/',
+    '/rhcommon-common/',
+    '/hgcloud-plugin/rhcommon-plugin-sys/',
+    '/hgcloud-plugin/rhcommon-plugin-auth/',
+    '/hgcloud-plugin/rhcommon-plugin-dev/',
+    '/hgcloud-plugin/rhcommon-plugin-gen/',
+    '/hgcloud-plugin/rhcommon-plugin-client/',
+    '/hgcloud-plugin/rhcommon-plugin-mobile/',
+    '/hgcloud-plugin/rhcommon-plugin-mocker/',
+    '/rhcommon-web-app/',
     '/hgcloud-biz-app/',
-    '/hgcloud-server/'
+    '/rhcommon-server/'
   ];
   if (frameworkPaths.some(p => filePath.includes(p))) {
     warn('⚠️ 正在修改 Hgcloud 平台框架模块（' + filePath.split('/').slice(-2).join('/') + '）：业务二次开发应优先放在 hgcloud-plugin-biz（hgcloud-plugin-biz-func），修改框架会影响升级兼容性');

@@ -10,7 +10,7 @@
 | [后端开发指南](后端开发指南.md) | 六件套逐文件详解（以 BizNotice 为线）、跨插件/跨服务调用 | 写后端代码前 |
 | [前端开发指南](前端开发指南.md) | hgcloud-admin-web：api js / index.vue / form.vue / 组件 / i18n | 写前端代码前 |
 | [数据库设计规范](数据库设计规范.md) | 大写表名、审计字段、建表模板、33 表清单、菜单 SQL | 建表/写 SQL 前 |
-| [工具类使用指南](工具类使用指南.md) | hgcloud-common 16 工具类 + Hutool 优先原则 | 找工具时 |
+| [工具类使用指南](工具类使用指南.md) | rhcommon-common 16 工具类 + Hutool 优先原则 | 找工具时 |
 | [新功能开发流程规范](新功能开发流程规范.md) | /dev 双模式全流程、验证方式 | 开工一个新功能时 |
 | [国密与安全指南](国密与安全指南.md) | SM2/SM3/SM4、双端鉴权、白名单、数据范围 | 涉及密码/敏感字段/权限时 |
 
@@ -31,7 +31,7 @@
 | 转换 | Hutool `BeanUtil`（禁 MapstructUtils） |
 | Lombok | `@Getter @Setter`（禁 @Data） |
 | 返回/异常 | `CommonResult<T>` / `CommonException`（中文消息） |
-| URL | `/{插件}/{域}/{动作}` 动词式，方法注解上，权限码=URL（服务内路径，不带网关前缀；前端经网关自动加 `/api/bizapp`、`/api/webapp`） |
+| URL | `/{插件}/{域}/{动作}` 动词式，方法注解上，权限码=URL（服务内路径，不带网关前缀；前端经网关自动加 `/api/hgapp`、`/api/webapp`） |
 | 跨服务 | 业务代码只注入 `XxxApi`；跨服务按 api / provider / feign / feign-provider / api-context 五件套补齐 |
 | 白名单 | 网关 GatewayConfigure（带前缀）+ 服务 GlobalConfigure（不带前缀）两处都改 |
 | 配置 | 服务配置在 Nacos（如 `hgcloud-biz-app-dev.yaml`），本地 application.yml 只做 Nacos 接入 |

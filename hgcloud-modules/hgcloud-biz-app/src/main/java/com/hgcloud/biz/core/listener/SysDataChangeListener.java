@@ -16,10 +16,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import org.springframework.stereotype.Component;
-import com.hgcloud.auth.core.pojo.SaBaseLoginUser;
-import com.hgcloud.auth.core.util.StpLoginUserUtil;
-import com.hgcloud.common.enums.SysDataTypeEnum;
-import com.hgcloud.common.listener.CommonDataChangeListener;
+import com.rhcommon.auth.core.pojo.SaBaseLoginUser;
+import com.rhcommon.auth.core.util.StpLoginUserUtil;
+import com.rhcommon.common.enums.SysDataTypeEnum;
+import com.rhcommon.common.listener.CommonDataChangeListener;
 
 import java.util.List;
 

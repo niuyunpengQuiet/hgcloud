@@ -19,7 +19,7 @@
         <!-- 每个插件接口都要引入common -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-common</artifactId>
+            <artifactId>rhcommon-common</artifactId>
         </dependency>
     </dependencies>
 </project>

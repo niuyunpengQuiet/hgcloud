@@ -25,7 +25,7 @@ description: 代码规范检查（后端 + 前端，三级清单）
 | S5 | 表名小写 | `@TableName\((value = )?"[a-z]` | 0 命中 |
 | S6 | MapstructUtils | `MapstructUtils\|@AutoMapper` | 0 命中（用 BeanUtil） |
 | S7 | 版权头 | 抽查/全查 .java 前 12 行含 `Copyright [2022] [https://www.xiaonuo.vip]` | 新文件 100% 有 |
-| S8 | 权限码 | `@SaCheckPermission\("([^/]\|/api/)` | 0 命中（值必须以 / 开头且=服务内 URL，不带 /api/webapp、/api/bizapp 网关前缀） |
+| S8 | 权限码 | `@SaCheckPermission\("([^/]\|/api/)` | 0 命中（值必须以 / 开头且=服务内 URL，不带 /api/webapp、/api/hgapp 网关前缀） |
 
 ### 后端（警告级）
 
@@ -55,7 +55,7 @@ description: 代码规范检查（后端 + 前端，三级清单）
 | F6 | 权限码 | hasPerm 值为驼峰式 |
 | F7 | 注释一行制 | **仅新增文件**：无连续 2 行以上 `//` 段落、无 JSDoc `@param`/`@returns`、无注释掉的废代码（存量不报） |
 | F8 | SFC 块顺序 | .vue 首个顶级标签必须是 `<template`，顺序 template → script → style；script 带 `name=` |
-| F9 | 网关前缀登记 | api js 的 URL 前缀若不在 `src/utils/apiAdaptive.js` 映射内（现有 /mobile/ /sys/ /auth/ /client/ /dev/ /gen/ → /api/webapp，/biz/ → /api/bizapp）即报：须在 apiAdaptive.js 登记，否则经网关 404（新建服务另需网关路由；新代码包另需 springdoc 分组与 Knife4j 聚合，只影响文档） |
+| F9 | 网关前缀登记 | api js 的 URL 前缀若不在 `src/utils/apiAdaptive.js` 映射内（现有 /mobile/ /sys/ /auth/ /client/ /dev/ /gen/ → /api/webapp，/biz/ → /api/hgapp）即报：须在 apiAdaptive.js 登记，否则经网关 404（新建服务另需网关路由；新代码包另需 springdoc 分组与 Knife4j 聚合，只影响文档） |
 
 ## 执行方式
 

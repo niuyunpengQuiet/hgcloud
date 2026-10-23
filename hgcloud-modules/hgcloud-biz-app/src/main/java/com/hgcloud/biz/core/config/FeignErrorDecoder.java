@@ -21,7 +21,7 @@ import feign.Util;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import com.hgcloud.common.exception.CommonException;
+import com.rhcommon.common.exception.CommonException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

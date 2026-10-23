@@ -7,7 +7,7 @@ description: Hgcloud 消息与推送规范：站内信 DEV_MESSAGE、WebSocket �
 
 ## 能力矩阵
 
-| 需求 | 用什么 | 模块（均在 `hgcloud-plugin-dev-func`，运行在 web-app） |
+| 需求 | 用什么 | 模块（均在 `rhcommon-plugin-dev-func`，运行在 web-app） |
 |---|---|---|
 | 站内信（应用内通知） | DevMessageApi 发消息 → 用户点铃铛查看 | `dev/modular/message/`（DEV_MESSAGE 表） |
 | 实时弹到页面 | WebSocket（站内信未读数实时通道） | `dev/modular/message/websocket/` |
@@ -27,7 +27,7 @@ description: Hgcloud 消息与推送规范：站内信 DEV_MESSAGE、WebSocket �
 ```java
 // 跨插件/跨服务调用（biz-app 内经 Feign 调 web-app）
 @Resource
-private DevMessageApi devMessageApi;      // hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api
+private DevMessageApi devMessageApi;      // hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-api
 
 // 发给指定用户（消息入库 DEV_MESSAGE + WebSocket 推送未读数给在线用户）
 devMessageApi.sendMessage(receiverIdList, "主题");
@@ -81,10 +81,10 @@ private DevPushApi devPushApi;            // pushDynamicText / pushDingTalkText 
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/message/` | 站内信模块（含 websocket/） |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/push/` | 推送模块 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/com/hgcloud/dev/api/DevMessageApi.java` | 站内信跨插件接口 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/com/hgcloud/dev/api/DevPushApi.java` | 推送跨插件接口 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/com/hgcloud/dev/api/context/` | biz-app 可用的 Dev*Api 远程代理清单 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-feign-provider/src/main/java/com/hgcloud/dev/feign/provider/` | web-app 侧 Feign 服务端实现清单 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-func/src/main/java/com/rhcommon/dev/modular/message/` | 站内信模块（含 websocket/） |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-func/src/main/java/com/rhcommon/dev/modular/push/` | 推送模块 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-api/src/main/java/com/rhcommon/dev/api/DevMessageApi.java` | 站内信跨插件接口 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-api/src/main/java/com/rhcommon/dev/api/DevPushApi.java` | 推送跨插件接口 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-api-context/src/main/java/com/rhcommon/dev/api/context/` | biz-app 可用的 Dev*Api 远程代理清单 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-feign-provider/src/main/java/com/rhcommon/dev/feign/provider/` | web-app 侧 Feign 服务端实现清单 |
 | `hgcloud-admin-web/src/layout/components/message.vue` | 前端消息中心（WS 客户端） |

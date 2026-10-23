@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 import com.hgcloud.biz.api.BizOrgDirectorTransferApi;
-import com.hgcloud.sys.provider.SysTransferResourceProvider;
+import com.rhcommon.sys.provider.SysTransferResourceProvider;
 
 import java.util.Arrays;
 import java.util.List;

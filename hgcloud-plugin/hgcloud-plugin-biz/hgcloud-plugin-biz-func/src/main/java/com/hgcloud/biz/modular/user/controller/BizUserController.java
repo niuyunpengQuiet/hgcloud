@@ -35,8 +35,8 @@ import com.hgcloud.biz.modular.user.enums.BizUserSourceFromTypeEnum;
 import com.hgcloud.biz.modular.user.param.*;
 import com.hgcloud.biz.modular.user.result.BizUserRoleResult;
 import com.hgcloud.biz.modular.user.service.BizUserService;
-import com.hgcloud.common.annotation.CommonLog;
-import com.hgcloud.common.pojo.CommonResult;
+import com.rhcommon.common.annotation.CommonLog;
+import com.rhcommon.common.pojo.CommonResult;
 
 import javax.validation.Valid;
 import java.io.IOException;

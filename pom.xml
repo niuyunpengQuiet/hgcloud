@@ -112,7 +112,7 @@
 
     <modules>
         <!-- 基础开发模块 -->
-        <module>hgcloud-base</module>
+        <module>rhcommon-base</module>
 
         <!-- 业务应用启动模块 -->
         <module>hgcloud-modules</module>
@@ -121,7 +121,7 @@
         <module>hgcloud-plugin</module>
 
         <!-- 依赖服务启动模块 -->
-        <module>hgcloud-server</module>
+        <module>rhcommon-server</module>
     </modules>
 
     <repositories>
@@ -140,45 +140,45 @@
     <dependencyManagement>
         <dependencies>
             <!-- hgcloud-inner-start -->
-            <!-- hgcloud-common -->
+            <!-- rhcommon-common -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-common</artifactId>
+                <artifactId>rhcommon-common</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-auth-api -->
+            <!-- rhcommon-plugin-auth-api -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-auth-api</artifactId>
+                <artifactId>rhcommon-plugin-auth-api</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-auth-api-context -->
+            <!-- rhcommon-plugin-auth-api-context -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-auth-api-context</artifactId>
+                <artifactId>rhcommon-plugin-auth-api-context</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-auth-feign -->
+            <!-- rhcommon-plugin-auth-feign -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-auth-feign</artifactId>
+                <artifactId>rhcommon-plugin-auth-feign</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-auth-feign-provider -->
+            <!-- rhcommon-plugin-auth-feign-provider -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-auth-feign-provider</artifactId>
+                <artifactId>rhcommon-plugin-auth-feign-provider</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-auth-func -->
+            <!-- rhcommon-plugin-auth-func -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-auth-func</artifactId>
+                <artifactId>rhcommon-plugin-auth-func</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
@@ -217,157 +217,157 @@
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-client-api -->
+            <!-- rhcommon-plugin-client-api -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-client-api</artifactId>
+                <artifactId>rhcommon-plugin-client-api</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-client-func -->
+            <!-- rhcommon-plugin-client-func -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-client-func</artifactId>
+                <artifactId>rhcommon-plugin-client-func</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-dev-api -->
+            <!-- rhcommon-plugin-dev-api -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-dev-api</artifactId>
+                <artifactId>rhcommon-plugin-dev-api</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-dev-api-context -->
+            <!-- rhcommon-plugin-dev-api-context -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-dev-api-context</artifactId>
+                <artifactId>rhcommon-plugin-dev-api-context</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-dev-feign -->
+            <!-- rhcommon-plugin-dev-feign -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-dev-feign</artifactId>
+                <artifactId>rhcommon-plugin-dev-feign</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-dev-feign-provider -->
+            <!-- rhcommon-plugin-dev-feign-provider -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-dev-feign-provider</artifactId>
+                <artifactId>rhcommon-plugin-dev-feign-provider</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-dev-func -->
+            <!-- rhcommon-plugin-dev-func -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-dev-func</artifactId>
+                <artifactId>rhcommon-plugin-dev-func</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-gen-api -->
+            <!-- rhcommon-plugin-gen-api -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-gen-api</artifactId>
+                <artifactId>rhcommon-plugin-gen-api</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-gen-func -->
+            <!-- rhcommon-plugin-gen-func -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-gen-func</artifactId>
+                <artifactId>rhcommon-plugin-gen-func</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-mobile-api -->
+            <!-- rhcommon-plugin-mobile-api -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-mobile-api</artifactId>
+                <artifactId>rhcommon-plugin-mobile-api</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-mobile-api-context -->
+            <!-- rhcommon-plugin-mobile-api-context -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-mobile-api-context</artifactId>
+                <artifactId>rhcommon-plugin-mobile-api-context</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-mobile-feign -->
+            <!-- rhcommon-plugin-mobile-feign -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-mobile-feign</artifactId>
+                <artifactId>rhcommon-plugin-mobile-feign</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-mobile-feign-provider -->
+            <!-- rhcommon-plugin-mobile-feign-provider -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-mobile-feign-provider</artifactId>
+                <artifactId>rhcommon-plugin-mobile-feign-provider</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-mobile-func -->
+            <!-- rhcommon-plugin-mobile-func -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-mobile-func</artifactId>
+                <artifactId>rhcommon-plugin-mobile-func</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-sys-api -->
+            <!-- rhcommon-plugin-sys-api -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-sys-api</artifactId>
+                <artifactId>rhcommon-plugin-sys-api</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-sys-api-context -->
+            <!-- rhcommon-plugin-sys-api-context -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-sys-api-context</artifactId>
+                <artifactId>rhcommon-plugin-sys-api-context</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-sys-feign -->
+            <!-- rhcommon-plugin-sys-feign -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-sys-feign</artifactId>
+                <artifactId>rhcommon-plugin-sys-feign</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-sys-feign-provider -->
+            <!-- rhcommon-plugin-sys-feign-provider -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-sys-feign-provider</artifactId>
+                <artifactId>rhcommon-plugin-sys-feign-provider</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-sys-func -->
+            <!-- rhcommon-plugin-sys-func -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-sys-func</artifactId>
+                <artifactId>rhcommon-plugin-sys-func</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-mocker-token-api -->
+            <!-- rhcommon-plugin-mocker-token-api -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-mocker-token-api</artifactId>
+                <artifactId>rhcommon-plugin-mocker-token-api</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
-            <!-- hgcloud-plugin-mocker-token-func -->
+            <!-- rhcommon-plugin-mocker-token-func -->
             <dependency>
                 <groupId>com.hgcloud</groupId>
-                <artifactId>hgcloud-plugin-mocker-token-func</artifactId>
+                <artifactId>rhcommon-plugin-mocker-token-func</artifactId>
                 <version>${hgcloud.version}</version>
             </dependency>
 
             <!-- hgcloud-inner-end -->
 
 
-            <!-- ===================== hgcloud-base ========================= -->
+            <!-- ===================== rhcommon-base ========================= -->
             <!-- SpringBoot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

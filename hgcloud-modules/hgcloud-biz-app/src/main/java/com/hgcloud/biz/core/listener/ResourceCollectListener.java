@@ -31,8 +31,8 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import com.hgcloud.common.cache.CommonCacheOperator;
-import com.hgcloud.common.consts.CacheConstant;
+import com.rhcommon.common.cache.CommonCacheOperator;
+import com.rhcommon.common.consts.CacheConstant;
 
 import java.util.List;
 import java.util.Map;

@@ -30,9 +30,9 @@ import com.hgcloud.biz.modular.notice.param.BizNoticeEditParam;
 import com.hgcloud.biz.modular.notice.param.BizNoticeIdParam;
 import com.hgcloud.biz.modular.notice.param.BizNoticePageParam;
 import com.hgcloud.biz.modular.notice.service.BizNoticeService;
-import com.hgcloud.common.enums.CommonSortOrderEnum;
-import com.hgcloud.common.exception.CommonException;
-import com.hgcloud.common.page.CommonPageRequest;
+import com.rhcommon.common.enums.CommonSortOrderEnum;
+import com.rhcommon.common.exception.CommonException;
+import com.rhcommon.common.page.CommonPageRequest;
 
 import java.util.List;
 

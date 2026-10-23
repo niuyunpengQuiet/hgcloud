@@ -37,9 +37,9 @@ git 可用 → 取最近 10 条提交；不可用 → 报告"无提交历史可�
 **业务进度**：0%（尚无自建业务域——出厂 7 个演示域不计入）
 
 ## 环境就绪检查
-- MySQL：Nacos 库 hgcloud-nacos-app-open（nacos-db.sql 等）+ 业务库 hgcloud（hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/hgcloud_mysql.sql）
+- MySQL：Nacos 库 rhcommon-nacos-app-open（nacos-db.sql 等）+ 业务库 hgcloud（hgcloud-modules/rhcommon-web-app/src/main/resources/_sql/hgcloud_mysql.sql）
 - Redis：127.0.0.1:6379，database 1（web-app/biz-app/网关共用会话）
-- 后端启动：Nacos(8848) → hgcloud-web-app(9101) → hgcloud-biz-app(9102) → 网关 hgcloud-gateway-app(9003)；前端：hgcloud-admin-web npm run dev（9000，请求走网关 9003）
+- 后端启动：Nacos(8848) → rhcommon-web-app(9101) → hgcloud-biz-app(9102) → 网关 rhcommon-gateway-app(9003)；前端：hgcloud-admin-web npm run dev（9000，请求走网关 9003）
 - 详细就绪清单与自检命令见 env-setup 技能
 
 ## 开始开发

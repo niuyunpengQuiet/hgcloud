@@ -15,8 +15,8 @@ package com.hgcloud.biz.core.util;
 import cn.dev33.satoken.exception.*;
 import cn.hutool.http.HttpStatus;
 import lombok.extern.slf4j.Slf4j;
-import com.hgcloud.common.pojo.CommonResult;
-import com.hgcloud.common.util.CommonServletUtil;
+import com.rhcommon.common.pojo.CommonResult;
+import com.rhcommon.common.util.CommonServletUtil;
 
 /**
  * 认证相关异常处理工具类

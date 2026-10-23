@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.hgcloud.common.consts.FeignConstant;
+import com.rhcommon.common.consts.FeignConstant;
 
 import java.util.List;
 

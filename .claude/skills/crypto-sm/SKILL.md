@@ -9,13 +9,13 @@ description: Hgcloud 国密体系使用规范：登录密码 SM2 加密传输、
 
 | 层 | 算法 | 用途 | 实现位置 |
 |---|---|---|---|
-| 传输 | **SM2**（非对称） | 登录密码前端加密 → 后端解密（防抓包明文） | 前端 `hgcloud-admin-web/src/utils/smCrypto.js`；后端 `CommonCryptogramUtil`（hgcloud-base/hgcloud-common） |
+| 传输 | **SM2**（非对称） | 登录密码前端加密 → 后端解密（防抓包明文） | 前端 `hgcloud-admin-web/src/utils/smCrypto.js`；后端 `CommonCryptogramUtil`（rhcommon-base/rhcommon-common） |
 | 摘要 | **SM3**（哈希） | 口令落库摘要（不可逆） | `CommonCryptogramUtil.doHashValue`；`SysPasswordUtil`（sys 插件 sys-func，只在 web-app 里可用）负责口令规则校验 |
-| 字段 | **SM4-CBC**（对称） | 手机号/证件号等敏感字段落库加密 | `CommonSm4CbcTypeHandler`（hgcloud-base/hgcloud-common 的 common/handler） |
+| 字段 | **SM4-CBC**（对称） | 手机号/证件号等敏感字段落库加密 | `CommonSm4CbcTypeHandler`（rhcommon-base/rhcommon-common 的 common/handler） |
 
 底座：sm-crypto 0.3.2 + BouncyCastle 1.70。软件层面满足等保测评要求。
 
-## CommonCryptogramUtil API（hgcloud-base/hgcloud-common 的 common/util）
+## CommonCryptogramUtil API（rhcommon-base/rhcommon-common 的 common/util）
 
 ```java
 // SM2 —— 登录密码传输
@@ -36,7 +36,7 @@ boolean ok  = CommonCryptogramUtil.doVerifySignature(plain, sign);
 
 密钥来源：**不在配置文件里**。SM2 公钥以明文、SM2 私钥与 SM4 key/IV 以异或混淆的字节数组写在 `CommonCryptogramUtil` 源码中，运行时用 `CommonKeyUtil.reconstruct` 还原；前端公钥写在 `smCrypto.js`。生产环境换密钥：运行 `CommonKeyUtil`（`generateSm2KeyPair()` 等）生成新密钥与混淆代码，替换 `CommonCryptogramUtil` 对应数组，同时把新公钥同步到前端 `smCrypto.js`。
 
-> 微服务注意：hgcloud-common 被网关、web-app、biz-app 共用，换密钥后**所有服务都要重新构建并重启**；各服务必须用同一版本的 hgcloud-common，否则同一张表的 SM4 字段在不同服务之间解不开（如 biz-app 读写 SYS_USER 的手机号）。
+> 微服务注意：rhcommon-common 被网关、web-app、biz-app 共用，换密钥后**所有服务都要重新构建并重启**；各服务必须用同一版本的 rhcommon-common，否则同一张表的 SM4 字段在不同服务之间解不开（如 biz-app 读写 SYS_USER 的手机号）。
 
 ## 字段级 SM4 加密（新增敏感字段的标准做法）
 
@@ -103,10 +103,10 @@ const cipher = smCrypto.doSm2Encrypt(密码明文)   // 公钥写死在 smCrypto
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/util/CommonCryptogramUtil.java` | 国密工具 API + 混淆存放的密钥 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/util/CommonKeyUtil.java` | 密钥还原与新密钥生成 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/handler/CommonSm4CbcTypeHandler.java` | 字段加密 TypeHandler |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/util/CommonCryptogramUtil.java` | 国密工具 API + 混淆存放的密钥 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/util/CommonKeyUtil.java` | 密钥还原与新密钥生成 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/handler/CommonSm4CbcTypeHandler.java` | 字段加密 TypeHandler |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/user/entity/BizUser.java` | SM4 字段实战 |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/modular/login/service/impl/AuthServiceImpl.java` | SM2 解密 + SM3 校验现场 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/core/util/SysPasswordUtil.java` | 口令规则校验（web-app 内） |
+| `hgcloud-plugin/rhcommon-plugin-auth/rhcommon-plugin-auth-func/src/main/java/com/rhcommon/auth/modular/login/service/impl/AuthServiceImpl.java` | SM2 解密 + SM3 校验现场 |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-func/src/main/java/com/rhcommon/sys/core/util/SysPasswordUtil.java` | 口令规则校验（web-app 内） |
 | `hgcloud-admin-web/src/utils/smCrypto.js` | 前端国密（公钥） |

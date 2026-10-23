@@ -21,8 +21,8 @@ import org.springframework.stereotype.Component;
 import com.hgcloud.biz.api.BizOrgDirectorTransferApi;
 import com.hgcloud.biz.modular.org.entity.BizOrg;
 import com.hgcloud.biz.modular.org.service.BizOrgService;
-import com.hgcloud.sys.provider.SysTransferResourceProvider;
-import com.hgcloud.common.enums.CommonTransferModeEnum;
+import com.rhcommon.sys.provider.SysTransferResourceProvider;
+import com.rhcommon.common.enums.CommonTransferModeEnum;
 
 import java.util.Arrays;
 import java.util.List;

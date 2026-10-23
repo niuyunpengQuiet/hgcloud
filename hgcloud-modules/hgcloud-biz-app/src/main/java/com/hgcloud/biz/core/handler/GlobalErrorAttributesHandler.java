@@ -20,9 +20,9 @@ import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.webmvc.error.DefaultErrorAttributes;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.WebRequest;
-import com.hgcloud.common.exception.CommonException;
-import com.hgcloud.common.pojo.CommonResult;
-import com.hgcloud.common.util.CommonServletUtil;
+import com.rhcommon.common.exception.CommonException;
+import com.rhcommon.common.pojo.CommonResult;
+import com.rhcommon.common.util.CommonServletUtil;
 
 import java.util.Map;
 

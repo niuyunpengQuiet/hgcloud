@@ -27,8 +27,8 @@ import com.hgcloud.biz.modular.dict.entity.BizDict;
 import com.hgcloud.biz.modular.dict.param.BizDictEditParam;
 import com.hgcloud.biz.modular.dict.param.BizDictPageParam;
 import com.hgcloud.biz.modular.dict.service.BizDictService;
-import com.hgcloud.common.annotation.CommonLog;
-import com.hgcloud.common.pojo.CommonResult;
+import com.rhcommon.common.annotation.CommonLog;
+import com.rhcommon.common.pojo.CommonResult;
 
 import javax.validation.Valid;
 import java.util.List;

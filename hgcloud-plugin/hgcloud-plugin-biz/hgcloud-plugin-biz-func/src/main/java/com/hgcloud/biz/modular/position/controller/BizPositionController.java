@@ -29,8 +29,8 @@ import com.hgcloud.biz.modular.org.service.BizOrgService;
 import com.hgcloud.biz.modular.position.entity.BizPosition;
 import com.hgcloud.biz.modular.position.param.*;
 import com.hgcloud.biz.modular.position.service.BizPositionService;
-import com.hgcloud.common.annotation.CommonLog;
-import com.hgcloud.common.pojo.CommonResult;
+import com.rhcommon.common.annotation.CommonLog;
+import com.rhcommon.common.pojo.CommonResult;
 
 import javax.validation.Valid;
 import java.util.List;

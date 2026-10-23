@@ -28,7 +28,7 @@ import com.hgcloud.biz.modular.notice.entity.BizNotice;
 import com.hgcloud.biz.modular.notice.enums.BizNoticeStatusEnum;
 import com.hgcloud.biz.modular.notice.param.BizNoticePageParam;
 import com.hgcloud.biz.modular.notice.service.BizNoticeService;
-import com.hgcloud.dev.api.DevSlideshowApi;
+import com.rhcommon.dev.api.DevSlideshowApi;
 
 import java.util.List;
 import java.util.stream.Collectors;

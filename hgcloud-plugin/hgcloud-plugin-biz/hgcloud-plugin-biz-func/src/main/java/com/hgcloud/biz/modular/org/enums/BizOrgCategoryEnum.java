@@ -13,7 +13,7 @@
 package com.hgcloud.biz.modular.org.enums;
 
 import lombok.Getter;
-import com.hgcloud.common.exception.CommonException;
+import com.rhcommon.common.exception.CommonException;
 
 /**
  * 机构分类枚举

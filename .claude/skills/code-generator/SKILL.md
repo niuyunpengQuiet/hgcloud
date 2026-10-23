@@ -7,9 +7,9 @@ description: Hgcloud 自带 Beetl 代码生成器的使用规范：入口流程�
 
 ## 概览
 
-Hgcloud 自带 Beetl 模板代码生成器（`hgcloud-plugin-gen`，实现在 `hgcloud-plugin-gen-func`，**只装在 hgcloud-web-app 里运行**），能从数据库表生成**后端六件套 + 前端三件 + 菜单资源 SQL** 的全套代码。这是开发标准 CRUD 的首选方式（对应 `/dev` 命令的**模式 B**）。
+Hgcloud 自带 Beetl 模板代码生成器（`rhcommon-plugin-gen`，实现在 `rhcommon-plugin-gen-func`，**只装在 rhcommon-web-app 里运行**），能从数据库表生成**后端六件套 + 前端三件 + 菜单资源 SQL** 的全套代码。这是开发标准 CRUD 的首选方式（对应 `/dev` 命令的**模式 B**）。
 
-**入口**：启动 nacos、hgcloud-web-app、网关和前端 → 登录前端（9000）→ 开发工具 → 代码生成。数据存在 `GEN_BASIC` / `GEN_CONFIG` 表（库 hgcloud）。
+**入口**：启动 nacos、rhcommon-web-app、网关和前端 → 登录前端（9000）→ 开发工具 → 代码生成。数据存在 `GEN_BASIC` / `GEN_CONFIG` 表（库 hgcloud）。
 
 **生成产物 = 本项目 CRUD 标准结构**（生成器模板就是官方规范的定义源，手写代码要与生成产物一致）。
 
@@ -40,7 +40,7 @@ Hgcloud 自带 Beetl 模板代码生成器（`hgcloud-plugin-gen`，实现在 `h
 |---|---|---|
 | `dbTable` / `dbTableKey` | 主表名 / 主键（导入时自动带出） | — |
 | `pluginName` | 生成代码归属插件（PRO 方式按 `hgcloud-plugin/{pluginName}/{pluginName}-func` 拼目录） | `hgcloud-plugin-biz`（表单默认值；填 `biz` 会找不到目录） |
-| `moduleName` | 模块名（URL 第一段、包路径 `com.hgcloud.{moduleName}`、前端 api/views 目录都用它） | `biz`（必须能被前端 apiAdaptive.js 映射，`biz` 对应 `/api/bizapp`） |
+| `moduleName` | 模块名（URL 第一段、包路径 `com.hgcloud.{moduleName}`、前端 api/views 目录都用它） | `biz`（必须能被前端 apiAdaptive.js 映射，`biz` 对应 `/api/hgapp`） |
 | `tablePrefix` | 表前缀移除：`Y` 移除 / `N` 不移除（Y 时业务名去掉表名第一段） | `Y`（BIZ_SUPPLIER → busName `supplier`） |
 | `generateType` | 生成方式：`ZIP` 压缩包 / `PRO` 项目内 | 二开推荐 ZIP 后自查合入 |
 | `module` | 所属系统模块（SYS_RESOURCE 的 MODULE，决定菜单挂在哪） | 选业务所属模块 |
@@ -66,12 +66,12 @@ Hgcloud 自带 Beetl 模板代码生成器（`hgcloud-plugin-gen`，实现在 `h
 | `LEFT_TREE_TABLE` | 左树右表 | 左边选分类右边列数据 | 按分类组织的商品 |
 | `MASTER_DETAIL` | 主子表 | 一对多，主表+子表一起编辑 | 订单+订单明细 |
 
-模板目录：`hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-func/src/main/resources/` 下
+模板目录：`hgcloud-plugin/rhcommon-plugin-gen/rhcommon-plugin-gen-func/src/main/resources/` 下
 `backend-{table,tree,left-tree-table,master-detail}` + `frontend-{table,tree,left-tree-table,master-detail}` + `mobile` + `sqlend`。
 
 ## sqlend：菜单资源 SQL（生成的关键产物之一）
 
-生成器会产出 `SYS_RESOURCE` 的 INSERT 语句（模板：`hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-func/src/main/resources/sqlend/Mysql.sql.btl`）：
+生成器会产出 `SYS_RESOURCE` 的 INSERT 语句（模板：`hgcloud-plugin/rhcommon-plugin-gen/rhcommon-plugin-gen-func/src/main/resources/sqlend/Mysql.sql.btl`）：
 
 - 1 条 MENU 行：`INSERT INTO SYS_RESOURCE VALUES ('${menuId}', '${parentId}', '${functionName}管理', '${busName}', '${menuCode}', 'MENU', '${moduleId}', 'MENU', '${menuPath}', '${menuComponent}', ...)` 
 - N 条 BUTTON 行：按钮码为**驼峰式** `${classNameFirstLower}Add / Edit / Delete / Detail / BatchDelete / Import / Export`（如 `bizSupplierAdd`）——这些码就是前端 `hasPerm('bizSupplierAdd')` 用的按钮权限码
@@ -96,29 +96,29 @@ id 值由生成器渲染时生成（字符串雪花）。ZIP 方式下**菜单 S
 
 ## 生成器 API（程序化调用，进阶）
 
-`GenBasicController`（`hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-func/src/main/java/com/hgcloud/gen/modular/basic/controller/GenBasicController.java`）提供：分页/详情/添加/编辑/删除/预览 preview/执行生成 execGenZip 等，路径前缀 `/gen/basic/*`（经网关为 `/api/webapp/gen/basic/*`，属仅超管路径）。AI 一般不直接调这些接口——引导用户走界面，AI 负责生成后的核对修补。
+`GenBasicController`（`hgcloud-plugin/rhcommon-plugin-gen/rhcommon-plugin-gen-func/src/main/java/com/rhcommon/gen/modular/basic/controller/GenBasicController.java`）提供：分页/详情/添加/编辑/删除/预览 preview/执行生成 execGenZip 等，路径前缀 `/gen/basic/*`（经网关为 `/api/webapp/gen/basic/*`，属仅超管路径）。AI 一般不直接调这些接口——引导用户走界面，AI 负责生成后的核对修补。
 
 ## 常见问题
 
 | 问题 | 处理 |
 |---|---|
-| 导入表列表为空 | 检查 web-app 的数据源（Nacos 配置 `hgcloud-web-app-dev.yaml` 的 `spring.datasource.dynamic.datasource.master` 段，默认库 hgcloud）与表是否已建 |
+| 导入表列表为空 | 检查 web-app 的数据源（Nacos 配置 `rhcommon-web-app-dev.yaml` 的 `spring.datasource.dynamic.datasource.master` 段，默认库 hgcloud）与表是否已建 |
 | 生成后菜单不显示 | ZIP 方式菜单 SQL 没执行，或没给角色授权 |
 | 按钮全不显示 | BUTTON 行的驼峰码与前端 hasPerm 不匹配，核对 SYS_RESOURCE 的 code 列 |
 | 生成的类名不对 | className 是导入表时按整个表名转驼峰带出的，可在表单里直接改；tablePrefix 只影响 busName |
 | PRO 方式报"后端/前端代码生成位置不存在" | pluginName 不是 `hgcloud-plugin-biz`，或 web-app 的工作目录不是仓库根目录 |
 | 页面接口经网关 404 | moduleName/busName 前缀没被 apiAdaptive.js 正确映射，或 biz-app 未重启 |
-| 想改生成模板 | 模板在 `hgcloud-plugin-gen-func/src/main/resources/` 下（.btl Beetl 文件），改后重启 web-app；属于改框架，谨慎 |
+| 想改生成模板 | 模板在 `rhcommon-plugin-gen-func/src/main/resources/` 下（.btl Beetl 文件），改后重启 web-app；属于改框架，谨慎 |
 
 ## 参考实现
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-func/src/main/java/com/hgcloud/gen/modular/basic/entity/GenBasic.java` | 生成基础配置实体（全部字段） |
-| `hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-func/src/main/java/com/hgcloud/gen/modular/basic/service/impl/GenBasicServiceImpl.java` | 生成逻辑（Beetl 渲染；execGenPro 拼输出目录、自动建菜单与授权） |
-| `hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-func/src/main/resources/sqlend/Mysql.sql.btl` | 菜单/按钮 SQL 模板（SYS_RESOURCE INSERT 的权威格式） |
-| `hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-func/src/main/resources/backend-table/` | 后端六件套模板 |
-| `hgcloud-plugin/hgcloud-plugin-gen/hgcloud-plugin-gen-func/src/main/resources/frontend-table/` | 前端三件模板 |
+| `hgcloud-plugin/rhcommon-plugin-gen/rhcommon-plugin-gen-func/src/main/java/com/rhcommon/gen/modular/basic/entity/GenBasic.java` | 生成基础配置实体（全部字段） |
+| `hgcloud-plugin/rhcommon-plugin-gen/rhcommon-plugin-gen-func/src/main/java/com/rhcommon/gen/modular/basic/service/impl/GenBasicServiceImpl.java` | 生成逻辑（Beetl 渲染；execGenPro 拼输出目录、自动建菜单与授权） |
+| `hgcloud-plugin/rhcommon-plugin-gen/rhcommon-plugin-gen-func/src/main/resources/sqlend/Mysql.sql.btl` | 菜单/按钮 SQL 模板（SYS_RESOURCE INSERT 的权威格式） |
+| `hgcloud-plugin/rhcommon-plugin-gen/rhcommon-plugin-gen-func/src/main/resources/backend-table/` | 后端六件套模板 |
+| `hgcloud-plugin/rhcommon-plugin-gen/rhcommon-plugin-gen-func/src/main/resources/frontend-table/` | 前端三件模板 |
 | `hgcloud-admin-web/src/views/gen/basic.vue` | 生成器表单（pluginName/moduleName/tablePrefix/generateType 默认值） |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/` | 与生成产物同构的手写范本 |
 | `hgcloud-admin-web/src/utils/apiAdaptive.js` | 前端接口前缀映射（生成后需核对） |

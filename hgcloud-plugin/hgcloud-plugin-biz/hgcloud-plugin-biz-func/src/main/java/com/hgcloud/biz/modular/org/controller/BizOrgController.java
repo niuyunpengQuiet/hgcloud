@@ -29,8 +29,8 @@ import com.hgcloud.biz.modular.org.enums.BizOrgSourceFromTypeEnum;
 import com.hgcloud.biz.modular.org.param.*;
 import com.hgcloud.biz.modular.org.service.BizOrgService;
 import com.hgcloud.biz.modular.user.entity.BizUser;
-import com.hgcloud.common.annotation.CommonLog;
-import com.hgcloud.common.pojo.CommonResult;
+import com.rhcommon.common.annotation.CommonLog;
+import com.rhcommon.common.pojo.CommonResult;
 
 import javax.validation.Valid;
 import java.util.List;

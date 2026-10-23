@@ -30,8 +30,8 @@ import com.hgcloud.biz.modular.group.param.*;
 import com.hgcloud.biz.modular.group.service.BizGroupService;
 import com.hgcloud.biz.modular.org.param.BizOrgSelectorTreeParam;
 import com.hgcloud.biz.modular.user.entity.BizUser;
-import com.hgcloud.common.annotation.CommonLog;
-import com.hgcloud.common.pojo.CommonResult;
+import com.rhcommon.common.annotation.CommonLog;
+import com.rhcommon.common.pojo.CommonResult;
 
 import java.util.List;
 

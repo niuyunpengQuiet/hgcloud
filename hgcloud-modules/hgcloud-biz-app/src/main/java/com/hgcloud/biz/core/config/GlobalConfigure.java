@@ -62,23 +62,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import com.hgcloud.auth.core.util.StpClientUtil;
+import com.rhcommon.auth.core.util.StpClientUtil;
 import com.hgcloud.biz.core.handler.GlobalExceptionUtil;
-import com.hgcloud.common.annotation.CommonNoRepeat;
-import com.hgcloud.common.annotation.CommonWrapper;
-import com.hgcloud.common.cache.CommonCacheOperator;
-import com.hgcloud.common.enums.CommonDeleteFlagEnum;
-import com.hgcloud.common.enums.SysBuildInEnum;
-import com.hgcloud.common.exception.CommonException;
-import com.hgcloud.common.interceptor.CommonTraceInterceptor;
-import com.hgcloud.common.listener.CommonDataChangeEventCenter;
-import com.hgcloud.common.listener.CommonDataChangeListener;
-import com.hgcloud.common.pojo.CommonResult;
-import com.hgcloud.common.pojo.CommonWrapperInterface;
-import com.hgcloud.common.util.CommonIpAddressUtil;
-import com.hgcloud.common.util.CommonJoinPointUtil;
-import com.hgcloud.common.util.CommonServletUtil;
-import com.hgcloud.common.util.CommonTimeFormatUtil;
+import com.rhcommon.common.annotation.CommonNoRepeat;
+import com.rhcommon.common.annotation.CommonWrapper;
+import com.rhcommon.common.cache.CommonCacheOperator;
+import com.rhcommon.common.enums.CommonDeleteFlagEnum;
+import com.rhcommon.common.enums.SysBuildInEnum;
+import com.rhcommon.common.exception.CommonException;
+import com.rhcommon.common.interceptor.CommonTraceInterceptor;
+import com.rhcommon.common.listener.CommonDataChangeEventCenter;
+import com.rhcommon.common.listener.CommonDataChangeListener;
+import com.rhcommon.common.pojo.CommonResult;
+import com.rhcommon.common.pojo.CommonWrapperInterface;
+import com.rhcommon.common.util.CommonIpAddressUtil;
+import com.rhcommon.common.util.CommonJoinPointUtil;
+import com.rhcommon.common.util.CommonServletUtil;
+import com.rhcommon.common.util.CommonTimeFormatUtil;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Array;
@@ -379,7 +379,7 @@ public class GlobalConfigure implements WebMvcConfigurer {
          * @author xuyuxiang
          * @date 2022/9/15 21:27
          */
-        @Pointcut("@annotation(com.hgcloud.common.annotation.CommonNoRepeat)")
+        @Pointcut("@annotation(com.rhcommon.common.annotation.CommonNoRepeat)")
         private void noRepeatPointcut() {
 
         }
@@ -447,7 +447,7 @@ public class GlobalConfigure implements WebMvcConfigurer {
          * @author xuyuxiang
          * @date 2022/9/15 21:27
          */
-        @Pointcut("@annotation(com.hgcloud.common.annotation.CommonWrapper)")
+        @Pointcut("@annotation(com.rhcommon.common.annotation.CommonWrapper)")
         private void wrapperPointcut() {
 
         }

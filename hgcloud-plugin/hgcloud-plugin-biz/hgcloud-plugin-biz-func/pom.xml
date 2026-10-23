@@ -25,19 +25,19 @@
         <!-- 引入登录鉴权接口，用于获取登录用户 -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-auth-api</artifactId>
+            <artifactId>rhcommon-plugin-auth-api</artifactId>
         </dependency>
 
         <!-- 引入系统接口，用于授权角色等功能 -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-sys-api</artifactId>
+            <artifactId>rhcommon-plugin-sys-api</artifactId>
         </dependency>
 
         <!-- 引入开发工具接口，用于配置信息 -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-dev-api</artifactId>
+            <artifactId>rhcommon-plugin-dev-api</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -8,23 +8,23 @@ description: Hgcloud 微服务版插件化架构与跨插件/跨服务调用规�
 ## Maven 模块拓扑
 
 ```
-hgcloud（根 pom，modules：hgcloud-base / hgcloud-modules / hgcloud-plugin / hgcloud-server）
-├── hgcloud-base/hgcloud-common              公共基础（人人依赖，含 FeignConstant）
+hgcloud（根 pom，modules：rhcommon-base / hgcloud-modules / hgcloud-plugin / rhcommon-server）
+├── rhcommon-base/rhcommon-common              公共基础（人人依赖，含 FeignConstant）
 ├── hgcloud-plugin/hgcloud-plugin-{p}/       插件，每个插件拆成若干子模块：
-│   ├── hgcloud-plugin-{p}-api             接口层（只依赖 hgcloud-common）
+│   ├── hgcloud-plugin-{p}-api             接口层（只依赖 rhcommon-common）
 │   ├── hgcloud-plugin-{p}-func            实现层（依赖本插件 -api + 其他插件的 -api）
 │   ├── hgcloud-plugin-{p}-feign           Feign 接口（依赖本插件 -api）
 │   ├── hgcloud-plugin-{p}-feign-provider  Feign 服务端（依赖本插件 -feign）
 │   └── hgcloud-plugin-{p}-api-context     调用方远程代理（依赖本插件 -feign）
 ├── hgcloud-modules/                       启动应用：按需"装配"插件子模块
-│   ├── hgcloud-web-app                    主应用 HgWebApp，9101
+│   ├── rhcommon-web-app                    主应用 HgWebApp，9101
 │   └── hgcloud-biz-app                    业务应用 HgBizApp，9102
-└── hgcloud-server/                        中间件：nacos 8848 / gateway 9003 / actuator 9001 / sentinel 9002 / xxl-job 9004
+└── rhcommon-server/                        中间件：nacos 8848 / gateway 9003 / actuator 9001 / sentinel 9002 / xxl-job 9004
 
 关键规则：
 - 插件实现模块（*-func）之间【禁止】互相依赖
 - 插件要调用其他插件 → -func 只依赖对方的 *-api 模块；同服务还是跨服务由启动应用的装配决定，业务代码无感
-- 公共代码（工具、注解、基类、服务名常量）下沉到 hgcloud-common
+- 公共代码（工具、注解、基类、服务名常量）下沉到 rhcommon-common
 ```
 
 ### 五类子模块
@@ -49,7 +49,7 @@ hgcloud（根 pom，modules：hgcloud-base / hgcloud-modules / hgcloud-plugin / 
 
 | 应用 | 本地实现（-func） | 对外提供（-feign-provider） | 远程代理（-feign + -api-context） |
 |---|---|---|---|
-| hgcloud-web-app（9101） | auth、client、dev、gen、mobile、sys | auth、dev、mobile、sys | 无 |
+| rhcommon-web-app（9101） | auth、client、dev、gen、mobile、sys | auth、dev、mobile、sys | 无 |
 | hgcloud-biz-app（9102） | biz | 无（biz-feign-provider 未装配） | sys、dev、mobile；auth 装的是 -api + -api-context（-feign 经传递依赖带入） |
 
 **装配规律**：同一应用内某插件**要么**装本地实现（-func；需要被别的服务调用再加 -feign-provider），**要么**装远程代理（-feign + -api-context），二者不能同装——本地 provider 与 ContextBean 都实现同一接口，会 Bean 名冲突（如 sys-func 的 `@Service("loginUserApi")` 与 auth-api-context 的 `@Component("loginUserApi")`）。
@@ -71,25 +71,25 @@ A→B = A 的 -func 依赖 B 的 `*-api`：
 | gen（web-app） | sys-api、mobile-api | 同服务本地注入 | 生成时读模块/菜单、写移动资源 |
 
 - web-app 内部的互调与单体版一样是同 JVM 注入；出厂真正跨服务的只有 **biz-app → web-app** 方向
-- 真实链路：biz-app `BizUserServiceImpl` 调 `sysUserApi.ownRole` → `SysUserApiContextBean` → `SysUserFeign`（name=hgcloud-web-app，`/feign/sys/user/ownRole`）→ web-app `SysUserFeignProvider` → `SysUserApiProvider`
+- 真实链路：biz-app `BizUserServiceImpl` 调 `sysUserApi.ownRole` → `SysUserApiContextBean` → `SysUserFeign`（name=rhcommon-web-app，`/feign/sys/user/ownRole`）→ web-app `SysUserFeignProvider` → `SysUserApiProvider`
 - 反向（web-app → biz-app）：biz 插件已有"机构主管权限转移"的 feign / feign-provider / api-context 三件（`BizOrgDirectorTransferFeign`，name=hgcloud-biz-app），但**默认未装配**（web-app 没装 biz-api-context，biz-app 没装 biz-feign-provider），使用前请先确认
 - 反向通知（被调方 → 调用方）走 `CommonDataChangeEventCenter` 事件，⚠️但它是进程内监听器列表，事件只在发布方所在服务内分发（见 platform-extension 技能）
-- gen-api 是空壳；ClientUserApi 在 `com.hgcloud.client` 包根（不在 api 子包），且 client 无 feign，只能在 web-app 内本地使用
+- gen-api 是空壳；ClientUserApi 在 `com.rhcommon.client` 包根（不在 api 子包），且 client 无 feign，只能在 web-app 内本地使用
 
 | 模块 | 职责 | 二次开发可否修改 |
 |---|---|---|
-| `hgcloud-base/hgcloud-common` | CommonResult/CommonException/CommonEntity/工具类/国密/缓存操作器/FeignConstant | 原则上不动 |
+| `rhcommon-base/rhcommon-common` | CommonResult/CommonException/CommonEntity/工具类/国密/缓存操作器/FeignConstant | 原则上不动 |
 | 各插件 `{p}-api` | 跨插件调用接口定义（纯接口 + 少量 POJO/工具） | 可新增接口 |
-| `hgcloud-plugin-sys` 各子模块 | B 端系统：用户/组织/角色/资源/数据范围 | 原则上不动 |
-| `hgcloud-plugin-auth` 各子模块 | 登录鉴权/SSO/三方登录 | 原则上不动 |
-| `hgcloud-plugin-dev` 各子模块 | 开发工具：字典/配置/文件/定时任务/日志/短信/邮件/推送 | 原则上不动 |
-| `hgcloud-plugin-gen` | 代码生成器 | 原则上不动 |
-| `hgcloud-plugin-client` | C 端用户体系 | 原则上不动 |
-| `hgcloud-plugin-mobile` 各子模块 | 移动端资源管理 | 原则上不动 |
-| `hgcloud-plugin-mocker` | 模拟 token（默认未装配） | 原则上不动 |
+| `rhcommon-plugin-sys` 各子模块 | B 端系统：用户/组织/角色/资源/数据范围 | 原则上不动 |
+| `rhcommon-plugin-auth` 各子模块 | 登录鉴权/SSO/三方登录 | 原则上不动 |
+| `rhcommon-plugin-dev` 各子模块 | 开发工具：字典/配置/文件/定时任务/日志/短信/邮件/推送 | 原则上不动 |
+| `rhcommon-plugin-gen` | 代码生成器 | 原则上不动 |
+| `rhcommon-plugin-client` | C 端用户体系 | 原则上不动 |
+| `rhcommon-plugin-mobile` 各子模块 | 移动端资源管理 | 原则上不动 |
+| `rhcommon-plugin-mocker` | 模拟 token（默认未装配） | 原则上不动 |
 | **`hgcloud-plugin-biz`（以 -func 为主）** | **业务插件——二次开发主战场** | ★ 随便写 |
-| `hgcloud-modules/hgcloud-web-app`、`hgcloud-biz-app` | 启动 + 全局配置（白名单/异常处理/Feign 拦截器）+ 插件装配 pom | 只改配置类与装配 |
-| `hgcloud-server/*` | 注册配置中心/网关/监控/限流/调度 | 只改配置（网关路由与白名单） |
+| `hgcloud-modules/rhcommon-web-app`、`hgcloud-biz-app` | 启动 + 全局配置（白名单/异常处理/Feign 拦截器）+ 插件装配 pom | 只改配置类与装配 |
+| `rhcommon-server/*` | 注册配置中心/网关/监控/限流/调度 | 只改配置（网关路由与白名单） |
 
 ## 插件内两层结构（-func 模块内）
 
@@ -116,7 +116,7 @@ hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz
 **第 1 步**：接口定义放被调方的 -api 模块（先查现成接口再新写）：
 
 ```java
-// hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api/src/main/java/com/hgcloud/sys/api/SysUserApi.java
+// hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-api/src/main/java/com/rhcommon/sys/api/SysUserApi.java
 public interface SysUserApi {
 
     /**
@@ -133,7 +133,7 @@ public interface SysUserApi {
 **第 2 步**：被调插件 -func 的 provider 本地实现（@Service）：
 
 ```java
-// hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/.../modular/user/provider/SysUserApiProvider.java
+// hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-func/.../modular/user/provider/SysUserApiProvider.java
 @Service
 public class SysUserApiProvider implements SysUserApi {
 
@@ -151,7 +151,7 @@ public class SysUserApiProvider implements SysUserApi {
 **第 3 步**：Feign 接口放 -feign 模块（name 用 FeignConstant，路径 `/feign/{插件}/{域}/{方法}`）：
 
 ```java
-// hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-feign/src/main/java/com/hgcloud/sys/feign/SysUserFeign.java
+// hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-feign/src/main/java/com/rhcommon/sys/feign/SysUserFeign.java
 @FeignClient(name = FeignConstant.WEB_APP, contextId = "SysUserFeign")
 public interface SysUserFeign {
 
@@ -163,7 +163,7 @@ public interface SysUserFeign {
 **第 4 步**：Feign 服务端放 -feign-provider 模块（装在被调方应用里）：
 
 ```java
-// hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-feign-provider/.../sys/feign/provider/user/SysUserFeignProvider.java
+// hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-feign-provider/.../sys/feign/provider/user/SysUserFeignProvider.java
 @RestController
 public class SysUserFeignProvider implements SysUserFeign {
 
@@ -181,7 +181,7 @@ public class SysUserFeignProvider implements SysUserFeign {
 **第 5 步**：调用方代理放 -api-context 模块（装在调用方应用里）：
 
 ```java
-// hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/.../sys/api/context/SysUserApiContextBean.java
+// hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-api-context/.../sys/api/context/SysUserApiContextBean.java
 @Component
 public class SysUserApiContextBean implements SysUserApi {
 
@@ -200,8 +200,8 @@ public class SysUserApiContextBean implements SysUserApi {
 **第 6 步**：调用方业务代码只依赖 -api、只注入接口：
 
 ```java
-// hgcloud-plugin-biz-func 的 pom.xml 只依赖 hgcloud-plugin-sys-api；
-// hgcloud-biz-app 的 pom.xml 装配 hgcloud-plugin-sys-feign + hgcloud-plugin-sys-api-context
+// hgcloud-plugin-biz-func 的 pom.xml 只依赖 rhcommon-plugin-sys-api；
+// hgcloud-biz-app 的 pom.xml 装配 rhcommon-plugin-sys-feign + rhcommon-plugin-sys-api-context
 
 @Service
 public class BizOrderServiceImpl ... {
@@ -222,7 +222,7 @@ public class BizOrderServiceImpl ... {
 
 ### 跨服务调用的运行时约定
 
-- 服务名常量只有 `FeignConstant.WEB_APP = "hgcloud-web-app"`、`FeignConstant.BIZ_APP = "hgcloud-biz-app"`（`hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/consts/FeignConstant.java`）
+- 服务名常量只有 `FeignConstant.WEB_APP = "rhcommon-web-app"`、`FeignConstant.BIZ_APP = "hgcloud-biz-app"`（`rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/consts/FeignConstant.java`）
 - 两个应用各有一个 `FeignRequestInterceptor`（`web/core/interceptor`、`biz/core/interceptor`）：透传当前请求的全部请求头（含 token）+ traceId，被调方因此拿到同一登录态
 - 无 Feign fallback、无 Seata：远程失败直接抛异常；`@Transactional` 只管本服务本地事务，跨服务写操作无分布式事务
 - 无用户上下文的线程（定时任务、消息消费等）调需登录的 Feign 时，可考虑 mocker-token 插件的 `@CommonMockerToken`——默认未装配到任何应用，使用前请先确认
@@ -231,12 +231,12 @@ public class BizOrderServiceImpl ... {
 
 | api 模块 | 内容 | biz-app 里能否注入（是否有 ContextBean） |
 |---|---|---|
-| `hgcloud-plugin-sys-api` | SysUserApi/SysRoleApi/SysOrgApi/SysPositionApi/SysGroupApi/SysRelationApi/SysTransferApi/SysApi；SysMenuApi/SysButtonApi/SysModuleApi | 前 8 个有；**Menu/Button/Module 无** |
-| `hgcloud-plugin-dev-api` | DevConfigApi/DevFileApi/DevMessageApi/DevSmsApi/DevEmailApi/DevSlideshowApi/DevApi；DevDictApi/DevLogApi/DevJobApi/DevPushApi/DevWeakPasswordApi | 前 7 个有；**Dict/Log/Job/Push/WeakPassword 无** |
-| `hgcloud-plugin-auth-api` | AuthApi、AuthInnerApi、SaBaseLoginUserApi（Bean 名 `loginUserApi` / `clientLoginUserApi`）、SaBaseLoginUser 等 POJO、StpLoginUserUtil 等工具 | 有 |
-| `hgcloud-plugin-mobile-api` | MobileApi/MobileMenuApi/MobileModuleApi/MobileButtonApi | 有 |
+| `rhcommon-plugin-sys-api` | SysUserApi/SysRoleApi/SysOrgApi/SysPositionApi/SysGroupApi/SysRelationApi/SysTransferApi/SysApi；SysMenuApi/SysButtonApi/SysModuleApi | 前 8 个有；**Menu/Button/Module 无** |
+| `rhcommon-plugin-dev-api` | DevConfigApi/DevFileApi/DevMessageApi/DevSmsApi/DevEmailApi/DevSlideshowApi/DevApi；DevDictApi/DevLogApi/DevJobApi/DevPushApi/DevWeakPasswordApi | 前 7 个有；**Dict/Log/Job/Push/WeakPassword 无** |
+| `rhcommon-plugin-auth-api` | AuthApi、AuthInnerApi、SaBaseLoginUserApi（Bean 名 `loginUserApi` / `clientLoginUserApi`）、SaBaseLoginUser 等 POJO、StpLoginUserUtil 等工具 | 有 |
+| `rhcommon-plugin-mobile-api` | MobileApi/MobileMenuApi/MobileModuleApi/MobileButtonApi | 有 |
 | `hgcloud-plugin-biz-api` | BizUserApi/BizOrgApi/BizPositionApi/BizGroupApi/BizNoticeApi/BizOrgDirectorTransferApi（biz 插件提供） | biz-app 内本地实现 |
-| `hgcloud-plugin-client-api` | ClientUserApi（C 端用户） | 无（client 无 feign，只在 web-app 本地可用） |
+| `rhcommon-plugin-client-api` | ClientUserApi（C 端用户） | 无（client 无 feign，只在 web-app 本地可用） |
 
 web-app 里各插件都是本地实现，上表接口全部可直接注入。
 命名惯例：`getXxxByIdWithoutException`（查不到返 null）/ `getXxxByIdWithException`（查不到抛异常）/ `getXxxListByIdList...`（批量）。
@@ -250,7 +250,7 @@ web-app 里各插件都是本地实现，上表接口全部可直接注入。
 1. 建 `hgcloud-plugin/hgcloud-plugin-{name}/` 聚合 pom + 子模块：至少 -api、-func；要被其他服务调用再加 -feign、-feign-provider、-api-context；包 `com.hgcloud.{name}`
 2. `hgcloud-plugin/pom.xml` 的 modules 登记；根 `pom.xml` 的 dependencyManagement 登记各子模块
 3. 目标应用 pom（如 `hgcloud-modules/hgcloud-biz-app/pom.xml`）加 -func；被别的服务调用时本应用再加 -feign-provider，调用方应用加 -feign + -api-context（遵守"不能同装"规律）
-4. 接口文档：该应用 Nacos 配置（如 `hgcloud-biz-app-dev.yaml`）的 `springdoc.group-configs` 加分组；网关 Nacos 配置 `hgcloud-gateway-app-dev.yaml` 的 knife4j 聚合 routes 加对应分组
+4. 接口文档：该应用 Nacos 配置（如 `hgcloud-biz-app-dev.yaml`）的 `springdoc.group-configs` 加分组；网关 Nacos 配置 `rhcommon-gateway-app-dev.yaml` 的 knife4j 聚合 routes 加对应分组
 5. URL 一级前缀若是新的（不是 /biz/ 等已有前缀）：前端 `hgcloud-admin-web/src/utils/apiAdaptive.js` 加映射（文件里 `bizCustomization` 为预留示例），并确认网关路由能转发到目标服务，否则经网关 404
 6. 免登录接口：网关 `GatewayConfigure`（带 /api/xxx 前缀）+ 目标服务 `GlobalConfigure`（不带前缀）两处都加
 7. 前端加 `src/api/{name}/` 与 `src/views/{name}/` 目录
@@ -259,7 +259,7 @@ web-app 里各插件都是本地实现，上表接口全部可直接注入。
 
 1. `hgcloud-modules` 下新建应用模块并在 `hgcloud-modules/pom.xml` 登记；参照 hgcloud-biz-app：启动类带 `@EnableDiscoveryClient`、`@EnableFeignClients(basePackages = "com.hgcloud")`、`scanBasePackages = "com.hgcloud"`，并有 `core/config`（GlobalConfigure/AuthConfigure/Knife4jConfigure 等）、`core/interceptor/FeignRequestInterceptor`、`core/handler` 全局异常
 2. `FeignConstant` 加新服务名常量
-3. Nacos 新增配置 `hgcloud-xxx-app-dev.yaml`（仓库源文件放 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/{dev,test,prod}/`，并同步到 Nacos）；本地 `application.yml` 照 biz-app 只做 Nacos 接入
+3. Nacos 新增配置 `hgcloud-xxx-app-dev.yaml`（仓库源文件放 `rhcommon-server/rhcommon-nacos-app/src/main/resources/META-INF/config-data/{dev,test,prod}/`，并同步到 Nacos）；本地 `application.yml` 照 biz-app 只做 Nacos 接入
 4. 网关 Nacos 配置加路由 `/api/xxxapp/** → lb://hgcloud-xxx-app`（StripPrefix=2）与 Knife4j 聚合路由；`GatewayConfigure` 白名单按新前缀补
 5. 前端 `apiAdaptive.js` 加前缀映射
 
@@ -276,7 +276,7 @@ web-app 里各插件都是本地实现，上表接口全部可直接注入。
 
 ## 禁止事项
 
-- ❌ 插件 pom 互相依赖实现模块（如 biz-func 依赖 hgcloud-plugin-sys-func）
+- ❌ 插件 pom 互相依赖实现模块（如 biz-func 依赖 rhcommon-plugin-sys-func）
 - ❌ 绕过 *-api 直接 import 其他插件 modular 下的类
 - ❌ 跨插件返回 Entity/自定义 DTO（会引入类依赖），一律 JSONObject（Feign 层传 JSON 字符串）
 - ❌ 把业务代码写进 sys/auth/dev 等平台插件（升级会冲突）
@@ -297,15 +297,15 @@ web-app 里各插件都是本地实现，上表接口全部可直接注入。
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api/src/main/java/com/hgcloud/sys/api/SysUserApi.java` | 接口定义范本 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/provider/SysUserApiProvider.java` | provider 实现范本（登录时权限码组装在同目录 SysLoginUserApiProvider） |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-feign/src/main/java/com/hgcloud/sys/feign/SysUserFeign.java` | Feign 接口范本 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-feign-provider/src/main/java/com/hgcloud/sys/feign/provider/user/SysUserFeignProvider.java` | Feign 服务端范本 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/src/main/java/com/hgcloud/sys/api/context/SysUserApiContextBean.java` | 远程代理范本 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/consts/FeignConstant.java` | 服务名常量 |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-api/src/main/java/com/rhcommon/sys/api/SysUserApi.java` | 接口定义范本 |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-func/src/main/java/com/rhcommon/sys/modular/user/provider/SysUserApiProvider.java` | provider 实现范本（登录时权限码组装在同目录 SysLoginUserApiProvider） |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-feign/src/main/java/com/rhcommon/sys/feign/SysUserFeign.java` | Feign 接口范本 |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-feign-provider/src/main/java/com/rhcommon/sys/feign/provider/user/SysUserFeignProvider.java` | Feign 服务端范本 |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-api-context/src/main/java/com/rhcommon/sys/api/context/SysUserApiContextBean.java` | 远程代理范本 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/consts/FeignConstant.java` | 服务名常量 |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/interceptor/FeignRequestInterceptor.java` | Feign 请求头 + traceId 透传 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/com/hgcloud/dev/api/` | dev-api 全家（Config/Dict/File/Sms/Email/Message/Job/Log/Push...） |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-api/src/main/java/com/rhcommon/dev/api/` | dev-api 全家（Config/Dict/File/Sms/Email/Message/Job/Log/Push...） |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/core/` | 插件 core 层组织范本 |
-| 根 `pom.xml` + `hgcloud-plugin/pom.xml` + `hgcloud-modules/hgcloud-web-app/pom.xml`、`hgcloud-modules/hgcloud-biz-app/pom.xml` | 模块聚合与应用装配 |
-| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-gateway-app-dev.yaml` | 网关路由与 Knife4j 聚合路由 |
+| 根 `pom.xml` + `hgcloud-plugin/pom.xml` + `hgcloud-modules/rhcommon-web-app/pom.xml`、`hgcloud-modules/hgcloud-biz-app/pom.xml` | 模块聚合与应用装配 |
+| `rhcommon-server/rhcommon-nacos-app/src/main/resources/META-INF/config-data/dev/rhcommon-gateway-app-dev.yaml` | 网关路由与 Knife4j 聚合路由 |
 | `hgcloud-admin-web/src/utils/apiAdaptive.js` | 前端 URL 前缀 → 网关服务前缀映射 |

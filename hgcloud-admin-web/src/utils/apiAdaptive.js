@@ -34,7 +34,7 @@ const PREFIX = [
 	},
 	{
 		label: '/biz/',
-		value: '/api/bizapp'
+		value: '/api/hgapp'
 	}
 ]
 // 转换url

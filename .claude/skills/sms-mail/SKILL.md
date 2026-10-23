@@ -8,13 +8,13 @@ description: Hgcloud 短信与邮件规范：sms4j 多供应商短信、DEV_SMS 
 ## 短信（sms4j）
 
 - 引擎：org.dromara.sms4j；Hgcloud 封装了**阿里云、腾讯云**两家（`DevSmsAliyunUtil` / `DevSmsTencentUtil`），默认引擎由 DEV_CONFIG 的 `HGCLOUD_SYS_DEFAULT_SMS_ENGINE` 决定
-- 模块：`hgcloud-plugin-dev-func` 的 `modular/sms/`（**运行在 web-app**）；管理界面：开发工具 → 短信管理（DEV_SMS 表存发送记录）
-- 供应商配置：存 DEV_CONFIG（`HGCLOUD_SMS_*` 键，界面：开发工具 → 系统配置 → 短信配置）；Nacos `hgcloud-web-app-dev.yaml` 里只有 `sms-oa` 线程池段
+- 模块：`rhcommon-plugin-dev-func` 的 `modular/sms/`（**运行在 web-app**）；管理界面：开发工具 → 短信管理（DEV_SMS 表存发送记录）
+- 供应商配置：存 DEV_CONFIG（`HGCLOUD_SMS_*` 键，界面：开发工具 → 系统配置 → 短信配置）；Nacos `rhcommon-web-app-dev.yaml` 里只有 `sms-oa` 线程池段
 
 ```java
 // 业务发短信（web-app 内为本地实现；biz-app 内为 DevSmsApiContextBean → DevSmsFeign → web-app）
 @Resource
-private DevSmsApi devSmsApi;        // hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api
+private DevSmsApi devSmsApi;        // hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-api
 
 devSmsApi.sendDynamicSms("手机号", "模板编码或id", paramMap);   // 按默认引擎发送，paramMap 为 JSONObject
 devSmsApi.sendSmsAliyun("手机号", "签名", "模板编码", "{\"code\":\"123456\"}");
@@ -28,7 +28,7 @@ devSmsApi.sendSmsAliyun("手机号", "签名", "模板编码", "{\"code\":\"1234
 ## 邮件
 
 ```java
-// 发邮件走 DevEmailApi（hgcloud-plugin-dev-api）；biz-app 内为 DevEmailApiContextBean → DevEmailFeign → web-app
+// 发邮件走 DevEmailApi（rhcommon-plugin-dev-api）；biz-app 内为 DevEmailApiContextBean → DevEmailFeign → web-app
 @Resource
 private DevEmailApi devEmailApi;
 
@@ -37,7 +37,7 @@ devEmailApi.sendDynamicHtmlEmail("收件人", "主题", "<h1>HTML</h1>");
 // 本地 SMTP / 阿里云 / 腾讯云专用方法见 DevEmailApi 定义
 ```
 
-- `CommonEmailUtil`（hgcloud-common）只有 `isNotEmail` / `validEmail` 邮箱格式校验，**不负责发送**
+- `CommonEmailUtil`（rhcommon-common）只有 `isNotEmail` / `validEmail` 邮箱格式校验，**不负责发送**
 - SMTP 配置：存 DEV_CONFIG（`HGCLOUD_EMAIL_LOCAL_FROM / _PASSWORD / _SMTP_HOST / _SMTP_PORT / _SSL_ENABLE` 等键，界面：开发工具 → 系统配置 → 邮件配置），默认引擎键 `HGCLOUD_SYS_DEFAULT_EMAIL_ENGINE`
 - 发送记录：DEV_EMAIL 表（开发工具 → 邮件管理）
 - ⚠️ 注意：带附件的 `sendTextEmailLocal` / `sendHtmlEmailLocal`（参数含 `List<File>`、`Map<String, InputStream>`）经 Feign 以 `@RequestParam` 传递，跨服务无法真正传文件（推导，使用前请先确认）；biz-app 里优先用 Dynamic 文本/HTML 方法
@@ -52,7 +52,7 @@ devEmailApi.sendDynamicHtmlEmail("收件人", "主题", "<h1>HTML</h1>");
 5. 错误次数限制防爆破
 ```
 
-参考实现：`hgcloud-plugin-auth-func` 的 `modular/login/` 验证码相关方法（AuthController / AuthClientController / AuthServiceImpl）。
+参考实现：`rhcommon-plugin-auth-func` 的 `modular/login/` 验证码相关方法（AuthController / AuthClientController / AuthServiceImpl）。
 
 ## 常见错误正误对照
 
@@ -77,11 +77,11 @@ devEmailApi.sendDynamicHtmlEmail("收件人", "主题", "<h1>HTML</h1>");
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/sms/` | 短信模块全套 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/email/` | 邮件模块全套（util/DevEmailLocalUtil 读 SMTP 配置） |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/com/hgcloud/dev/api/DevSmsApi.java` | 跨插件短信接口 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api/src/main/java/com/hgcloud/dev/api/DevEmailApi.java` | 跨插件邮件接口 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-api-context/src/main/java/com/hgcloud/dev/api/context/` | biz-app 侧远程代理（DevSmsApiContextBean / DevEmailApiContextBean） |
-| `hgcloud-plugin/hgcloud-plugin-auth/hgcloud-plugin-auth-func/src/main/java/com/hgcloud/auth/modular/login/` | 验证码登录流程 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/util/CommonEmailUtil.java` | 邮箱格式校验 |
-| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-web-app-dev.yaml` | sms-oa 线程池配置段 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-func/src/main/java/com/rhcommon/dev/modular/sms/` | 短信模块全套 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-func/src/main/java/com/rhcommon/dev/modular/email/` | 邮件模块全套（util/DevEmailLocalUtil 读 SMTP 配置） |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-api/src/main/java/com/rhcommon/dev/api/DevSmsApi.java` | 跨插件短信接口 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-api/src/main/java/com/rhcommon/dev/api/DevEmailApi.java` | 跨插件邮件接口 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-api-context/src/main/java/com/rhcommon/dev/api/context/` | biz-app 侧远程代理（DevSmsApiContextBean / DevEmailApiContextBean） |
+| `hgcloud-plugin/rhcommon-plugin-auth/rhcommon-plugin-auth-func/src/main/java/com/rhcommon/auth/modular/login/` | 验证码登录流程 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/util/CommonEmailUtil.java` | 邮箱格式校验 |
+| `rhcommon-server/rhcommon-nacos-app/src/main/resources/META-INF/config-data/dev/rhcommon-web-app-dev.yaml` | sms-oa 线程池配置段 |

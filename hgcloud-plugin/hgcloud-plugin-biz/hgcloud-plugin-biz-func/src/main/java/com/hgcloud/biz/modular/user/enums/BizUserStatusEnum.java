@@ -13,7 +13,7 @@
 package com.hgcloud.biz.modular.user.enums;
 
 import lombok.Getter;
-import com.hgcloud.common.exception.CommonException;
+import com.rhcommon.common.exception.CommonException;
 
 /**
  * 人员状态枚举

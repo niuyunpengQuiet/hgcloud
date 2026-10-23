@@ -57,4 +57,4 @@ git rev-parse --is-inside-work-tree 2>/dev/null && git log --oneline -15
 
 - 每条建议：具体动作 + 预计耗时 + 可直接执行的命令/指令
 - 最多 8 条，宁缺毋滥
-- 不主动建议改框架模块（sys/auth/dev/gen/client/mobile/mocker 插件与 hgcloud-server 下的中间件应用）；为新业务前缀登记网关路由/白名单属于必要配置，不算改框架
+- 不主动建议改框架模块（sys/auth/dev/gen/client/mobile/mocker 插件与 rhcommon-server 下的中间件应用）；为新业务前缀登记网关路由/白名单属于必要配置，不算改框架

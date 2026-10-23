@@ -21,8 +21,8 @@ description: Hgcloud 问题排查方法论与高发故障库：启动失败、40
 ## 树 A：后端启动失败
 
 1. 端口被占？（8848 Nacos / 9003 网关 / 9101 web-app / 9102 biz-app；命令见 env-setup 自检）
-2. Nacos 没起 / 配置没拉到 → 各服务本地 `application.yml` 只接 Nacos（`optional:nacos:` 导入），拉不到配置时启动**不会因此中止**，常见表现是端口变成默认 8080、报找不到数据源/Redis 连接参数（推导的典型症状，以实际日志为准）。核对：Nacos 已启动；命名空间 `hgcloud-dev`、分组 `dev`、data-id `hgcloud-web-app-dev.yaml` / `hgcloud-biz-app-dev.yaml` / `hgcloud-gateway-app-dev.yaml` 在 Nacos 控制台存在且启动 profile 是 dev
-3. MySQL 连不上/库没导 → Nacos 库 `hgcloud-nacos-app-open`（nacos-db.sql 等）与业务库 `hgcloud`（`hgcloud-modules/hgcloud-web-app/src/main/resources/_sql/hgcloud_mysql.sql`）都要导；数据源口令改 Nacos 配置，不在本地文件
+2. Nacos 没起 / 配置没拉到 → 各服务本地 `application.yml` 只接 Nacos（`optional:nacos:` 导入），拉不到配置时启动**不会因此中止**，常见表现是端口变成默认 8080、报找不到数据源/Redis 连接参数（推导的典型症状，以实际日志为准）。核对：Nacos 已启动；命名空间 `hgcloud-dev`、分组 `dev`、data-id `rhcommon-web-app-dev.yaml` / `hgcloud-biz-app-dev.yaml` / `rhcommon-gateway-app-dev.yaml` 在 Nacos 控制台存在且启动 profile 是 dev
+3. MySQL 连不上/库没导 → Nacos 库 `rhcommon-nacos-app-open`（nacos-db.sql 等）与业务库 `hgcloud`（`hgcloud-modules/rhcommon-web-app/src/main/resources/_sql/hgcloud_mysql.sql`）都要导；数据源口令改 Nacos 配置，不在本地文件
 4. Redis 连不上 → 本地 6379 是否启动（database 1）
 5. JDK 版本 → 主栈用 17
 6. 依赖没编译 → 根目录 `mvn clean install -DskipTests`
@@ -72,7 +72,7 @@ description: Hgcloud 问题排查方法论与高发故障库：启动失败、40
 
 | 现象 | 根因 | 处理 |
 |---|---|---|
-| 经网关 404，直连服务正常 | 新 URL 前缀没登记：前端 `apiAdaptive.js` 没映射（请求没带 `/api/webapp`/`/api/bizapp`），或网关路由没有该前缀 | 先查前端 apiAdaptive.js 是否映射；新建服务再查网关路由（`hgcloud-gateway-app-dev.yaml` 的 routes，StripPrefix=2）。Knife4j 聚合只影响接口文档，不会导致 404 |
+| 经网关 404，直连服务正常 | 新 URL 前缀没登记：前端 `apiAdaptive.js` 没映射（请求没带 `/api/webapp`/`/api/hgapp`），或网关路由没有该前缀 | 先查前端 apiAdaptive.js 是否映射；新建服务再查网关路由（`rhcommon-gateway-app-dev.yaml` 的 routes，StripPrefix=2）。Knife4j 聚合只影响接口文档，不会导致 404 |
 | 经网关 503 / Unable to find instance | 目标服务没注册到 Nacos：服务没起、启动失败，或 profile 不同导致命名空间/分组不一致（网关在 `hgcloud-dev` / `dev` 里找） | Nacos 控制台 → 服务管理看实例；核对各服务 `spring.profiles.active` |
 | 免登录接口经网关仍 401 | 白名单只配了服务 GlobalConfigure | 网关 GatewayConfigure 补带前缀的条目，重启网关 |
 | 直连服务 401、经网关也 401 | 白名单只配了网关 | 服务 GlobalConfigure 补不带前缀的条目，重启服务 |
@@ -126,13 +126,13 @@ Grep pattern: "方法名/类名/错误消息片段"  path: hgcloud-plugin
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/handler/GlobalExceptionHandler.java`、`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/handler/GlobalExceptionHandler.java` | 异常→错误码映射（两个服务各一份） |
-| `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/core/util/GlobalExceptionUtil.java`、`AuthExceptionUtil.java` | 网关侧异常转换 |
-| `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | 网关白名单/拦截规则 |
-| `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java`、`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | 服务白名单/拦截规则 |
-| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/` | 全部环境配置（数据源/Redis/网关路由/Sa-Token） |
+| `hgcloud-modules/rhcommon-web-app/src/main/java/com/rhcommon/web/core/handler/GlobalExceptionHandler.java`、`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/handler/GlobalExceptionHandler.java` | 异常→错误码映射（两个服务各一份） |
+| `rhcommon-server/rhcommon-gateway-app/src/main/java/com/rhcommon/gateway/core/util/GlobalExceptionUtil.java`、`AuthExceptionUtil.java` | 网关侧异常转换 |
+| `rhcommon-server/rhcommon-gateway-app/src/main/java/com/rhcommon/gateway/config/GatewayConfigure.java` | 网关白名单/拦截规则 |
+| `hgcloud-modules/rhcommon-web-app/src/main/java/com/rhcommon/web/core/config/GlobalConfigure.java`、`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | 服务白名单/拦截规则 |
+| `rhcommon-server/rhcommon-nacos-app/src/main/resources/META-INF/config-data/dev/` | 全部环境配置（数据源/Redis/网关路由/Sa-Token） |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/interceptor/FeignRequestInterceptor.java` | Feign 请求头透传 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/consts/FeignConstant.java` | Feign 服务名常量 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/consts/FeignConstant.java` | Feign 服务名常量 |
 | `hgcloud-admin-web/src/utils/apiAdaptive.js` | 前端 URL 前缀映射 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/log/` | 操作/异常日志模块 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/modular/monitor/` | 服务器监控 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-func/src/main/java/com/rhcommon/dev/modular/log/` | 操作/异常日志模块 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-func/src/main/java/com/rhcommon/dev/modular/monitor/` | 服务器监控 |

@@ -17,10 +17,10 @@
 
     <dependencies>
 
-        <!-- hgcloud-common -->
+        <!-- rhcommon-common -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-common</artifactId>
+            <artifactId>rhcommon-common</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>

@@ -18,7 +18,7 @@ tools: Read, Write, Grep, Bash
 
 # 进度统计口径（硬性，来自 framework-config.json）
 
-- **框架 ≠ 业务**：hgcloud-base/hgcloud-common、hgcloud-modules 下的两个启动应用（hgcloud-web-app、hgcloud-biz-app）、hgcloud-server 下的中间件应用（nacos/gateway/actuator/sentinel/xxl-job）、7 个系统插件（sys/auth/dev/gen/client/mobile/mocker）、各插件的 -api/-api-context/-feign/-feign-provider 子模块、前端 views/{sys,auth,dev,gen,mobile,index} 都是平台底座，**不计进度**
+- **框架 ≠ 业务**：rhcommon-base/rhcommon-common、hgcloud-modules 下的两个启动应用（rhcommon-web-app、hgcloud-biz-app）、rhcommon-server 下的中间件应用（nacos/gateway/actuator/sentinel/xxl-job）、7 个系统插件（sys/auth/dev/gen/client/mobile/mocker）、各插件的 -api/-api-context/-feign/-feign-provider 子模块、前端 views/{sys,auth,dev,gen,mobile,index} 都是平台底座，**不计进度**
 - 出厂 biz 7 域（index/dict/group/notice/org/position/user）是演示代码，**不计进度**
 - 只统计 `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/` 下用户新建的域（以 framework-config.json 的 business.backend.scanRoot 为准）+ 前端 `src/views/biz/` 新目录
 - 后端完整度 = 六件套存在数 / 6（Entity/Mapper/Service/ServiceImpl/Controller/Param组；XML 与 Result 是加分项）

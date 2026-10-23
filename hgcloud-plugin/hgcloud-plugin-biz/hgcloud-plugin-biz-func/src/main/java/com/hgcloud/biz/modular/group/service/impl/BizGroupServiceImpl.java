@@ -24,7 +24,7 @@ import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.hgcloud.auth.core.util.StpLoginUserUtil;
+import com.rhcommon.auth.core.util.StpLoginUserUtil;
 import com.hgcloud.biz.core.enums.BizDataTypeEnum;
 import com.hgcloud.biz.modular.group.entity.BizGroup;
 import com.hgcloud.biz.modular.group.mapper.BizGroupMapper;
@@ -36,12 +36,12 @@ import com.hgcloud.biz.modular.org.service.BizOrgService;
 import com.hgcloud.biz.modular.user.entity.BizUser;
 import com.hgcloud.biz.modular.user.enums.BizUserStatusEnum;
 import com.hgcloud.biz.modular.user.service.BizUserService;
-import com.hgcloud.common.enums.CommonSortOrderEnum;
-import com.hgcloud.common.exception.CommonException;
-import com.hgcloud.common.listener.CommonDataChangeEventCenter;
-import com.hgcloud.common.page.CommonPageRequest;
-import com.hgcloud.common.util.CommonSqlUtil;
-import com.hgcloud.sys.api.SysGroupApi;
+import com.rhcommon.common.enums.CommonSortOrderEnum;
+import com.rhcommon.common.exception.CommonException;
+import com.rhcommon.common.listener.CommonDataChangeEventCenter;
+import com.rhcommon.common.page.CommonPageRequest;
+import com.rhcommon.common.util.CommonSqlUtil;
+import com.rhcommon.sys.api.SysGroupApi;
 
 import java.util.List;
 

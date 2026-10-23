@@ -30,8 +30,8 @@ import com.hgcloud.biz.modular.notice.param.BizNoticeEditParam;
 import com.hgcloud.biz.modular.notice.param.BizNoticeIdParam;
 import com.hgcloud.biz.modular.notice.param.BizNoticePageParam;
 import com.hgcloud.biz.modular.notice.service.BizNoticeService;
-import com.hgcloud.common.annotation.CommonLog;
-import com.hgcloud.common.pojo.CommonResult;
+import com.rhcommon.common.annotation.CommonLog;
+import com.rhcommon.common.pojo.CommonResult;
 
 import java.util.List;
 

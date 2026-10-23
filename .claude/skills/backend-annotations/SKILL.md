@@ -9,8 +9,8 @@ description: Hgcloud 常用注解速查与正误用法：@CommonLog 操作日志
 
 | 注解 | 来源 | 用在哪 | 作用 |
 |---|---|---|---|
-| `@CommonLog("中文标题")` | hgcloud-common | Controller 写方法 | 操作日志落 DEV_LOG 表（AOP：DevLogAop，⚠️ 目前只在 web-app 生效，见下文） |
-| `@CommonNoRepeat(interval=5000)` | hgcloud-common | Controller 写方法 | 防重复提交（默认 5 秒内相同请求拦截） |
+| `@CommonLog("中文标题")` | rhcommon-common | Controller 写方法 | 操作日志落 DEV_LOG 表（AOP：DevLogAop，⚠️ 目前只在 web-app 生效，见下文） |
+| `@CommonNoRepeat(interval=5000)` | rhcommon-common | Controller 写方法 | 防重复提交（默认 5 秒内相同请求拦截） |
 | `@SaCheckPermission("/url")` | Sa-Token | Controller 方法 | 接口权限校验，**值 = 接口 URL（不带网关前缀）** |
 | `@SaCheckRole("xxx")` | Sa-Token | Controller 方法 | 角色校验（少用） |
 | `@Trans(type=...)` | Easy-Trans | Entity 字段 | 字典/关联表字段自动翻译 |
@@ -35,10 +35,10 @@ public CommonResult<String> add(...) {...}
 ```
 
 - **所有写操作接口必须加**（add/edit/delete/业务动作）；查询接口不加
-- 日志由 `hgcloud-plugin-dev-func` 的 DevLogAop 切面落 DEV_LOG 表，可在 开发工具→日志 查看
+- 日志由 `rhcommon-plugin-dev-func` 的 DevLogAop 切面落 DEV_LOG 表，可在 开发工具→日志 查看
 - ❌ `@Log(title=..., businessType=...)` 是同类快速开发框架的写法，本项目没有
 
-> ⚠️ 现状：dev-func 只装配在 hgcloud-web-app，hgcloud-biz-app 类路径上没有 DevLogAop（全仓库只有这一个 `@CommonLog` 切面），所以 **biz 插件接口上的 @CommonLog 目前不会写 DEV_LOG**（推导，未实际运行验证）。规范上仍照常加（与出厂 BizNoticeController 一致），但不要指望在"开发工具→日志"里看到 biz 接口的操作日志。
+> ⚠️ 现状：dev-func 只装配在 rhcommon-web-app，hgcloud-biz-app 类路径上没有 DevLogAop（全仓库只有这一个 `@CommonLog` 切面），所以 **biz 插件接口上的 @CommonLog 目前不会写 DEV_LOG**（推导，未实际运行验证）。规范上仍照常加（与出厂 BizNoticeController 一致），但不要指望在"开发工具→日志"里看到 biz 接口的操作日志。
 
 ## @CommonNoRepeat —— 防重复提交
 
@@ -58,7 +58,7 @@ public CommonResult<String> create(...) {...}
 ```java
 @SaCheckPermission("/biz/supplier/page")              // ✅ 值 = 本接口 URL（Controller 上写的路径）
 @SaCheckPermission("biz:supplier:page")               // ❌ 冒号式是同类框架的，校验必失败
-@SaCheckPermission("/api/bizapp/biz/supplier/page")   // ❌ 带了网关前缀，网关 StripPrefix=2 后服务收到的是 /biz/supplier/page，权限码对不上
+@SaCheckPermission("/api/hgapp/biz/supplier/page")   // ❌ 带了网关前缀，网关 StripPrefix=2 后服务收到的是 /biz/supplier/page，权限码对不上
 ```
 
 - 权限来源：角色-资源授权生成的数据范围 apiUrl 列表（详见 security-auth 技能）
@@ -116,7 +116,7 @@ public class BizSupplier extends CommonEntity {              // 继承即有 DEL
 ## 检查清单
 
 - [ ] 写接口有 @CommonLog（中文标题）+ 写 Service 方法有 @Transactional(rollbackFor = Exception.class)
-- [ ] @SaCheckPermission 值 = Controller 上的 URL 全路径（不带 /api/webapp、/api/bizapp 网关前缀）
+- [ ] @SaCheckPermission 值 = Controller 上的 URL 全路径（不带 /api/webapp、/api/hgapp 网关前缀）
 - [ ] 翻译字段 @Trans 的 ref 冗余字段有 @TableField(exist = false)
 - [ ] 校验消息中文、格式统一
 - [ ] 没有使用同类框架特有注解（@Log、@RateLimiter、@DataPermission、@ExcelProperty 换 EasyExcel 注解）
@@ -125,11 +125,11 @@ public class BizSupplier extends CommonEntity {              // 继承即有 DEL
 
 | 文件 | 说明 |
 |---|---|
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/annotation/CommonLog.java` | 日志注解定义 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/annotation/CommonNoRepeat.java` | 防重注解定义 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/annotation/CommonLog.java` | 日志注解定义 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/annotation/CommonNoRepeat.java` | 防重注解定义 |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/controller/BizNoticeController.java` | 注解组合使用范本 |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/user/entity/BizUser.java` | @Trans 双类型 + SM4 TypeHandler 范本 |
-| `hgcloud-plugin/hgcloud-plugin-dev/hgcloud-plugin-dev-func/src/main/java/com/hgcloud/dev/core/aop/DevLogAop.java` | 日志切面实现（仅随 dev-func 装在 web-app） |
-| `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java` | web-app 防重/包装 AOP 注册 |
+| `hgcloud-plugin/rhcommon-plugin-dev/rhcommon-plugin-dev-func/src/main/java/com/rhcommon/dev/core/aop/DevLogAop.java` | 日志切面实现（仅随 dev-func 装在 web-app） |
+| `hgcloud-modules/rhcommon-web-app/src/main/java/com/rhcommon/web/core/config/GlobalConfigure.java` | web-app 防重/包装 AOP 注册 |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | biz-app 防重/包装 AOP 注册 |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/AuthConfigure.java` | biz-app 注解鉴权拦截器（SaInterceptor）与权限来源 |

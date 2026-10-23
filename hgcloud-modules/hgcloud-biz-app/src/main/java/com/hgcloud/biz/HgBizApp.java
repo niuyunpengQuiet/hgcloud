@@ -21,7 +21,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.hgcloud.common.runner.AppStartupListener;
+import com.rhcommon.common.runner.AppStartupListener;
 
 /**
  * SpringBoot方式启动类
@@ -32,8 +32,8 @@ import com.hgcloud.common.runner.AppStartupListener;
 @Slf4j
 @RestController
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.hgcloud")
-@SpringBootApplication(scanBasePackages = "com.hgcloud", exclude = {Knife4jAutoConfiguration.class})
+@EnableFeignClients(basePackages = {"com.hgcloud", "com.rhcommon"})
+@SpringBootApplication(scanBasePackages = {"com.hgcloud", "com.rhcommon"}, exclude = {Knife4jAutoConfiguration.class})
 public class HgBizApp {
 
     /* 解决druid 日志报错：discard long time none received connection:xxx */

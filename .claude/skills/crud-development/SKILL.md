@@ -15,7 +15,7 @@ description: Hgcloud CRUD 全套开发规范（六件套 + 可选两件 + 前端
 | 对象转换 | Hutool `BeanUtil.toBean / copyProperties` | ❌MapstructUtils |
 | Lombok | 只用 `@Getter @Setter` | ❌@Data |
 | 主键 | `@TableId private String id`（字符串雪花） | ❌Long |
-| URL | 动词式写方法上 `/biz/xxx/page`（不带网关前缀，经网关访问为 `/api/bizapp/biz/xxx/page`） | ❌RESTful 路径 ❌类级 @RequestMapping |
+| URL | 动词式写方法上 `/biz/xxx/page`（不带网关前缀，经网关访问为 `/api/hgapp/biz/xxx/page`） | ❌RESTful 路径 ❌类级 @RequestMapping |
 | 分页 | `CommonPageRequest.defaultPage()` + MP `Page<T>` | — |
 | 版权头 | 每个 .java 头部 12 行 Apache 2.0 声明 | AI 生成最容易漏 |
 | 代码位置 | `hgcloud-plugin-biz-func` 模块（运行在 hgcloud-biz-app，端口 9102） | 微服务版比单体多一层 `-func` 目录 |
@@ -60,14 +60,14 @@ hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcl
 
 ## 微服务要点：运行位置、访问路径、要不要 feign 化
 
-**运行位置**：`hgcloud-plugin-biz-func` 只装配在 `hgcloud-biz-app`（9102）。在 biz-func 里新增一个业务域**不需要改任何 pom、网关路由、Knife4j 配置或前端前缀映射**——网关已有 `/api/bizapp/**` 路由，Knife4j 的 BIZ 分组扫描整个 `com.hgcloud.biz` 包，前端 apiAdaptive.js 已把 `/biz/` 映射到 `/api/bizapp`。
+**运行位置**：`hgcloud-plugin-biz-func` 只装配在 `hgcloud-biz-app`（9102）。在 biz-func 里新增一个业务域**不需要改任何 pom、网关路由、Knife4j 配置或前端前缀映射**——网关已有 `/api/hgapp/**` 路由，Knife4j 的 BIZ 分组扫描整个 `com.hgcloud.biz` 包，前端 apiAdaptive.js 已把 `/biz/` 映射到 `/api/hgapp`。
 
 **同一个接口的三种路径**：
 
 | 场景 | 路径 | 说明 |
 |---|---|---|
 | Controller 注解 / `@SaCheckPermission` 值 | `/biz/xxx/page` | 只写这个，不带任何网关前缀 |
-| 经网关访问（前端、自测、Knife4j 调试） | `http://localhost:9003/api/bizapp/biz/xxx/page` | 网关 StripPrefix=2 去掉 `/api/bizapp` 后转发给 biz-app |
+| 经网关访问（前端、自测、Knife4j 调试） | `http://localhost:9003/api/hgapp/biz/xxx/page` | 网关 StripPrefix=2 去掉 `/api/hgapp` 后转发给 biz-app |
 | 直连服务（仅排查用） | `http://localhost:9102/biz/xxx/page` | 绕过网关层校验，但服务内的登录/权限校验仍生效 |
 
 **要不要 feign 化**：只有当**其他服务**（如 web-app 里的 sys/dev/auth）需要调用本域能力时才做；只给前端用、只在 biz-app 内部用的域**不做**。需要时按现有五段式补齐并装配（范本：机构主管转移 BizOrgDirectorTransfer 一组）：
@@ -299,11 +299,11 @@ public class BizXxxIdParam {
 
 ## 前端三件（见 frontend-pc 技能详解）
 
-1. `hgcloud-admin-web/src/api/biz/bizXxxApi.js` —— API 封装（`baseRequest('/biz/xxx/' + url, ...)`，不要手写 `/api/bizapp` 前缀）
+1. `hgcloud-admin-web/src/api/biz/bizXxxApi.js` —— API 封装（`baseRequest('/biz/xxx/' + url, ...)`，不要手写 `/api/hgapp` 前缀）
 2. `hgcloud-admin-web/src/views/biz/xxx/index.vue` —— 列表页（s-table）
 3. `hgcloud-admin-web/src/views/biz/xxx/form.vue` —— 弹窗表单
 
-接口前缀映射：`src/utils/apiAdaptive.js`（`src/config/index.js` 里 `CLOUD_SERVER: true` 时生效）在 `baseRequest` 里把 `/biz/` 开头的地址转成 `/api/bizapp/biz/...`，`/sys/` `/auth/` `/client/` `/dev/` `/gen/` `/mobile/` 转成 `/api/webapp/...`，再拼上 `VITE_API_BASEURL`（网关 `http://localhost:9003`）。新业务域沿用 `/biz/` 前缀即可，无需改映射。
+接口前缀映射：`src/utils/apiAdaptive.js`（`src/config/index.js` 里 `CLOUD_SERVER: true` 时生效）在 `baseRequest` 里把 `/biz/` 开头的地址转成 `/api/hgapp/biz/...`，`/sys/` `/auth/` `/client/` `/dev/` `/gen/` `/mobile/` 转成 `/api/webapp/...`，再拼上 `VITE_API_BASEURL`（网关 `http://localhost:9003`）。新业务域沿用 `/biz/` 前缀即可，无需改映射。
 
 > ⚠️ 注意：映射用 `indexOf` 包含匹配、按数组顺序取第一个命中，`/biz/` 排在最后。业务域名**不要**取 `sys`、`auth`、`client`、`dev`、`gen`、`mobile`——例如 `/biz/dev/page` 会先命中 `/dev/` 被转到 `/api/webapp`，经网关 404。
 > 新的 URL 前缀（不是 `/biz/` 开头）：必须在 apiAdaptive.js 登记到对应服务的网关前缀，否则请求不带 `/api/xxxapp`、经网关 404；代码包不在 `com.hgcloud.biz` 下时，还要在该服务的 Nacos 配置加 springdoc 分组、在网关 Nacos 配置加 Knife4j 聚合路由；新建一个应用则另需网关路由（`/api/xxxapp/**`，StripPrefix=2）。
@@ -342,14 +342,14 @@ public class BizXxxIdParam {
 | 文件 | 说明 |
 |---|---|
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/` | 最干净完整的六件套范本（entity/mapper/service/impl/controller/param 全有，另含 provider） |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/controller/SysUserController.java` | 复杂版 Controller（含导出/禁用启用） |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/service/impl/SysUserServiceImpl.java` | 复杂版 ServiceImpl（含 SM4 字段/事务/重复校验） |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/page/CommonPageRequest.java` | 分页请求构造 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/enums/CommonSortOrderEnum.java` | 排序枚举 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/pojo/CommonEntity.java` | 实体基类（审计字段） |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-func/src/main/java/com/rhcommon/sys/modular/user/controller/SysUserController.java` | 复杂版 Controller（含导出/禁用启用） |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-func/src/main/java/com/rhcommon/sys/modular/user/service/impl/SysUserServiceImpl.java` | 复杂版 ServiceImpl（含 SM4 字段/事务/重复校验） |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/page/CommonPageRequest.java` | 分页请求构造 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/enums/CommonSortOrderEnum.java` | 排序枚举 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/pojo/CommonEntity.java` | 实体基类（审计字段） |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-feign/src/main/java/com/hgcloud/biz/feign/BizOrgDirectorTransferFeign.java` | biz 侧 Feign 接口范本（`FeignConstant.BIZ_APP`、`/feign/biz/...`） |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-feign-provider/src/main/java/com/hgcloud/biz/feign/provider/transfer/BizOrgDirectorTransferFeignProvider.java` | Feign 服务端实现范本 |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-api-context/src/main/java/com/hgcloud/biz/api/context/transfer/BizOrgDirectorTransferApiContextBean.java` | 调用方远程代理范本 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-api-context/src/main/java/com/hgcloud/sys/api/context/SysUserApiContextBean.java` | biz-app 调 web-app 的真实代理（BizUserServiceImpl → SysUserApi → 本类 → SysUserFeign） |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/consts/FeignConstant.java` | Feign 服务名常量（WEB_APP / BIZ_APP） |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-api-context/src/main/java/com/rhcommon/sys/api/context/SysUserApiContextBean.java` | biz-app 调 web-app 的真实代理（BizUserServiceImpl → SysUserApi → 本类 → SysUserFeign） |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/consts/FeignConstant.java` | Feign 服务名常量（WEB_APP / BIZ_APP） |
 | `hgcloud-admin-web/src/utils/apiAdaptive.js` | 前端接口前缀 → 网关前缀映射 |

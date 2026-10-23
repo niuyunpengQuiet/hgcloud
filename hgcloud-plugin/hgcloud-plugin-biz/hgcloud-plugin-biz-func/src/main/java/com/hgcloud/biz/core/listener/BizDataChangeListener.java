@@ -18,7 +18,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import com.hgcloud.biz.core.enums.BizDataTypeEnum;
 import com.hgcloud.biz.modular.org.service.BizOrgService;
-import com.hgcloud.common.listener.CommonDataChangeListener;
+import com.rhcommon.common.listener.CommonDataChangeListener;
 
 import java.util.List;
 

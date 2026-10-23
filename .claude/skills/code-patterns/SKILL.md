@@ -55,7 +55,7 @@ AI 对主流 Java 脚手架先验极强，**以下每条都是反向的**，写�
 | 业务代码绕开 Api 接口直接注入 `XxxFeign` | 注入 XxxApi，由 `{插件}-api-context` 的 ContextBean 代理调 Feign | 现有链路 BizUserServiceImpl → SysUserApi → SysUserApiContextBean → SysUserFeign，业务代码不碰 Feign |
 | 同一应用的 pom 同时装某插件的 `-func` 和 `-api-context` | 本地实现装 `-func`（被别的服务调再加 `-feign-provider`）；远程调用装 `-feign` + `-api-context` | Bean 冲突：sys-func 的 `SysLoginUserApiProvider` 是 `@Service("loginUserApi")`，auth-api-context 的 `SysLoginUserApiContextBean` 是 `@Component("loginUserApi")` |
 | 跨服务接口（XxxApi / Feign）返回 Entity | `JSONObject` / `List<JSONObject>` / `Page<JSONObject>` / 基本类型；Feign 层传 JSON 字符串 | 现有 `*Feign` 对象类返回值均为 String，由 ContextBean 用 JSONUtil 还原 |
-| Controller URL 或 `@SaCheckPermission` 写网关前缀 `/api/bizapp/...` | 只写 `/biz/xxx/page` | 网关 StripPrefix=2，服务收到的路径不带前缀 |
+| Controller URL 或 `@SaCheckPermission` 写网关前缀 `/api/hgapp/...` | 只写 `/biz/xxx/page` | 网关 StripPrefix=2，服务收到的路径不带前缀 |
 | 免登录白名单只改一处 | 网关 GatewayConfigure（带前缀）+ 目标服务 GlobalConfigure（不带前缀）都改 | 网关 SaReactorFilter 与服务 SaServletFilter 两层都鉴权 |
 | 把 CommonTimerTaskRunner 实现类写在 biz-func 再去"任务调度"界面配置 | 先和用户确认方案：DEV_JOB 只能调度 web-app 类路径上的 Runner；跑在 biz-app 的定时需求暂无现成方案（xxl-job 只部署了调度中心 9004，业务服务未接执行器） | dev-func 只装在 web-app，DevJobListener 用 `Class.forName` 找类，biz-func 里的类会报"定时任务找不到对应的类" |
 | 指望本地 `@Transactional` 回滚另一个服务的写操作 | 跨服务写操作单独设计补偿/校验 | 未接 Seata、Feign 无 fallback（推导：远程写在另一个 JVM/连接里，不在本地事务内） |
@@ -152,7 +152,7 @@ fix: 修复供应商分页排序字段未下划线转换的问题
 docs: 补充后端开发指南的跨插件调用章节
 ```
 
-- 只提交本次任务相关文件；**不提交** Nacos 配置源文件（`hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/` 下的 yaml）与各应用 `application.yml` 里的本地口令改动、node_modules、target
+- 只提交本次任务相关文件；**不提交** Nacos 配置源文件（`rhcommon-server/rhcommon-nacos-app/src/main/resources/META-INF/config-data/` 下的 yaml）与各应用 `application.yml` 里的本地口令改动、node_modules、target
 - 默认只做本地 commit，明确要求才 push
 - 分支与远程以仓库实际状态为准（`git branch -a` / `git remote -v`，详见 git-workflow 技能）；大重构前打 tag
 
@@ -160,7 +160,7 @@ docs: 补充后端开发指南的跨插件调用章节
 
 - 标准六件套够用就别加层（不要 DAO/Manager 层、不要 DTO 转换链）
 - 没有复用诉求不抽公共方法；两处以内重复可接受
-- 不引入新依赖前先查 hutool / hgcloud-common 是否已有（见 common-toolkit 技能）
+- 不引入新依赖前先查 hutool / rhcommon-common 是否已有（见 common-toolkit 技能）
 
 ## 检查清单（提交前）
 
@@ -177,8 +177,8 @@ docs: 补充后端开发指南的跨插件调用章节
 |---|---|
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/` | 全部规范的活样本 |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/user/entity/BizUser.java` | 复杂 Entity（@Trans/SM4） |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/service/impl/SysUserServiceImpl.java` | 复杂业务写法 |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-func/src/main/java/com/rhcommon/sys/modular/user/service/impl/SysUserServiceImpl.java` | 复杂业务写法 |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/user/service/impl/BizUserServiceImpl.java` | biz 里跨服务只注入 SysUserApi 的真实写法 |
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/pom.xml` | biz-func 只依赖各插件 `-api` 的依据 |
-| `hgcloud-modules/hgcloud-biz-app/pom.xml`、`hgcloud-modules/hgcloud-web-app/pom.xml` | 两个应用的插件装配（func 与 feign+api-context 二选一） |
+| `hgcloud-modules/hgcloud-biz-app/pom.xml`、`hgcloud-modules/rhcommon-web-app/pom.xml` | 两个应用的插件装配（func 与 feign+api-context 二选一） |
 | `CLAUDE.md` | 项目宪法（易错点警告节） |

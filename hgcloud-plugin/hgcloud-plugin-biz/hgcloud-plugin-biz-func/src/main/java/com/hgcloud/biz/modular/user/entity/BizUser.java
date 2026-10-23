@@ -24,8 +24,8 @@ import org.dromara.core.trans.anno.Trans;
 import org.dromara.core.trans.constant.TransType;
 import com.hgcloud.biz.modular.org.entity.BizOrg;
 import com.hgcloud.biz.modular.position.entity.BizPosition;
-import com.hgcloud.common.handler.CommonSm4CbcTypeHandler;
-import com.hgcloud.common.pojo.CommonEntity;
+import com.rhcommon.common.handler.CommonSm4CbcTypeHandler;
+import com.rhcommon.common.pojo.CommonEntity;
 
 import java.util.Date;
 

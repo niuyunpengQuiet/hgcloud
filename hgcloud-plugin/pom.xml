@@ -17,28 +17,28 @@
 
     <modules>
         <!-- 登录鉴权插件 -->
-        <module>hgcloud-plugin-auth</module>
+        <module>rhcommon-plugin-auth</module>
 
         <!-- 业务功能插件 -->
         <module>hgcloud-plugin-biz</module>
 
         <!-- C端功能插件 -->
-        <module>hgcloud-plugin-client</module>
+        <module>rhcommon-plugin-client</module>
 
         <!-- 开发工具插件 -->
-        <module>hgcloud-plugin-dev</module>
+        <module>rhcommon-plugin-dev</module>
 
         <!-- 代码生成插件 -->
-        <module>hgcloud-plugin-gen</module>
+        <module>rhcommon-plugin-gen</module>
 
         <!-- 移动端管理插件 -->
-        <module>hgcloud-plugin-mobile</module>
+        <module>rhcommon-plugin-mobile</module>
 
         <!-- 系统功能插件 -->
-        <module>hgcloud-plugin-sys</module>
+        <module>rhcommon-plugin-sys</module>
 
         <!-- 模拟器插件 -->
-        <module>hgcloud-plugin-mocker</module>
+        <module>rhcommon-plugin-mocker</module>
     </modules>
 
 </project>

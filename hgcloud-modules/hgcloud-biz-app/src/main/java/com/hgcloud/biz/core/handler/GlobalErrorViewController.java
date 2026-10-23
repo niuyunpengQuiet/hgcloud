@@ -18,8 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.hgcloud.common.exception.CommonException;
-import com.hgcloud.common.pojo.CommonResult;
+import com.rhcommon.common.exception.CommonException;
+import com.rhcommon.common.pojo.CommonResult;
 
 import java.io.IOException;
 

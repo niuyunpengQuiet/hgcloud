@@ -17,7 +17,7 @@
 
     <modules>
         <!-- 主应用启动组件 -->
-        <module>hgcloud-web-app</module>
+        <module>rhcommon-web-app</module>
 
         <!-- 业务应用启动组件 -->
         <module>hgcloud-biz-app</module>

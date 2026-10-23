@@ -34,9 +34,9 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import com.hgcloud.biz.core.util.AuthExceptionUtil;
-import com.hgcloud.common.exception.CommonException;
-import com.hgcloud.common.pojo.CommonResult;
-import com.hgcloud.common.util.CommonServletUtil;
+import com.rhcommon.common.exception.CommonException;
+import com.rhcommon.common.pojo.CommonResult;
+import com.rhcommon.common.util.CommonServletUtil;
 
 import java.util.List;
 import java.util.Set;

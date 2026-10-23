@@ -13,7 +13,7 @@
 package com.hgcloud.biz.modular.position.enums;
 
 import lombok.Getter;
-import com.hgcloud.common.exception.CommonException;
+import com.rhcommon.common.exception.CommonException;
 
 /**
  * 岗位分类枚举

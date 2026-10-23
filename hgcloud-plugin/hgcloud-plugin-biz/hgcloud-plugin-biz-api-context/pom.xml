@@ -14,10 +14,10 @@
 
     <dependencies>
 
-        <!-- hgcloud-common -->
+        <!-- rhcommon-common -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-common</artifactId>
+            <artifactId>rhcommon-common</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -50,10 +50,10 @@
             <artifactId>hgcloud-plugin-biz-feign</artifactId>
         </dependency>
 
-        <!-- hgcloud-plugin-sys-api（用于实现 SysTransferResourceProvider 远程版本） -->
+        <!-- rhcommon-plugin-sys-api（用于实现 SysTransferResourceProvider 远程版本） -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-sys-api</artifactId>
+            <artifactId>rhcommon-plugin-sys-api</artifactId>
         </dependency>
 
         <!-- Spring Cloud OpenFeign -->

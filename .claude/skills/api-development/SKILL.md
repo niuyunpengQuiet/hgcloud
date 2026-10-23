@@ -32,16 +32,16 @@ Controller 上**只写** `/{插件}/{业务域}/{动作}`，网关前缀由网�
 
 | 插件 URL 前缀 | 所在服务（端口） | 经网关 9003 的访问前缀 |
 |---|---|---|
-| `/sys/` `/auth/` `/dev/` `/gen/` `/mobile/` `/client/` | hgcloud-web-app（9101） | `/api/webapp`（如 `/api/webapp/sys/user/page`） |
-| `/biz/` | hgcloud-biz-app（9102） | `/api/bizapp`（如 `/api/bizapp/biz/notice/page`） |
+| `/sys/` `/auth/` `/dev/` `/gen/` `/mobile/` `/client/` | rhcommon-web-app（9101） | `/api/webapp`（如 `/api/webapp/sys/user/page`） |
+| `/biz/` | hgcloud-biz-app（9102） | `/api/hgapp`（如 `/api/hgapp/biz/notice/page`） |
 
-- 网关路由在 Nacos 配置 `hgcloud-gateway-app-dev.yaml`：`/api/webapp/**` → `lb://hgcloud-web-app`、`/api/bizapp/**` → `lb://hgcloud-biz-app`，都带 `StripPrefix=2`（去掉前两段再转发）
+- 网关路由在 Nacos 配置 `rhcommon-gateway-app-dev.yaml`：`/api/webapp/**` → `lb://rhcommon-web-app`、`/api/hgapp/**` → `lb://hgcloud-biz-app`，都带 `StripPrefix=2`（去掉前两段再转发）
 - 前端由 `hgcloud-admin-web/src/utils/apiAdaptive.js` 按 URL 前缀自动补网关前缀；新的 URL 前缀要在这里登记，否则经网关 404
 
 ## 统一返回 CommonResult
 
 ```java
-// hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/pojo/CommonResult.java
+// rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/pojo/CommonResult.java
 CommonResult.data(obj)          // 成功带数据：{code:200, msg:"操作成功", data:obj, traceId:...}
 CommonResult.ok()               // 成功无数据（写操作）
 CommonResult.error("消息")       // 失败（一般不直接用，业务失败应抛 CommonException）
@@ -63,7 +63,7 @@ throw new CommonException(CommonExceptionEnum.XXX);   // 需要新错误码时�
 ```
 
 - ❌禁止 `RuntimeException`、`IllegalArgumentException`、`ServiceException` 直接抛出
-- 全局异常处理**每个服务各有一份**（@ControllerAdvice → GlobalExceptionUtil.getCommonResult(e)）：web-app 在 `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/handler/GlobalExceptionHandler.java`，biz-app 在 `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/handler/GlobalExceptionHandler.java`；业务代码不要自己 try-catch 后返回错误 CommonResult
+- 全局异常处理**每个服务各有一份**（@ControllerAdvice → GlobalExceptionUtil.getCommonResult(e)）：web-app 在 `hgcloud-modules/rhcommon-web-app/src/main/java/com/rhcommon/web/core/handler/GlobalExceptionHandler.java`，biz-app 在 `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/handler/GlobalExceptionHandler.java`；业务代码不要自己 try-catch 后返回错误 CommonResult
 - 参数校验失败（@Valid 不通过）由全局处理器统一转为中文提示，不需要手写校验返回
 - 跨服务调用失败：服务端异常响应为 HTTP 500，调用方收到 FeignException；biz-app 的 GlobalExceptionUtil 对 FeignException 直接返回 `e.getMessage()`（含远程地址与响应体），不会还原成对方的 CommonException 消息。Feign 无 fallback
 
@@ -76,24 +76,24 @@ throw new CommonException(CommonExceptionEnum.XXX);   // 需要新错误码时�
 @Schema(description = "标题", requiredMode = Schema.RequiredMode.REQUIRED)  // 必填字段
 ```
 
-接口文档地址：`http://localhost:9003/doc.html`（**网关聚合**，basic 认证 hgcloudAdmin/Hgcloud@2026!，配置在 Nacos `hgcloud-gateway-app-dev.yaml` 的 `knife4j`；各服务自身 `knife4j.basic.enable=false`）。所有 description 用中文。
+接口文档地址：`http://localhost:9003/doc.html`（**网关聚合**，basic 认证 hgcloudAdmin/Hgcloud@2026!，配置在 Nacos `rhcommon-gateway-app-dev.yaml` 的 `knife4j`；各服务自身 `knife4j.basic.enable=false`）。所有 description 用中文。
 
 分组共 7 个，由两层配置拼起来：
 
 | 分组 | springdoc 分组配置所在 | 网关聚合路由 url |
 |---|---|---|
-| HGCLOUD-PLUGIN-AUTH / DEV / GEN / MOBILE / SYS | `hgcloud-web-app-dev.yaml` 的 `springdoc.group-configs`（按包 `com.hgcloud.{插件}` 扫描） | `/api/webapp/v3/api-docs/{分组}` |
-| HGCLOUD-PLUGIN-BIZ / CLIENT | `hgcloud-biz-app-dev.yaml` 的 `springdoc.group-configs` | `/api/bizapp/v3/api-docs/{分组}` |
+| HGCLOUD-PLUGIN-AUTH / DEV / GEN / MOBILE / SYS | `rhcommon-web-app-dev.yaml` 的 `springdoc.group-configs`（按包 `com.hgcloud.{插件}` 扫描） | `/api/webapp/v3/api-docs/{分组}` |
+| HGCLOUD-PLUGIN-BIZ / CLIENT | `hgcloud-biz-app-dev.yaml` 的 `springdoc.group-configs` | `/api/hgapp/v3/api-docs/{分组}` |
 
 - biz 插件新业务域只要包在 `com.hgcloud.biz` 下，自动进 HGCLOUD-PLUGIN-BIZ 分组，无需改配置
 - 新插件/新包：在所在服务的 Nacos 配置加 springdoc 分组 + 在网关 Nacos 配置 `knife4j.gateway.routes` 加一条聚合路由
-- Nacos 配置的仓库源文件在 `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/{dev,test,prod}/`，运行时以 Nacos 控制台（`http://localhost:8848/nacos`）里的同名配置为准
+- Nacos 配置的仓库源文件在 `rhcommon-server/rhcommon-nacos-app/src/main/resources/META-INF/config-data/{dev,test,prod}/`，运行时以 Nacos 控制台（`http://localhost:8848/nacos`）里的同名配置为准
 - ⚠️ 注意：CLIENT 分组配在 biz-app，但 client-func 实际装在 web-app，该分组可能为空（推导，使用前请先确认）
 
 ## 权限注解
 
 ```java
-@SaCheckPermission("/biz/xxx/page")     // 值 = Controller 上的接口 URL（不是冒号式权限码！也不带 /api/bizapp 网关前缀）
+@SaCheckPermission("/biz/xxx/page")     // 值 = Controller 上的接口 URL（不是冒号式权限码！也不带 /api/hgapp 网关前缀）
 ```
 
 - 用户能通过校验的条件：其角色的资源授权生成的数据范围 apiUrl 列表包含该 URL
@@ -108,8 +108,8 @@ throw new CommonException(CommonExceptionEnum.XXX);   // 需要新错误码时�
 
 | 位置 | 文件 | 路径写法 |
 |---|---|---|
-| 网关（SaReactorFilter） | `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | **带**网关前缀，如 `/api/bizapp/biz/xxx/publicList` |
-| 目标服务（SaServletFilter） | web-app：`hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java`；biz-app：`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | **不带**前缀，如 `/biz/xxx/publicList` |
+| 网关（SaReactorFilter） | `rhcommon-server/rhcommon-gateway-app/src/main/java/com/rhcommon/gateway/config/GatewayConfigure.java` | **带**网关前缀，如 `/api/hgapp/biz/xxx/publicList` |
+| 目标服务（SaServletFilter） | web-app：`hgcloud-modules/rhcommon-web-app/src/main/java/com/rhcommon/web/core/config/GlobalConfigure.java`；biz-app：`hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | **不带**前缀，如 `/biz/xxx/publicList` |
 
 两处文件里都有同名的三组数组：
 
@@ -127,7 +127,7 @@ throw new CommonException(CommonExceptionEnum.XXX);   // 需要新错误码时�
 ## 防重复提交
 
 ```java
-@CommonNoRepeat                          // hgcloud-common 注解，写操作防重复提交
+@CommonNoRepeat                          // rhcommon-common 注解，写操作防重复提交
 @PostMapping("/biz/xxx/add")
 public CommonResult<String> add(...) { ... }
 ```
@@ -160,7 +160,7 @@ public CommonResult<String> add(...) { ... }
 | `try { ... } catch (Exception e) { return CommonResult.error(e.getMessage()); }` | 直接抛 CommonException，交给全局处理器 |
 | `throw new RuntimeException("xxx不存在")` | `throw new CommonException("xxx不存在，id值为：{}", id)` |
 | 白名单写死在 Controller 里判断 | 网关 GatewayConfigure（带前缀）+ 目标服务 GlobalConfigure（不带前缀）两处的 NO_LOGIN_PATH_ARR 都加 |
-| `@GetMapping("/api/bizapp/biz/xxx/page")` / `@SaCheckPermission("/api/bizapp/...")` | 方法上只写 `/biz/xxx/page`，网关前缀不进代码 |
+| `@GetMapping("/api/hgapp/biz/xxx/page")` / `@SaCheckPermission("/api/hgapp/...")` | 方法上只写 `/biz/xxx/page`，网关前缀不进代码 |
 | 跨服务接口返回 Entity 或 CommonResult | XxxApi 返回 `JSONObject` / `List<JSONObject>`，Feign 层返回 JSON 字符串 |
 
 ## 检查清单
@@ -180,16 +180,16 @@ public CommonResult<String> add(...) { ... }
 | 文件 | 说明 |
 |---|---|
 | `hgcloud-plugin/hgcloud-plugin-biz/hgcloud-plugin-biz-func/src/main/java/com/hgcloud/biz/modular/notice/controller/BizNoticeController.java` | 标准 Controller 范本 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-func/src/main/java/com/hgcloud/sys/modular/user/controller/SysUserController.java` | 含导出/下载 void 场景 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/pojo/CommonResult.java` | 统一返回体 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/exception/CommonException.java` | 业务异常 |
-| `hgcloud-base/hgcloud-common/src/main/java/com/hgcloud/common/enums/CommonExceptionEnum.java` | 错误码枚举 |
-| `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/handler/GlobalExceptionHandler.java` | web-app 全局异常处理 |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-func/src/main/java/com/rhcommon/sys/modular/user/controller/SysUserController.java` | 含导出/下载 void 场景 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/pojo/CommonResult.java` | 统一返回体 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/exception/CommonException.java` | 业务异常 |
+| `rhcommon-base/rhcommon-common/src/main/java/com/rhcommon/common/enums/CommonExceptionEnum.java` | 错误码枚举 |
+| `hgcloud-modules/rhcommon-web-app/src/main/java/com/rhcommon/web/core/handler/GlobalExceptionHandler.java` | web-app 全局异常处理 |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/handler/GlobalExceptionHandler.java` | biz-app 全局异常处理（GlobalExceptionUtil 含 FeignException 分支） |
-| `hgcloud-server/hgcloud-gateway-app/src/main/java/com/hgcloud/gateway/config/GatewayConfigure.java` | 网关路由白名单（带前缀） |
-| `hgcloud-modules/hgcloud-web-app/src/main/java/com/hgcloud/web/core/config/GlobalConfigure.java` | web-app 路由白名单（不带前缀） |
+| `rhcommon-server/rhcommon-gateway-app/src/main/java/com/rhcommon/gateway/config/GatewayConfigure.java` | 网关路由白名单（带前缀） |
+| `hgcloud-modules/rhcommon-web-app/src/main/java/com/rhcommon/web/core/config/GlobalConfigure.java` | web-app 路由白名单（不带前缀） |
 | `hgcloud-modules/hgcloud-biz-app/src/main/java/com/hgcloud/biz/core/config/GlobalConfigure.java` | biz-app 路由白名单（不带前缀） |
-| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-gateway-app-dev.yaml` | 网关路由 + Knife4j 聚合路由与 basic 认证 |
-| `hgcloud-server/hgcloud-nacos-app/src/main/resources/META-INF/config-data/dev/hgcloud-web-app-dev.yaml`、`hgcloud-biz-app-dev.yaml` | 各服务 springdoc 接口文档分组 |
-| `hgcloud-plugin/hgcloud-plugin-sys/hgcloud-plugin-sys-feign/src/main/java/com/hgcloud/sys/feign/SysUserFeign.java` | Feign 接口路径与返回值范本 |
+| `rhcommon-server/rhcommon-nacos-app/src/main/resources/META-INF/config-data/dev/rhcommon-gateway-app-dev.yaml` | 网关路由 + Knife4j 聚合路由与 basic 认证 |
+| `rhcommon-server/rhcommon-nacos-app/src/main/resources/META-INF/config-data/dev/rhcommon-web-app-dev.yaml`、`hgcloud-biz-app-dev.yaml` | 各服务 springdoc 接口文档分组 |
+| `hgcloud-plugin/rhcommon-plugin-sys/rhcommon-plugin-sys-feign/src/main/java/com/rhcommon/sys/feign/SysUserFeign.java` | Feign 接口路径与返回值范本 |
 | `hgcloud-admin-web/src/utils/apiAdaptive.js` | 前端 URL 前缀 → 网关前缀映射 |

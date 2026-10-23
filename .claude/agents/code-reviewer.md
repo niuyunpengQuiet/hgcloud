@@ -54,7 +54,7 @@ Grep pattern: "@TableName\((value = )?\"[a-z]"  path: <范围>  glob: **/*.java
 ## S7 权限码 URL 式
 ```bash
 Grep pattern: "@SaCheckPermission\(\""  path: <范围>/controller/  glob: **/*.java -o
-# 判定：每个值以 / 开头且与同方法 @GetMapping/@PostMapping 路径完全一致（服务内 URL，不带 /api/webapp、/api/bizapp 网关前缀）
+# 判定：每个值以 / 开头且与同方法 @GetMapping/@PostMapping 路径完全一致（服务内 URL，不带 /api/webapp、/api/hgapp 网关前缀）
 ```
 
 ## S8 主键类型

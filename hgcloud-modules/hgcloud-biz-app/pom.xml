@@ -94,10 +94,10 @@
             <artifactId>sa-token-redisson</artifactId>
         </dependency>
 
-        <!-- hgcloud-common -->
+        <!-- rhcommon-common -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-common</artifactId>
+            <artifactId>rhcommon-common</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>com.github.xiaoymin</groupId>
@@ -114,13 +114,13 @@
         <!-- 登录鉴权插件 -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-auth-api</artifactId>
+            <artifactId>rhcommon-plugin-auth-api</artifactId>
         </dependency>
 
         <!-- 登录鉴权插件api接口context（提供loginUserApi的Feign代理实现） -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-auth-api-context</artifactId>
+            <artifactId>rhcommon-plugin-auth-api-context</artifactId>
         </dependency>
 
         <!-- 业务功能插件 -->
@@ -146,19 +146,19 @@
         <!-- 系统功能插件Feign接口 -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-sys-feign</artifactId>
+            <artifactId>rhcommon-plugin-sys-feign</artifactId>
         </dependency>
 
         <!-- 系统功能插件Api接口context -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-sys-api-context</artifactId>
+            <artifactId>rhcommon-plugin-sys-api-context</artifactId>
         </dependency>
 
         <!-- 开发工具插件Feign接口 -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-dev-feign</artifactId>
+            <artifactId>rhcommon-plugin-dev-feign</artifactId>
             <exclusions>
                 <exclusion>
                     <artifactId>sms4j-javase-plugin</artifactId>
@@ -178,7 +178,7 @@
         <!-- 开发工具功能插件Api接口Context -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-dev-api-context</artifactId>
+            <artifactId>rhcommon-plugin-dev-api-context</artifactId>
             <exclusions>
                 <exclusion>
                     <artifactId>sms4j-javase-plugin</artifactId>
@@ -198,13 +198,13 @@
         <!-- 移动端管理功能插件Feign接口 -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-mobile-feign</artifactId>
+            <artifactId>rhcommon-plugin-mobile-feign</artifactId>
         </dependency>
 
         <!-- 移动端管理功能插件api接口context -->
         <dependency>
             <groupId>com.hgcloud</groupId>
-            <artifactId>hgcloud-plugin-mobile-api-context</artifactId>
+            <artifactId>rhcommon-plugin-mobile-api-context</artifactId>
         </dependency>
 
         <!-- bootstrap 配置加载 -->

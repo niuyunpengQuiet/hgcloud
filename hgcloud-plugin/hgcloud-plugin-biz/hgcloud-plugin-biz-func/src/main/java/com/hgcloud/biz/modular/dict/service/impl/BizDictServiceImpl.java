@@ -32,9 +32,9 @@ import com.hgcloud.biz.modular.dict.mapper.BizDictMapper;
 import com.hgcloud.biz.modular.dict.param.BizDictEditParam;
 import com.hgcloud.biz.modular.dict.param.BizDictPageParam;
 import com.hgcloud.biz.modular.dict.service.BizDictService;
-import com.hgcloud.common.enums.CommonSortOrderEnum;
-import com.hgcloud.common.exception.CommonException;
-import com.hgcloud.common.page.CommonPageRequest;
+import com.rhcommon.common.enums.CommonSortOrderEnum;
+import com.rhcommon.common.exception.CommonException;
+import com.rhcommon.common.page.CommonPageRequest;
 
 import java.util.List;
 import java.util.Map;

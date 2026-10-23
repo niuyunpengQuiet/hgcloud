@@ -20,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import com.hgcloud.common.consts.AppConstant;
-import com.hgcloud.common.util.CommonTraceIdUtil;
+import com.rhcommon.common.consts.AppConstant;
+import com.rhcommon.common.util.CommonTraceIdUtil;
 
 import java.util.Enumeration;
 import java.util.Optional;
